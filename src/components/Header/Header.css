@@ -1,0 +1,54 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4b5264;
+    width: 100vw;
+    overflow: hidden;
+    padding: 10px;
+}
+.header__logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header__logo > h2{
+    color: white;
+    font-size: 2em;
+}
+.header__users{
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    background-color: #1d1e2a;
+    padding: 5px;
+    border-radius: 6px;
+}
+.header__users > .MuiSvgIcon-root{
+    color: #3f33c2;
+}
+.header__users > p{
+    color: white;
+    margin-left: 5px;
+}
+.header__buttons{
+    display: flex;
+    align-items: center;
+}
+.header__login{
+    background-color: #1d1e2a;
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 5px 13px;
+    border-radius: 7px;
+    margin-right: 10px;
+}
+.header__signup{
+    background-color: #3f33c2;
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 5px 13px;
+    border-radius: 7px;
+}
