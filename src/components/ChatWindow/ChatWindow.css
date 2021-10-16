@@ -1,0 +1,75 @@
+.chatwindow{
+    display: flex;
+    flex-direction: column;
+    flex: 0.25;
+}
+.chatwindow__login{
+    background-color: #4b5264;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.chatwindow__messages{
+    flex: 1;
+    background-color: #1d1e2a;
+}
+.chatwindow__login > h2{
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.chatwindow__loginButtons{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.loginbtn{
+    background-color: #1d1e2a;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+.signupbtn{
+    background-color: #3f33c2;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+.chatwindow__messaging{
+    background-color: #4b5264;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.chatwindow__inpuField{
+    background-color: #2d3446;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    width: 25vw;
+    border-radius: 8px;
+
+}
+.chatwindow__inpuField > input{
+    background-color: transparent;
+    border: none;
+    color: white;
+    flex: 1;
+}
+.chatwindow__inpuField > input:focus{
+    outline: none;
+}
+.chatwindow__inpuField > .MuiSvgIcon-root{
+    color: white;
+}
+.chatwindow__inpuField > button{
+    display: none;
+}
