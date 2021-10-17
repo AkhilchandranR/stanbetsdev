@@ -1,7 +1,12 @@
 .chatwindow{
     display: flex;
     flex-direction: column;
-    flex: 0.25;
+    width: 25vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0.95;
 }
 .chatwindow__login{
     background-color: #4b5264;
@@ -72,4 +77,26 @@
 }
 .chatwindow__inpuField > button{
     display: none;
+}
+.chatwindow__close{
+    background-color: #2d3446;
+    text-align: right;
+    padding: 7px;
+    color: white;
+}
+.chatwindow__close > .MuiSvgIcon-root{
+    cursor: pointer;
+}
+@media screen and (max-width:1100px) {
+    .chatwindow{
+        width: 30vw;
+    }
+}
+@media screen and (max-width:950px) {
+    .chatwindow{
+        width: fit-content;
+    }
+    .chatwindow__inpuField{
+        width: fit-content;
+    }
 }

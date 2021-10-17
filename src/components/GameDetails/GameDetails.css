@@ -37,3 +37,24 @@
     border-radius: 15px;
     margin-left: 20px;
 }
+@media screen and (max-width:769px) {
+    .gamedetails{
+        width: 75vw;
+    }
+}
+@media screen and (max-width:520px) {
+    .gamedetails{
+        width: 82vw;
+    }
+}
+@media screen and (max-width:450px) {
+    .gamedetails__bet{
+        font-size: 1em;
+    }
+    .gamedetails__body > h3{
+        font-size: 1.1em;
+    }
+    .gamedetails{
+        width: 90vw;
+    }
+}

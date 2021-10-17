@@ -11,7 +11,7 @@ function HomePage() {
         <div className="homepage">
             <Header/>
             <div className="homepage__body">
-                <ChatWindow className="homepage__chatwindow"/>
+                <ChatWindow/>
                 <div className="homepage__contents">
                     <div className="homepage__options">
                         <div className="homepage__searchbar">

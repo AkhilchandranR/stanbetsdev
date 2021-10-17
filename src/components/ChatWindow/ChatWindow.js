@@ -2,10 +2,14 @@ import React from 'react';
 import Message from '../Message/Message';
 import './ChatWindow.css';
 import ChatBubbleRoundedIcon from '@mui/icons-material/ChatBubbleRounded';
+import CloseIcon from '@mui/icons-material/Close';
 
 function ChatWindow() {
     return (
         <div className="chatwindow">
+            <div className="chatwindow__close">
+                <CloseIcon/>
+            </div>
             <div className="chatwindow__messages">
                 <Message alternate={true}/>
                 <Message alternate={false}/>
