@@ -54,12 +54,55 @@
     height: 5vh;
     padding: 7px;
     border-radius: 5px;
+    overflow: hidden;
 }
 .login__inputField > input{
     flex: 1;
     border: none;
+    background-color: transparent;
 }
 .login__inputField > input:focus{
     outline: none;
+}
+
+@media screen and (max-width:550px) {
+    .login__inputField{
+        width: 40vw;
+    }
+    .login__form{
+        padding: 20px 14px;
+    }
+}
+@media screen and (max-width:480px) {
+    .login__inputField{
+        width: 43vw;
+    }
+    .login__form{
+        padding: 17px 12px;
+    }
+}
+@media screen and (max-width:414px) {
+    .login__inputField{
+        width: 45vw;
+    }
+    .login__form{
+        padding: 17px 10px;
+    }
+}
+@media screen and (max-width:350px) {
+    .login__inputField{
+        width: 50vw;
+    }
+    .login__form{
+        padding: 14px 8px;
+    }
+}
+@media screen and (max-width:328px) {
+    .login__inputField{
+        width: 55vw;
+    }
+    .login__form{
+        padding: 14px 6px;
+    }
 }
 

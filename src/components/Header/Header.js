@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
+import StarIcon from '@mui/icons-material/Star';
 
 function Header() {
     return (
@@ -12,9 +13,18 @@ function Header() {
                     <p>1234</p>
                 </div>
             </div>
-            <div className="header__buttons">
+            {/* <div className="header__buttons">
                 <button className="header__login">Login</button>
                 <button className="header__signup">Sign-Up</button>
+            </div> */}
+            <div className="header__user">
+                <div className="header__username">
+                    <StarIcon/>
+                    <p>Username</p>
+                </div>
+                <div className="header__amount">
+                    <p>$6.00</p>
+                </div>
             </div>
         </div>
     )

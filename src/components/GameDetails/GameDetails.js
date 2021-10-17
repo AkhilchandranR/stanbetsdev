@@ -7,7 +7,7 @@ function GameDetails() {
             <div className="gamedetails__heading">
                 <h5>League of Legends</h5>
                 <p>18/10/21</p>
-                <p>19:00</p>
+                <p>19:00 UTC</p>
             </div>
             <div className="gamedetails__body">
                 <h3>Team1 vs Team2</h3>

@@ -17,11 +17,8 @@
     background-color: #4b5264;
     display: flex;
     padding: 8px;
-    width: 60vw;
+    flex: 1;
     border-radius: 18px;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
 }
 .homepage__searchbar > input{
     flex: 1;
@@ -36,3 +33,29 @@
 .homepage__gamedetails{
     margin-top: 40px;
 }
+.homepage__options{
+    display: flex;
+    align-items: center;
+    width: 60vw;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.homepage__optionIcons{
+    display: flex;
+    align-items: center;
+}
+.homepage__icon{
+    background-color: #2d3446;
+    border-radius: 15px;
+    padding: 6px;
+    margin-left: 5px;
+}
+.homepage__icon > .MuiSvgIcon-root{
+    font-size: 2em;
+    color: #ffff;
+}
+.star{
+    color: #ff9ff5 !important;
+}
+

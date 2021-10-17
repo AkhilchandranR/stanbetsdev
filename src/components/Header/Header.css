@@ -40,7 +40,7 @@
     color: white;
     font-weight: 700;
     border: none;
-    padding: 5px 13px;
+    padding: 8px 13px;
     border-radius: 7px;
     margin-right: 10px;
 }
@@ -49,6 +49,80 @@
     color: white;
     font-weight: 700;
     border: none;
-    padding: 5px 13px;
+    padding: 8px 13px;
     border-radius: 7px;
+}
+.header__user{
+    display: flex;
+    align-items: center;
+}
+.header__username{
+    display: flex;
+    align-items: center;
+    background-color: #0f0f13;
+    padding: 5px;
+    border-radius: 7px;
+}
+.header__username > .MuiSvgIcon-root{
+    color: #ff9ff5;
+}
+.header__username > p{
+    color: #ffff;
+    font-weight: 600;
+}
+.header__amount{
+    background-color: #3f33c2;
+    color: #ffff;
+    padding: 8px 16px;
+    font-weight: 600;
+    border-radius: 7px;
+    margin-left: -3px;
+}
+@media screen and (max-width:460px) {
+    .header__logo > h2{
+        font-size: 1.4em;
+    }
+    .header__username{
+        font-size: 0.8em;
+    }
+    .header__username > .MuiSvgIcon-root{
+        font-size: 1.5em;
+    }
+    .header__amount{
+        font-size: 0.8em;
+    }
+    .header__users{
+        font-size: 0.8em;
+    }
+    .header__users > .MuiSvgIcon-root{
+        font-size: 1.5em;
+    }
+    .header__login{
+        font-size: 0.8em;
+        font-weight: 600;
+    }
+    .header__signup{
+        font-size: 0.8em;
+        font-weight: 600;
+    }
+}
+@media screen and (max-width:370px) {
+    .header__users{
+        margin-left: 8px;
+    }
+}
+@media screen and (max-width:342px) {
+    .header__logo > h2{
+        font-size: 1.2em;
+    }
+    .header__amount{
+        padding: 8px 10px;
+    }
+    .header{
+        padding: 8px;
+    }
+    .header__login{
+        margin-right: 7px;
+    }
+
 }

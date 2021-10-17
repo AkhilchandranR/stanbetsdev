@@ -12,7 +12,11 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid lightgray;
-    padding: 3px;
+    padding: 5px;
+}
+.gamedetails__heading > p{
+    color: #8e939e;
+    font-size: 0.85em;
 }
 .gamedetails__body{
     display: flex;
@@ -29,7 +33,7 @@
     background-color: #2d3446;
     font-size: 1.2em;
     font-weight: 600;
-    padding: 10px 30px;
+    padding: 16px 30px;
     border-radius: 15px;
     margin-left: 20px;
 }
