@@ -1,0 +1,27 @@
+.withdrawalwindow{
+  display: flex;
+  flex-direction: column;
+  flex: 0.33;
+  color: white;
+  background-color: #1D1E2B;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.withdrawalwindow__heading > h2{
+  color: white;
+}
+
+.withdrawalwindow__body > p{
+  color: white;
+  padding: 8px 22px
+}
+
+.withdrawalwindow__email{
+  font-size: 1.25rem;
+  padding: 12px;
+  background-color: #3F33C2;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  font-weight: bold;
+}

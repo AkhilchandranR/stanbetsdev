@@ -78,6 +78,15 @@
     border-radius: 7px;
     margin-left: -3px;
 }
+.header__chatIcon{
+    color: white;
+    margin-right: 5px;
+}
+@media screen and (max-width:500px) {
+    .header__chatIcon{
+        display: none !important;
+    }
+}
 @media screen and (max-width:460px) {
     .header__logo > h2{
         font-size: 1.4em;
@@ -111,7 +120,7 @@
         margin-left: 8px;
     }
 }
-@media screen and (max-width:342px) {
+@media screen and (max-width:348px) {
     .header__logo > h2{
         font-size: 1.2em;
     }

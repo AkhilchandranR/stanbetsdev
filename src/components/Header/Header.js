@@ -2,11 +2,16 @@ import React from 'react';
 import './Header.css';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import StarIcon from '@mui/icons-material/Star';
+import ForumIcon from '@mui/icons-material/Forum';
+import { IconButton } from '@mui/material';
 
 function Header() {
     return (
         <div className="header">
             <div className="header__logo">
+                <IconButton>
+                    <ForumIcon className="header__chatIcon"/>
+                </IconButton>
                 <h2>StanBets</h2>
                 <div className="header__users">
                     <GroupsRoundedIcon/>
