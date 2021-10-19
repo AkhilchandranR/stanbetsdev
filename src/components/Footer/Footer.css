@@ -1,0 +1,23 @@
+.footer{
+  display: flex;
+  background-color: #1D1E2B;
+  width: 100%;
+  height: fit-content;
+  padding: 0;
+}
+
+.footer__row{
+  padding: 10px 10px;
+}
+
+.footer__rowName{
+  color: white;
+  font-weight: bold;
+}
+
+.footer__links a{
+  font-size: 0.80rem;
+  color: #ffffff80;
+  text-decoration: none;
+}
+

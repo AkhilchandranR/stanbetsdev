@@ -32,7 +32,7 @@
 .homepage__options{
     display: flex;
     align-items: center;
-    width: 60vw;
+    width: 70vw;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -54,9 +54,26 @@
 .star{
     color: #ff9ff5 !important;
 }
+.homepage__chat{
+    background-color: #2d3446;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 0px 18px 18px 0px;
+    cursor: pointer;
+    margin-left: -5px;
+}
+.homepage__chatIcon{
+    width: 50px;
+    object-fit: contain;  
+}
 @media screen and (max-width:769px) {
     .homepage__options{
         width: 75vw;
+    }
+}
+@media screen and (max-width:500px) {
+    .homepage__chat{
+        display: none !important;
     }
 }
 @media screen and (max-width:490px) {

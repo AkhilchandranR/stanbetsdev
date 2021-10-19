@@ -40,6 +40,13 @@
     color: white;
     font-size: 1.1em;
 }
+.login__form > p > a > span{
+    color: #ff9ff5;
+    margin-left: 2px;
+}
+.login__form > p > a{
+    text-decoration: none;
+}
 .login__input > p{
     color: white;
     font-size: 1.2em;

@@ -1,8 +1,20 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import './SignUp.css';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { hideChat } from '../../States/slices/chatSlice';
+import Footer from '../../components/Footer/Footer';
 
 function SignUp() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        //hides the chat icon when the user is not logged in
+        const hideChatButton = () =>{
+            dispatch(hideChat());
+        }
+        hideChatButton();   
+    })
     return (
         <div className="signup">
             <Header/>
@@ -29,10 +41,13 @@ function SignUp() {
                         </div>
                         <button type="submit">Sign-Up</button>
                         <p>Already have an account?
-                            <span>Login</span>
+                            <Link to="/login">
+                                <span>Login</span>
+                            </Link>
                         </p>
                 </form>
             </div>
+            {/* <Footer/> */}
         </div>
     )
 }

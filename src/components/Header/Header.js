@@ -2,16 +2,15 @@ import React from 'react';
 import './Header.css';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import StarIcon from '@mui/icons-material/Star';
-import ForumIcon from '@mui/icons-material/Forum';
-import { IconButton } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { showUserSettings } from '../../States/slices/chatSlice';
+import { Link } from 'react-router-dom'; 
 
 function Header() {
+    const dispatch = useDispatch();
     return (
         <div className="header">
             <div className="header__logo">
-                <IconButton>
-                    <ForumIcon className="header__chatIcon"/>
-                </IconButton>
                 <h2>StanBets</h2>
                 <div className="header__users">
                     <GroupsRoundedIcon/>
@@ -19,10 +18,14 @@ function Header() {
                 </div>
             </div>
             {/* <div className="header__buttons">
-                <button className="header__login">Login</button>
-                <button className="header__signup">Sign-Up</button>
+                <Link to="/login">
+                    <button className="header__login">Login</button>
+                </Link>
+                <Link to="/signup">
+                    <button className="header__signup">Sign-Up</button>
+                </Link>
             </div> */}
-            <div className="header__user">
+            <div className="header__user" onClick={()=>{dispatch(showUserSettings())}}>
                 <div className="header__username">
                     <StarIcon/>
                     <p>Username</p>

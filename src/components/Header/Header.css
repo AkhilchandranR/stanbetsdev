@@ -43,6 +43,7 @@
     padding: 8px 13px;
     border-radius: 7px;
     margin-right: 10px;
+    cursor: pointer;
 }
 .header__signup{
     background-color: #3f33c2;
@@ -51,6 +52,7 @@
     border: none;
     padding: 8px 13px;
     border-radius: 7px;
+    cursor: pointer;
 }
 .header__user{
     display: flex;
@@ -77,15 +79,6 @@
     font-weight: 600;
     border-radius: 7px;
     margin-left: -3px;
-}
-.header__chatIcon{
-    color: white;
-    margin-right: 5px;
-}
-@media screen and (max-width:500px) {
-    .header__chatIcon{
-        display: none !important;
-    }
 }
 @media screen and (max-width:460px) {
     .header__logo > h2{
