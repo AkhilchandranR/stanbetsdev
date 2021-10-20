@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React,{ useEffect, useState } from 'react';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 import GameDetails from '../../components/GameDetails/GameDetails';
 import Header from '../../components/Header/Header';
@@ -11,13 +11,20 @@ import { showChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import chatbubble from '../../images/chaticon.png';
 import { openWindow } from '../../States/slices/chatSlice';
+import { closeStats } from '../../States/slices/userSlice';
 import SettingsModal from '../../Modals/SettingsModal/SettingsModal';
+import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
+import AdminGame from '../../Modals/AdminGameModal/AdminGame';
+import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 
 function HomePage() {
+    const [openAdminGame,setOpenAdminGame] = useState(false);
+    const [openBets,setOpenBets] = useState(false);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
-    const showSettingsModal = useSelector((state)=> state.chat.showSettings) 
+    const showSettingsModal = useSelector((state)=> state.chat.showSettings);
+    const showStatsModal = useSelector((state)=>state.user.openStatsModal); 
     const openChat = () =>{
         dispatch(openWindow());  
     }
@@ -45,10 +52,10 @@ function HomePage() {
                             <input type="text" placeholder="Search for matches (Game or Team)..."/>
                         </div>
                         <div className="homepage__optionIcons">
-                            <div className="homepage__icon">
+                            <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
                                 <ReceiptIcon/>
                             </div>
-                            <div className="homepage__icon">
+                            <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
                                 <StarIcon className="star"/>
                             </div>
                         </div>
@@ -60,7 +67,10 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())}/> 
+            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())}/>
+            <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())}/>
+            <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
+            <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
             {/* <Footer/> */}
         </div>
     )

@@ -46,6 +46,7 @@
     border-radius: 15px;
     padding: 6px;
     margin-left: 5px;
+    cursor: pointer;
 }
 .homepage__icon > .MuiSvgIcon-root{
     font-size: 2em;

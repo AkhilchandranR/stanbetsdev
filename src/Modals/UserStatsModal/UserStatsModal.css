@@ -1,0 +1,75 @@
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.7);
+}
+.userstatsmodal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background-color: #1d1e2a;
+    color: white;
+    padding: 18px 35px;
+    border-radius: 20px;
+    width: fit-content;
+}
+.userstatsmodal__header{
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.userstatsmodal__header > .MuiSvgIcon-root{
+    position: absolute;
+    top: 4px;
+    right: -23px;
+}
+.userstatsmodal__body{
+    display: flex;
+    flex-direction: column;
+}
+.userstatsmodal__body > p{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.userstatsmodal__data{
+    background-color: #151923;
+    width: 30vw;
+    padding: 10px 8px;
+}
+.userstatsmodal__data > p{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.userstatsmodal__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.usermute{
+    background-color: #3f33c2;
+    color: white;
+    border: none;
+    font-size: 1.3em;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 5px;
+    width: 120px;
+}
+.userdelete{
+    background-color: #e53838;
+    color: white;
+    border: none;
+    font-size: 1.3em;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 5px;
+    width: 120px;
+}

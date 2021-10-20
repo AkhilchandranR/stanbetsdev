@@ -1,0 +1,16 @@
+.mybetcomponent{
+    background-color: #151923;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
+    width: 350px;
+    line-height: 23px;
+}
+.mybetcomponent__details > p{
+    font-size: 1.1rem;
+}
+.mybetcomponent__amount > h3{
+    font-size: 1.4rem;
+    font-weight: 500;
+}

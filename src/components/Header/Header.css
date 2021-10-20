@@ -57,6 +57,7 @@
 .header__user{
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .header__username{
     display: flex;
