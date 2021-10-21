@@ -1,0 +1,73 @@
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.7);
+}
+.sitestats{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2000;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    background-color: #1d1e2a;
+    width: 650px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.sitestats__header{
+    text-align: center;
+    position: relative;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+.sitestats__header > .MuiSvgIcon-root{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.sitestats__body{
+    display: flex;
+    justify-content: space-between;
+}
+.sitestats__leftValue{
+    background-color: #151923;
+    padding: 10px;
+    font-size: 1.2em;
+    width: 300px;
+}
+.sitestats__recentbet{
+    background-color: #151923;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+.sitestats__details > p{
+    font-size: 1.1em;
+}
+.sitestats__amount > h3{
+    font-size: 1.3em;
+    font-weight: 500;
+}
+.sitestats__graph{
+    background-color: #151923;
+}
+@media screen and (max-width:675px) {
+    .sitestats__body{
+        flex-direction: column;
+    }
+    .sitestats{
+        width: 80vw;
+        height: 90vw;
+        overflow-y: scroll;
+    }
+    .sitestats__leftValue{
+        width: 75vw;
+    }
+}

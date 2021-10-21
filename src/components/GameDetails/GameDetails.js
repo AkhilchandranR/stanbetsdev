@@ -1,9 +1,12 @@
 import React from 'react';
 import './GameDetails.css';
+import { useDispatch } from 'react-redux';
+import { openBet } from '../../States/slices/userSlice';
 
 function GameDetails() {
+    const dispatch = useDispatch();
     return (
-        <div className="gamedetails">
+        <div className="gamedetails" onClick={()=>{dispatch(openBet())}}>
             <div className="gamedetails__heading">
                 <h5>League of Legends</h5>
                 <p>18/10/21</p>

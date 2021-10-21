@@ -14,3 +14,25 @@
     font-size: 1.4rem;
     font-weight: 500;
 }
+@media screen and (max-width:440px) {
+    .mybetcomponent{
+        width: 300px;
+    }
+    .mybetcomponent__amount > h3{
+        font-size: 1.2rem;
+    }
+    .mybetcomponent__details > p{
+        font-size: 1rem;
+    }
+}
+@media screen and (max-width:380px) {
+    .mybetcomponent{
+        width: 240px;
+    }
+    .mybetcomponent__amount > h3{
+        font-size: 1.1rem;
+    }
+    .mybetcomponent__details > p{
+        font-size: 0.9rem;
+    }
+}

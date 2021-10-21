@@ -48,34 +48,20 @@
 .settingsmodal__input{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #151923;
     overflow: hidden;
+    color: white;
 }
 .settingsmodal__inputone{
     display: flex;
     justify-content: space-between;
     background-color: #151923;
+    align-items: center;
     overflow: hidden;
     padding-top: 10px;
     padding-bottom: 12px;
-}
-.settingsmodal__input > input{
-    flex: 1;
-    background-color: transparent;
-    border: none;
     color: white;
-}
-.settingsmodal__inputone > input{
-    flex: 1;
-    background-color: transparent;
-    border: none;
-    color: white;
-}
-.settingsmodal__input > input:focus{
-    outline: none;
-}
-.settingsmodal__inputone > input:focus{
-    outline: none;
 }
 .settingmodal__buttons{
     display: flex;
@@ -100,4 +86,41 @@
     font-weight: 700;
     padding: 4px 8px;
     border-radius: 5px;
+}
+@media screen and (max-width:872px) {
+    .settingsmodal__form{
+        width: 38vw;
+    }
+    
+}
+@media screen and (max-width:662px) {
+    .settingsmodal__form{
+        width: 45vw;
+    }
+    
+}
+@media screen and (max-width:570px) {
+    .logout,.delete{
+        font-size: 1.1em;
+    }    
+}
+@media screen and (max-width:508px) {
+    .logout,.delete{
+        font-size: 1em;
+    }
+    .settingsmodal__form{
+        width: 50vw;
+    }
+}
+@media screen and (max-width:410px) {
+    .settingsmodal__form{
+        width: 60vw;
+    }
+    
+}
+@media screen and (max-width:344px) {
+    .settingsmodal__form{
+        width: 65vw;
+    }
+    
 }

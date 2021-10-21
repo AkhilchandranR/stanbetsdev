@@ -18,16 +18,16 @@ function SettingsModal({show,hide}) {
             <div className="settingsmodal__form">
                 <p>Username:</p>
                 <div className="settingsmodal__input">
-                    <input type="text" value="username"/>
+                    <p>username</p>
                     <img src={edit}/>
                 </div>
                 <p>Email:</p>
                 <div className="settingsmodal__inputone">
-                    <input type="email" value="username@test.com"/>
+                    <p>username@test.com</p>
                 </div>
                 <p>Password:</p>
                 <div className="settingsmodal__input">
-                    <input type="password" value="password"/>
+                    <p>*********</p>
                     <img src={edit}/>
                 </div>
                 <div className="settingmodal__buttons">

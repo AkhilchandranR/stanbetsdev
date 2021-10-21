@@ -56,4 +56,56 @@
 }
 .admingame__games > *{
     flex: 0.20;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+@media screen and (max-width:720px) {
+    .admingame{
+        width: 550px;
+    }
+    .admingame__control{
+        font-size: 1.3rem;
+    }
+    .admingame__games{
+        flex-direction: column;
+    }
+    .admingame__games > *{
+        margin-right: 0px;
+    }
+}
+@media screen and (max-width:600px) {
+    .admingame{
+        width: 450px;
+    }
+    .admingame__control{
+        font-size: 1.1rem;
+    }
+    .admingame__games{
+        flex-direction: column;
+    }
+    .admingame__games > *{
+        margin-right: 0px;
+    }
+}
+@media screen and (max-width:490px) {
+    .admingame{
+        width: 350px;
+    }
+    .admingame__control{
+        font-size: 1rem;
+    }
+    .admingame__games{
+        flex-direction: column;
+    }
+    .admingame__games > *{
+        margin-right: 0px;
+    }
+}
+@media screen and (max-width: 385px) {
+    .admingame{
+        width: 300px;
+    }  
+    .admingame__control{
+        padding: 15px 10px;
+    }  
 }
