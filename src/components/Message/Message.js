@@ -4,19 +4,21 @@ import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
 import { openStats } from '../../States/slices/userSlice';
 
-function Message({alternate}) {
+function Message({alternate,username,userId,usermessage,isAdmin}) {
     const dispatch = useDispatch();
     return (
         <div className={`message ${alternate && "message__alternate"}`} 
         onClick={()=>{dispatch(openStats())}}
         >
+            {isAdmin && 
             <div className="message__admin">
                 <StarIcon/>
                 <p>MOD</p>
             </div>
+            }
             <div className="message__user">
-                <p>User:</p>
-                <p>Example message</p>
+                <p>{username}:</p>
+                <p>{usermessage}</p>
             </div>
         </div>
     )

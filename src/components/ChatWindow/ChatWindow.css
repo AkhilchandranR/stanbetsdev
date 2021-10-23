@@ -73,11 +73,12 @@
 .chatwindow__inpuField > input:focus{
     outline: none;
 }
-.chatwindow__inpuField > .MuiSvgIcon-root{
+.chatwindow__inpuField > button >  .MuiSvgIcon-root{
     color: white;
 }
 .chatwindow__inpuField > button{
-    display: none;
+    background-color: transparent;
+    border: none;
 }
 .chatwindow__close{
     background-color: #2d3446;

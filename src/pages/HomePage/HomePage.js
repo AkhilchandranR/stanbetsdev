@@ -55,7 +55,7 @@ function HomePage() {
             }
         }
         getUserData()
-    },[loggedInUser])
+    })
     return (
         <div className="homepage">
             <Header user={loggedInUser}/>
@@ -67,7 +67,7 @@ function HomePage() {
                     />
                     }
                 </div>
-                {openChatbox && <ChatWindow/>}
+                {openChatbox && <ChatWindow logUser={loggedInUser[0]}/>}
                 <div className="homepage__contents">
                     <div className="homepage__options">
                         <div className="homepage__searchbar">
