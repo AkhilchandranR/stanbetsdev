@@ -55,7 +55,7 @@ function HomePage() {
             }
         }
         getUserData()
-    },[])
+    },[loggedInUser])
     return (
         <div className="homepage">
             <Header user={loggedInUser}/>
@@ -75,9 +75,9 @@ function HomePage() {
                         </div>
                         <div className="homepage__optionIcons">
                             <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
-                                <ReceiptIcon/>
+                                {currentUser && <ReceiptIcon/>}
                             </div>
-                            {loggedInUser[0].isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
+                            {loggedInUser[0]?.isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
                                 <StarIcon className="star"/>
                             </div>}
                         </div>

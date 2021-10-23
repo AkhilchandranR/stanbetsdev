@@ -19,6 +19,7 @@ function SignUp() {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
+    const [nameTaken,setNameTaken] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         //hides the chat icon when the user is not logged in
@@ -32,15 +33,25 @@ function SignUp() {
     //function to create a user in database
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        const userData = await db.collection('users').get()
+        const userCollection = userData?.docs?.map((doc)=>(
+            doc?.data()
+        ))
+        if (userCollection.find((user)=>(
+            nameRef.current.value == user.username))){
+                    setNameTaken(true)
+                    return
+            }
         if(validateCaptcha(captchaRef.current.value)==false){
             setWrongCaptcha(true);
             return
         }
+
         try{
             setLoading(true)
             await signup(emailRef.current.value,passwordRef.current.value)
             .then(
-                response=>{
+                (response)=>{
                     db.collection('users').add({
                         username: nameRef.current.value,
                         userId: response.user.uid,
@@ -49,17 +60,17 @@ function SignUp() {
                         emailId:response.user.email
                         // country: DeviceInfo.getDeviceCountry(),
                     })
+                    history.push("/login")
                 }
             )
-            .catch((error)=>{console.log(error)})
-            history.push("/login")
+            .catch((error)=>{window.alert(error.message)})
             }
             catch{
-                console.log("failed")
+                window.alert("SignIn not successfull")
             }
             setLoading(false);
             setWrongCaptcha(false);
-        
+            setNameTaken(false);
         }
     return (
         <div className="signup">
@@ -72,6 +83,7 @@ function SignUp() {
                             <div className="signup__inputField">
                                 <input type="text" ref={nameRef} required/>
                             </div>
+                            {nameTaken && <p className="captcha">Username already taken !</p>}
                         </div>
                         <div className="signup__input">
                             <p>Email:</p>

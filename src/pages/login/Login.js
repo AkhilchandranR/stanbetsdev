@@ -6,33 +6,43 @@ import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
+import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
+    const captchaRef = useRef();
     const { login } = useAuth();
     const history = useHistory();
     const[loading,setLoading] = useState(false);
+    const [wrongCaptcha,setWrongCaptcha] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         //hides chaticon for non logged in users
         const hideChatButton = () =>{
             dispatch(hideChat());
         }
-        hideChatButton();   
+        hideChatButton();  
+        //decides the length of captcha
+        loadCaptchaEnginge(4);   
     })
     //function to handle login functionality
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        if(validateCaptcha(captchaRef.current.value)==false){
+            setWrongCaptcha(true);
+            return
+        }
         try{
             setLoading(true)
             await login(emailRef.current.value,passwordRef.current.value)
             history.push("/")
         }
         catch{
-            console.log("failed login")
+            window.alert("Invalid username or password")
         }
-        setLoading(false)
+        setLoading(false);
+        setWrongCaptcha(false);
     } 
     return (
         <div className="login">
@@ -52,6 +62,14 @@ function Login() {
                             <input type="password" ref={passwordRef} required/>
                         </div>
                     </div>
+                    <LoadCanvasTemplateNoReload/>
+                        <div className="signup__input">
+                            <p>Enter the Captcha:</p>
+                            <div className="signup__inputField">
+                                <input type="text" ref={captchaRef} required/>
+                            </div>
+                            {wrongCaptcha && <p className="captcha">Captchas does not match !</p>}
+                        </div>
                     <button type="submit" disabled={loading}>Login</button>
                     <p>Don't already have an account?
                         <Link to="/signup">

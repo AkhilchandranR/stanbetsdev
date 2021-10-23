@@ -12,11 +12,12 @@ function SettingsModal({show,hide,user}) {
     const handleLogout = async(e) =>{
         e.preventDefault();
         try{
+            hide();
             await logout();
             history.push('/login');
         }
         catch{
-            console.log("failed logout")
+            window.alert("failed to logout")
         }
     }
     if (!show) return null;
