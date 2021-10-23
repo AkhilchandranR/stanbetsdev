@@ -18,10 +18,15 @@ import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
 import SiteStats from '../../Modals/SiteStatsModal/SiteStats';
+import { useAuth } from "../../AuthContext";
+import { db } from '../../firebase';
+
 
 function HomePage() {
+    const { currentUser } = useAuth();
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
+    const [loggedInUser,setLoggedInUser] = useState([]);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
@@ -37,9 +42,23 @@ function HomePage() {
         }
         showChatWindowIcon();   
     })
+    useEffect(() => {
+        const getUserData = async() =>{
+            if(currentUser){
+                const userData = await db.collection('users').get()
+                const userCollection = userData?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                setLoggedInUser(userCollection.filter((user)=>(
+                    user.userId == currentUser.uid
+                )))
+            }
+        }
+        getUserData()
+    },[])
     return (
         <div className="homepage">
-            <Header/>
+            <Header user={loggedInUser}/>
             <div className="homepage__body">
                 <div className="homepage__chat" onClick={openChat}>
                     {showChatIcon &&
@@ -58,9 +77,9 @@ function HomePage() {
                             <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
                                 <ReceiptIcon/>
                             </div>
-                            <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
+                            {loggedInUser[0].isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
                                 <StarIcon className="star"/>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                     <div className="homepage__gamedetails">
@@ -70,7 +89,7 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())}/>
+            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser[0]}/>
             <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 

@@ -29,7 +29,7 @@ function ChatWindow() {
                 <Message alternate={true}/>
                 <Message alternate={false}/>
             </div>
-            {/* <div className="chatwindow__login">
+            <div className="chatwindow__login">
                 <h2>Login to chat...</h2>
                 <div className="chatwindow__loginButtons">
                     <Link to="/login">
@@ -39,14 +39,14 @@ function ChatWindow() {
                         <button className="signupbtn" onClick={adjustWindow}>Sign-Up</button>
                     </Link>
                 </div>
-            </div> */}
-                <div className="chatwindow__messaging">
+            </div>
+                {/* <div className="chatwindow__messaging">
                     <form className="chatwindow__inpuField">
                         <input type="text" placeholder="Type message here..."/>
                         <ChatBubbleRoundedIcon/>
                         <button type="submit"/>
                     </form>
-                </div>
+                </div> */}
         </div>
     )
 }

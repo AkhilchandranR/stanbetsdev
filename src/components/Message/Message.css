@@ -1,6 +1,5 @@
 .message{
     display: flex;
-    align-items: center;
     justify-content: flex-start;
     color: white;
     background-color: #2d3446;

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { showUserSettings } from '../../States/slices/chatSlice';
 import { Link } from 'react-router-dom'; 
 
-function Header() {
+function Header({ user }) {
     const dispatch = useDispatch();
     return (
         <div className="header">
@@ -17,23 +17,26 @@ function Header() {
                     <p>1234</p>
                 </div>
             </div>
-            {/* <div className="header__buttons">
+            {user ? (
+                <div className="header__user" onClick={()=>{dispatch(showUserSettings())}}>
+                <div className="header__username">
+                    {user[0].isAdmin && <StarIcon/>}
+                    <p>{user[0]?.username}</p>
+                </div>
+                <div className="header__amount">
+                    <p>$6.00</p>
+                </div>
+            </div>
+            ):(
+                <div className="header__buttons">
                 <Link to="/login">
                     <button className="header__login">Login</button>
                 </Link>
                 <Link to="/signup">
                     <button className="header__signup">Sign-Up</button>
                 </Link>
-            </div> */}
-            <div className="header__user" onClick={()=>{dispatch(showUserSettings())}}>
-                <div className="header__username">
-                    <StarIcon/>
-                    <p>Username</p>
-                </div>
-                <div className="header__amount">
-                    <p>$6.00</p>
-                </div>
             </div>
+            )}
         </div>
     )
 }

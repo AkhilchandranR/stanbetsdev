@@ -71,6 +71,9 @@
 .signup__inputField > input:focus{
     outline: none;
 }
+.captcha{
+    color: red !important;
+}
 @media screen and (max-width:550px) {
     .signup__inputField{
         width: 40vw;

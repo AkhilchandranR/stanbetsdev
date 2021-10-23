@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef,useState } from 'react';
 import Header from '../../components/Header/Header';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
+import { useAuth } from "../../AuthContext";
 
 function Login() {
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const { login } = useAuth();
+    const history = useHistory();
+    const[loading,setLoading] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         //hides chaticon for non logged in users
@@ -15,25 +21,38 @@ function Login() {
         }
         hideChatButton();   
     })
+    //function to handle login functionality
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        try{
+            setLoading(true)
+            await login(emailRef.current.value,passwordRef.current.value)
+            history.push("/")
+        }
+        catch{
+            console.log("failed login")
+        }
+        setLoading(false)
+    } 
     return (
         <div className="login">
             <Header/>
             <div className="login__body">
-                <form className="login__form">
+                <form className="login__form" onSubmit={handleSubmit}>
                     <h1>Login</h1>
                     <div className="login__input">
                         <p>Email:</p>
                         <div className="login__inputField">
-                            <input type="email"/>
+                            <input type="email" ref={emailRef} required/>
                         </div>
                     </div>
                     <div className="login__input">
                         <p>Password:</p>
                         <div className="login__inputField">
-                            <input type="password"/>
+                            <input type="password" ref={passwordRef} required/>
                         </div>
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit" disabled={loading}>Login</button>
                     <p>Don't already have an account?
                         <Link to="/signup">
                             <span>SignUp</span>

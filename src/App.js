@@ -1,4 +1,5 @@
 import './App.css';
+import { AuthProvider } from "./AuthContext";
 import { BrowserRouter as Router,Switch,Route } from 'react-router-dom';
 import Login from './pages/login/Login';
 import SignUp from './pages/SignUp/SignUp';
@@ -9,6 +10,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <AuthProvider>
         <Switch>
           <Route path="/login">
             <Login/>
@@ -23,6 +25,7 @@ function App() {
             <HomePage/>
           </Route>
         </Switch>
+        </AuthProvider>
       </Router>
     </div>
   );
