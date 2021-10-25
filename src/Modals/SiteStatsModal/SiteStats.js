@@ -1,9 +1,10 @@
 import Close from '@mui/icons-material/Close';
 import React from 'react';
 import './SiteStats.css';
+import ReactDOM from 'react-dom';
 import { Pie } from 'react-chartjs-2';
 
-function SiteStats() {
+function SiteStats({open,hide}) {
     const data = {
         labels: [],
         datasets: [
@@ -30,14 +31,16 @@ function SiteStats() {
           },
         ],
       };
+    
+      if(!open) return null;
       
-    return (
+    return ReactDOM.createPortal(
         <>
         <div className="overlay"/>
         <div className="sitestats">
             <div className="sitestats__header">
                 <h2>Site Stats</h2>
-                <Close/>
+                <Close onClick={hide}/>
             </div>
             <div className="sitestats__body">
                 <div className="sitestats__left">
@@ -119,7 +122,8 @@ function SiteStats() {
                 </div>
             </div>
         </div>
-        </>
+        </>,
+        document.getElementById('portal')
     )
 }
 

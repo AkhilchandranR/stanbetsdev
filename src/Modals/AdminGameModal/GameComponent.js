@@ -2,15 +2,15 @@ import React from 'react';
 import './GameComponent.css';
 import edit from '../../images/edit.png';
 
-function GameComponent() {
+function GameComponent({team1,team2}) {
     return (
         <div className="gamecomponent">
-            <p>Team 1</p>
+            <p>{team1?.name}</p>
             <p>vs</p>
-            <p>Team 2</p>
+            <p>{team2.name}</p>
             <img src={edit}/>
             <div className="gamecomponent__odds">
-                <p>1.25 | 3.33</p>
+                <p>{team1.odds} | {team2.odds}</p>
             </div>
         </div>
     )

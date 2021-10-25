@@ -17,7 +17,6 @@ import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
 import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
-import SiteStats from '../../Modals/SiteStatsModal/SiteStats';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
 
@@ -27,6 +26,7 @@ function HomePage() {
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
     const [loggedInUser,setLoggedInUser] = useState([]);
+    const [listedGames,setListedGames] = useState([]);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
@@ -56,6 +56,17 @@ function HomePage() {
         }
         getUserData()
     })
+    useEffect(() => {
+        const getGamesData = async()=>{
+            const games = await db.collection('games').get()
+            const gameCollection = games?.docs?.map((doc)=>(
+                doc?.data()
+            ))
+            
+            setListedGames(gameCollection)
+        }
+        getGamesData()
+    }, [listedGames])
     return (
         <div className="homepage">
             <Header user={loggedInUser}/>
@@ -74,27 +85,33 @@ function HomePage() {
                             <input type="text" placeholder="Search for matches (Game or Team)..."/>
                         </div>
                         <div className="homepage__optionIcons">
-                            <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
-                                {currentUser && <ReceiptIcon/>}
-                            </div>
+                            {currentUser && <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
+                                <ReceiptIcon/>
+                            </div>}
                             {loggedInUser[0]?.isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
                                 <StarIcon className="star"/>
                             </div>}
                         </div>
                     </div>
                     <div className="homepage__gamedetails">
-                        <GameDetails/>
-                        <GameDetails/>
-                        <GameDetails/>
+                        {listedGames?.map((game)=>(
+                            <GameDetails key={game?.id}
+                            name={game?.gameName}
+                            date={game?.date}
+                            time={game?.time}
+                            team1 ={game?.team1}
+                            team2 = {game?.team2}
+                        />
+                        ))
+                        }
                     </div>
                 </div>
             </div>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser[0]}/>
-            <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())}/>
+            <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())} isAnAdmin={loggedInUser[0]?.isAdmin}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
             <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())}/>
-            {/* <SiteStats/> */}
             {/* <Footer/> */}
         </div>
     )

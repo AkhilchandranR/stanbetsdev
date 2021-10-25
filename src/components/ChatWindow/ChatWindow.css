@@ -15,7 +15,21 @@
 }
 .chatwindow__messages{
     flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
     background-color: #1d1e2a;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #3f33c2 transparent;
+}
+::-webkit-scrollbar{
+    width: 3px;
+}
+::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+::-webkit-slider-thumb{
+    background-color: #3f33c2;
 }
 .chatwindow__login > h2{
     color: white;

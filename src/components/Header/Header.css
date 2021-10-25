@@ -6,6 +6,7 @@
     width: 100vw;
     overflow: hidden;
     padding: 10px;
+    min-height: 55px;
 }
 .header__logo{
     display: flex;

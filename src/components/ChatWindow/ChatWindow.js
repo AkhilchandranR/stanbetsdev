@@ -24,12 +24,12 @@ function ChatWindow({logUser}) {
                 doc?.data()
             ))
             const arrangedMessages = messagesArray.sort((a,b)=>(
-                a.timestamp - b.timestamp
+                b.timestamp - a.timestamp
             ))
             setMessages(arrangedMessages);
        }
        getMessages();
-    }, [input])
+    }, [messages])
     const closeChat = () =>{
         //closes the chat window and adjust the body
         dispatch(closeWindow());

@@ -10,7 +10,6 @@
 }
 .message__admin{
     display: flex;
-    align-items: center;
 }
 .message__admin > p{
     font-weight: 700;

@@ -4,7 +4,8 @@ import edit from '../../images/edit.png';
 import CloseIcon from '@mui/icons-material/Close';
 import ReactDOM from 'react-dom';
 import { useAuth } from "../../AuthContext";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
+import firebase from 'firebase';
 
 function SettingsModal({show,hide,user}) {
     const { currentUser,logout } = useAuth();
@@ -18,6 +19,21 @@ function SettingsModal({show,hide,user}) {
         }
         catch{
             window.alert("failed to logout")
+        }
+    }
+    const handleSelfDelete = () =>{
+        try{
+            firebase.auth.deleteUser(currentUser.uid)
+            .then(()=>{
+                history.push('/signup')
+                window.alert("account has been deleted")
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+        }
+        catch{
+            window.alert("Failed to delete the account")
         }
     }
     if (!show) return null;
@@ -47,7 +63,7 @@ function SettingsModal({show,hide,user}) {
                 </div>
                 <div className="settingmodal__buttons">
                     <button className="logout" onClick={handleLogout}>Log Out</button>
-                    <button className="delete">Delete Account</button>
+                    <button className="delete" onClick={handleSelfDelete}>Delete Account</button>
                 </div>
             </div>
         </div>

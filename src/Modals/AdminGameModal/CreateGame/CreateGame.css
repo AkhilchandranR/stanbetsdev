@@ -1,0 +1,82 @@
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.7);
+}
+.creategame{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background-color: #1d1e2a;
+    color: white;
+    padding: 13px;
+    padding-top: 20px;
+    border-radius: 15px;
+}
+.creategame__inputs{
+    background-color: #151923;
+    height: 35px;
+    padding: 3px;
+    display: flex;
+    width: 600px;
+}
+.creategame__inputs > input{
+    background-color: transparent;
+    color: white;
+    border: none;
+    flex: 1;
+}
+.creategame__inputs > input:focus{
+    outline: none;
+}
+.creategame__teams{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.creategame__inputshalf{
+    background-color: #151923;
+    display: flex;
+    height: 35px;
+    padding: 3px;
+    width: 290px;
+    border-radius: 3px;
+}
+.creategame__inputshalf > input{
+    background-color: transparent;
+    color: white;
+    border: none;
+    flex: 1;
+}
+.creategame__inputs > input:focus{
+    outline: none;
+}
+.creategame > button{
+    background-color: #3f33c2;
+    color: white;
+    border: none;
+    padding: 7px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.creategame__header{
+    text-align: center;
+    font-size: 1.2em;
+    position: relative;
+}
+.creategame__body > p , .creategame__team > p{
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.creategame__header > .MuiSvgIcon-root{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}

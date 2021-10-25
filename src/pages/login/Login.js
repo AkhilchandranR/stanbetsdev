@@ -24,7 +24,7 @@ function Login() {
         }
         hideChatButton();  
         //decides the length of captcha
-        loadCaptchaEnginge(4);   
+        loadCaptchaEnginge(7);   
     })
     //function to handle login functionality
     const handleSubmit = async(e) =>{
@@ -62,7 +62,9 @@ function Login() {
                             <input type="password" ref={passwordRef} required/>
                         </div>
                     </div>
-                    <LoadCanvasTemplateNoReload/>
+                    <div className="captcha__image">
+                        <LoadCanvasTemplateNoReload/>
+                    </div>
                         <div className="signup__input">
                             <p>Enter the Captcha:</p>
                             <div className="signup__inputField">
