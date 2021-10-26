@@ -26,7 +26,7 @@ function CreateBetModal({ show,hide }) {
         <div className="overlay"/>
         <div className="createbet">
             <div className="createbet__header">
-                <h2>Bet on {gameToBet[0].team1.name} vs {gameToBet[0].team2.name}</h2>
+                <h2>Bet on {gameToBet[0]?.team1?.name} vs {gameToBet[0]?.team2?.name}</h2>
                 <Close onClick={hide}/>
             </div>
             <p>Bet Amount:</p>
@@ -40,18 +40,18 @@ function CreateBetModal({ show,hide }) {
              borderRadius="0px"/>
             <div className="createbet__buttons">
                 <button className="blue">
-                    <p>{gameToBet[0].team1.name} @ {gameToBet[0].team1.odds}</p>
+                    <p>{gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}</p>
                     <p>Win = $2.50</p>
                 </button>
                 <button className="red">
-                    <p>{gameToBet[0].team2.name} @ {gameToBet[0].team2.odds}</p>
+                    <p>{gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}</p>
                     <p>Win = $6.66</p>
                 </button>
             </div>
-            {/* <div className="createbet__matchlink">
+           {gameToBet[0].link && <div className="createbet__matchlink">
                 <p>Watch the game live on Twitch(19:00 UTC 18/10/21)
                 </p>
-            </div> */}
+            </div>}
         </div>
         </>
     )

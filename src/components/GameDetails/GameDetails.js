@@ -3,7 +3,7 @@ import './GameDetails.css';
 import { useDispatch } from 'react-redux';
 import { openBet,setBetGameId } from '../../States/slices/userSlice';
 
-function GameDetails({ key,id,name,date,time,team1,team2 }) {
+function GameDetails({ id,name,date,time,team1,team2 }) {
     const dispatch = useDispatch();
     const handleClick = (e) =>{
         e.preventDefault();

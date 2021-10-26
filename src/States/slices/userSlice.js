@@ -7,6 +7,7 @@ export const userSlice = createSlice({
         openBetModal: false,
         chatUserId : null,
         betGameId: null,
+        editGameId: null,
     },
     //we are able mutate because we are using immer.js
     reducers:{
@@ -27,9 +28,12 @@ export const userSlice = createSlice({
         },
         setBetGameId:(state,action)=>{
             state.betGameId = action.payload.betGameId
+        },
+        setEditGameId:(state,action)=>{
+            state.editGameId = action.payload.editGameId
         }
     },
 })
 // export action creators and reducers for using in components
-export const { openStats,closeStats,openBet,closeBet,setChatUser,setBetGameId } = userSlice.actions;
+export const { openStats,closeStats,openBet,closeBet,setChatUser,setBetGameId,setEditGameId } = userSlice.actions;
 export default userSlice.reducer;

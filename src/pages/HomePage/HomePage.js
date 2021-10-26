@@ -23,6 +23,7 @@ import { db } from '../../firebase';
 
 function HomePage() {
     const { currentUser } = useAuth();
+    const [searchTerm,setSearchTerm] = useState('');
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
     const [loggedInUser,setLoggedInUser] = useState([]);
@@ -82,7 +83,8 @@ function HomePage() {
                 <div className="homepage__contents">
                     <div className="homepage__options">
                         <div className="homepage__searchbar">
-                            <input type="text" placeholder="Search for matches (Game or Team)..."/>
+                            <input type="text" placeholder="Search for matches (Game or Team)..."
+                            value={searchTerm} onChange={(e)=>{setSearchTerm(e.target.value)}}/>
                         </div>
                         <div className="homepage__optionIcons">
                             {currentUser && <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
@@ -94,7 +96,16 @@ function HomePage() {
                         </div>
                     </div>
                     <div className="homepage__gamedetails">
-                        {listedGames?.map((game)=>(
+                        {listedGames?.filter((games)=>{
+                            if(searchTerm == ''){
+                                return games
+                            }
+                            else if((games.gameName.toLowerCase().includes(searchTerm.toLowerCase())) 
+                            || (games.team1.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                            || (games.team2.name.toLowerCase().includes(searchTerm.toLowerCase()))){
+                                return games
+                            }
+                        })?.map((game)=>(
                             <GameDetails key={game?.id}
                             id={game?.id}
                             name={game?.gameName}

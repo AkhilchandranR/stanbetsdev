@@ -6,11 +6,14 @@ import ReactDOM from 'react-dom';
 import CreateGame from './CreateGame/CreateGame';
 import { db } from '../../firebase';
 import SiteStats from '../SiteStatsModal/SiteStats';
+import EditGame from './EditGame/EditGame';
 
 
 function AdminGame({ show,hide }) {
     const[currentGames,setCurrentGames] = useState([]);
     const [openStats,setOpenStats] = useState(false);
+    const [openEdit,setOpenEdit] = useState(false);
+    const[openCreateModal,setOpenCreateModal] = useState(false);
     useEffect(() => {
         const currentGames = async()=>{
             const games = await db.collection('games').get()
@@ -21,7 +24,7 @@ function AdminGame({ show,hide }) {
         }
         currentGames()
     })
-    const[openCreateModal,setOpenCreateModal] = useState(false);
+    
     if(!show) return null;
 
     return ReactDOM.createPortal(
@@ -38,13 +41,17 @@ function AdminGame({ show,hide }) {
             <div className="admingame__games">
                 {currentGames?.map((game)=>(
                     <GameComponent 
+                    key={game.id}
+                    id={game.id}
                     team1={game.team1}
                     team2={game.team2}
+                    open={()=>{setOpenEdit(true)}}
                     />
                 ))}
             </div>
         </div>
         <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}}/>
+        <EditGame open={openEdit} hide={()=>{setOpenEdit(false)}}/>
         <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
         </>,
         document.getElementById('portal')
