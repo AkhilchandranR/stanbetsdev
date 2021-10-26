@@ -1,12 +1,20 @@
 import React from 'react';
 import './GameDetails.css';
 import { useDispatch } from 'react-redux';
-import { openBet } from '../../States/slices/userSlice';
+import { openBet,setBetGameId } from '../../States/slices/userSlice';
 
-function GameDetails({ id,name,date,time,team1,team2 }) {
+function GameDetails({ key,id,name,date,time,team1,team2 }) {
     const dispatch = useDispatch();
+    const handleClick = (e) =>{
+        e.preventDefault();
+        //dispatch set games bet
+        dispatch(setBetGameId({
+            betGameId: id
+        }))
+        dispatch(openBet());
+    }
     return (
-        <div className="gamedetails" onClick={()=>{dispatch(openBet())}}>
+        <div className="gamedetails" onClick={handleClick}>
             <div className="gamedetails__heading">
                 <h5>{name}</h5>
                 <p>{date}</p>

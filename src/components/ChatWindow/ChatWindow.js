@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
 import firebase from 'firebase';
+import { v4 as uuidv4} from 'uuid';
 
 function ChatWindow({logUser}) {
     const alternatingColor = [true,false];
@@ -38,6 +39,7 @@ function ChatWindow({logUser}) {
         e.preventDefault();
         if(input){
             db.collection('chats').add({
+                id: uuidv4(),
                 userId:logUser.userId,
                 userName: logUser.username,
                 isAdmin: logUser.isAdmin,
@@ -58,6 +60,8 @@ function ChatWindow({logUser}) {
             <div className="chatwindow__messages">
                 {messages.map((message,index)=>(
                     <Message 
+                    key={message?.id}
+                    id={message?.id}
                     username={message?.userName}
                     userId={message?.userId}
                     isAdmin ={message?.isAdmin}

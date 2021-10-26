@@ -1,16 +1,32 @@
 import Close from '@mui/icons-material/Close';
-import React from 'react';
+import React,{ useEffect,useState } from 'react';
 import './CreateBetModal.css';
+import { useSelector } from 'react-redux';
+import { db } from '../../firebase';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 function CreateBetModal({ show,hide }) {
+    const gameToBetId = useSelector((state)=>state.user.betGameId);
+    const [gameToBet,setGameToBet] = useState();
+    useEffect(() => {
+        const getGame = async() =>{
+            const games = await db.collection('games').get()
+            const gamesCollection = games?.docs?.map((doc)=>(
+                doc?.data()
+            ))
+            setGameToBet(gamesCollection?.filter((game)=>(
+                game.id == gameToBetId
+            )))
+        }
+        getGame()
+    })
     if (!show) return null;
     return (
         <>
         <div className="overlay"/>
         <div className="createbet">
             <div className="createbet__header">
-                <h2>Bet on Team1 vs Team2</h2>
+                <h2>Bet on {gameToBet[0].team1.name} vs {gameToBet[0].team2.name}</h2>
                 <Close onClick={hide}/>
             </div>
             <p>Bet Amount:</p>
@@ -24,11 +40,11 @@ function CreateBetModal({ show,hide }) {
              borderRadius="0px"/>
             <div className="createbet__buttons">
                 <button className="blue">
-                    <p>Team1 @ 1.25</p>
+                    <p>{gameToBet[0].team1.name} @ {gameToBet[0].team1.odds}</p>
                     <p>Win = $2.50</p>
                 </button>
                 <button className="red">
-                    <p>Team1 @ 3.33</p>
+                    <p>{gameToBet[0].team2.name} @ {gameToBet[0].team2.odds}</p>
                     <p>Win = $6.66</p>
                 </button>
             </div>

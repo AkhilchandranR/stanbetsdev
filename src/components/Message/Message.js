@@ -1,15 +1,21 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import './Message.css';
 import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
-import { openStats } from '../../States/slices/userSlice';
+import { openStats,setChatUser } from '../../States/slices/userSlice';
 
-function Message({alternate,username,userId,usermessage,isAdmin}) {
+function Message({alternate,id,username,usermessage,isAdmin}) {
     const dispatch = useDispatch();
+    const handleClick = (e)=>{
+        e.preventDefault();
+        dispatch(setChatUser({
+            chatUserId: id
+        }))
+        dispatch(openStats())
+    }
     return (
         <div className={`message ${alternate && "message__alternate"}`} 
-        onClick={()=>{dispatch(openStats())}}
-        >
+        onClick={handleClick}>
             {isAdmin && 
             <div className="message__admin">
                 <StarIcon/>

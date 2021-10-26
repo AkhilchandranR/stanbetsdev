@@ -1,9 +1,39 @@
-import React from 'react';
+import React,{ useState,useEffect } from 'react';
 import './UserStatsModal.css';
 import CloseIcon from '@mui/icons-material/Close';
 import ReactDom from 'react-dom';
+import { useSelector } from 'react-redux';
+import { db } from '../../firebase';
 
 function UserStatsModal({show,hide,isAnAdmin}) {
+    const[currentChatId,setCurrentChatId] = useState([]);
+    const[currentUserId,setCurrentUserId] = useState('');
+    const[currentUser,setCurrentUser] = useState([]);
+    const chatUser = useSelector((state)=>state.user.chatUserId);
+    const setUser = async(userid) =>{
+        const userData = await db.collection('users').get()
+        const userCollection = userData?.docs?.map((doc)=>(
+             doc?.data()
+        ))
+        setCurrentUser(userCollection.filter((user)=>(
+             user.userId === userid
+        )))
+    }
+    useEffect(() => {
+       const getChatUser = async() =>{
+            const chats = await db.collection('chats').get()
+            const chatsCollection = chats?.docs?.map((doc)=>(
+                doc?.data()
+            ))
+            setCurrentChatId(chatsCollection?.filter((chat)=>(
+                chat.id == chatUser
+            )))
+            setCurrentUserId(currentChatId[0]?.userId)
+            await setUser(currentUserId)
+       }
+       getChatUser()
+    },[currentChatId])
+
     if(!show) return null;
 
     else{
@@ -13,13 +43,13 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 <div className="overlay"></div>
                 <div className="userstatsmodal">
                     <div className="userstatsmodal__header">
-                        <h2>Username's Stats/info</h2>
+                        <h2>{currentUser[0]?.username}'s Stats/info</h2>
                         <CloseIcon onClick={hide}/>
                     </div>
                     <div className="userstatsmodal__body">
                         <p>Email:</p>
                         <div className="userstatsmodal__data">
-                            <p>username@gmail.com</p>
+                            <p>{currentUser[0]?.emailId}</p>
                         </div>
                         <p>Country:</p>
                         <div className="userstatsmodal__data">
@@ -61,7 +91,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 <div className="overlay"></div>
                 <div className="userstatsmodal">
                     <div className="userstatsmodal__header">
-                        <h2>Username's Stats</h2>
+                        <h2>{currentUser[0]?.username}'s Stats</h2>
                         <CloseIcon onClick={hide}/>
                     </div>
                     <div className="userstatsmodal__body">

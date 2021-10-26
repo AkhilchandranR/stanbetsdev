@@ -20,7 +20,7 @@ function AdminGame({ show,hide }) {
             setCurrentGames(gameCollection)
         }
         currentGames()
-    }, [])
+    })
     const[openCreateModal,setOpenCreateModal] = useState(false);
     if(!show) return null;
 

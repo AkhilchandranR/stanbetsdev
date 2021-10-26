@@ -96,6 +96,7 @@ function HomePage() {
                     <div className="homepage__gamedetails">
                         {listedGames?.map((game)=>(
                             <GameDetails key={game?.id}
+                            id={game?.id}
                             name={game?.gameName}
                             date={game?.date}
                             time={game?.time}
