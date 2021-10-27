@@ -5,6 +5,7 @@ import MyBetComponent from './MyBetComponent';
 import ReactDOM from 'react-dom';
 
 function MyBetsModal({show,hide}) {
+
     if(!show) return null
 
     return ReactDOM.createPortal(

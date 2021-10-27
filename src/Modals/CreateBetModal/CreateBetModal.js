@@ -1,37 +1,25 @@
 import Close from '@mui/icons-material/Close';
-import React,{ useEffect,useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import './CreateBetModal.css';
-import { useSelector } from 'react-redux';
 import { db } from '../../firebase';
 import ProgressBar from "@ramonak/react-progress-bar";
+import ReactDom from 'react-dom';
 
-function CreateBetModal({ show,hide }) {
-    const gameToBetId = useSelector((state)=>state.user.betGameId);
-    const [gameToBet,setGameToBet] = useState();
-    useEffect(() => {
-        const getGame = async() =>{
-            const games = await db.collection('games').get()
-            const gamesCollection = games?.docs?.map((doc)=>(
-                doc?.data()
-            ))
-            setGameToBet(gamesCollection?.filter((game)=>(
-                game.id == gameToBetId
-            )))
-        }
-        getGame()
-    })
+function CreateBetModal({ show,hide,id,team1,team2,link }) {
+    const [betAmount,setBetAmount] = useState(0.0);
+
     if (!show) return null;
-    return (
+    return ReactDom.createPortal(
         <>
         <div className="overlay"/>
         <div className="createbet">
             <div className="createbet__header">
-                <h2>Bet on {gameToBet[0]?.team1?.name} vs {gameToBet[0]?.team2?.name}</h2>
+                <h2>Bet on {team1?.name} vs {team2?.name}</h2>
                 <Close onClick={hide}/>
             </div>
             <p>Bet Amount:</p>
             <div className="createbet__amount">
-                <input type="text" value="$2.00"/>
+                <input type="text" value={betAmount} onChange={(e)=>{setBetAmount(e.target.value)}}/>
             </div>
             <ProgressBar completed={73}
              isLabelVisible={false}
@@ -40,20 +28,21 @@ function CreateBetModal({ show,hide }) {
              borderRadius="0px"/>
             <div className="createbet__buttons">
                 <button className="blue">
-                    <p>{gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}</p>
+                    <p>{team1?.name} @ {team1?.odds}</p>
                     <p>Win = $2.50</p>
                 </button>
                 <button className="red">
-                    <p>{gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}</p>
+                    <p>{team2?.name} @ {team2?.odds}</p>
                     <p>Win = $6.66</p>
                 </button>
             </div>
-           {gameToBet[0].link && <div className="createbet__matchlink">
+           {link && <div className="createbet__matchlink">
                 <p>Watch the game live on Twitch(19:00 UTC 18/10/21)
                 </p>
             </div>}
         </div>
-        </>
+        </>,
+        document.getElementById('portal')
     )
 }
 
