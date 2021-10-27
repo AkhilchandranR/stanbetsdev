@@ -6,10 +6,13 @@ import { useSelector } from 'react-redux';
 import { db } from '../../firebase';
 
 function UserStatsModal({show,hide,isAnAdmin}) {
+    const[docId,setDocId] = useState("");
     const[currentChatId,setCurrentChatId] = useState([]);
     const[currentUserId,setCurrentUserId] = useState('');
     const[currentUser,setCurrentUser] = useState([]);
     const chatUser = useSelector((state)=>state.user.chatUserId);
+
+    //sets the current user and document id
     const setUser = async(userid) =>{
         const userData = await db.collection('users').get()
         const userCollection = userData?.docs?.map((doc)=>(
@@ -18,7 +21,33 @@ function UserStatsModal({show,hide,isAnAdmin}) {
         setCurrentUser(userCollection.filter((user)=>(
              user.userId === userid
         )))
+
+        if(currentUser){
+            const citiesRef = db.collection('users');
+            const snapshot = await citiesRef.get();
+            if (snapshot.empty) {
+            return;
+            }  
+            
+            snapshot.forEach(doc => {
+            if (doc.data().userId == currentUser[0]?.userId){
+                setDocId(doc.id)
+            }
+            })
+        }
     }
+    
+    //mute a user
+    const muteUser = async(e) =>{
+        await db.collection('users').doc(docId).update({
+            isMuted: true
+        }).then((response)=>console.log(response))
+        .catch((e)=>console.log(e.message))
+    }
+
+    //delete a user details
+    
+
     useEffect(() => {
        const getChatUser = async() =>{
             const chats = await db.collection('chats').get()
@@ -77,7 +106,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">
-                        <button className="usermute">Mute</button>
+                        <button className="usermute" onClick={muteUser}>Mute</button>
                         <button className="userdelete">Delete</button>
                     </div>
                 </div>
