@@ -53,11 +53,11 @@ function UserStatsModal({show,hide,isAnAdmin}) {
         .catch((e)=>window.alert(e.message))
     }
 
-    //delete a user details
-    const deleteUser = async(e) =>{
-        e.preventDefault();
-        // await db.collection('users').doc(docId).delete()
-    }
+    //delete a user details, can only be performed from server side
+    // const deleteUser = async(e) =>{
+    //     e.preventDefault();
+    //     // await db.collection('users').doc(docId).delete()
+    // }
     
 
     useEffect(() => {

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { useAuth } from "../../AuthContext";
 import { useHistory } from "react-router-dom";
 import firebase from 'firebase';
-import { db } from '../../firebase';
+import { db,auth } from '../../firebase';
 
 function SettingsModal({show,hide,user}) {
     const { currentUser,logout } = useAuth();
@@ -65,6 +65,38 @@ function SettingsModal({show,hide,user}) {
         }
         hide();
     }
+
+    //update the username
+    const updateUserName = async(e) =>{
+        e.preventDefault();
+        const newName = window.prompt("Enter your new username:",user?.username);
+        //dont have to update if no changes are made
+        if(newName === user?.username) return
+        else{
+            await db.collection('users').doc(docId).update({
+                username: newName
+            }).then(()=>{
+                window.alert("username successfully updated")
+            })
+            .catch((e)=>window.alert(e.message))
+        }
+        hide();
+    }
+
+    //update the current users password
+    const updatePassword = async() =>{
+        const newPassword = window.prompt("Enter your new password");
+        if(newPassword){
+            currentUser.updatePassword(newPassword)
+            .then(()=>{
+                history.push('/login')
+                alert("password updated successfully please login to continue")
+            })
+            .catch((err)=>window.alert(err.message))
+        }
+        hide();
+    }
+
     if (!show) return null;
 
     return ReactDOM.createPortal(
@@ -79,7 +111,7 @@ function SettingsModal({show,hide,user}) {
                 <p>Username:</p>
                 <div className="settingsmodal__input">
                     <p>{user?.username}</p>
-                    <img src={edit}/>
+                    <img src={edit} onClick={updateUserName}/>
                 </div>
                 <p>Email:</p>
                 <div className="settingsmodal__inputone">
@@ -88,7 +120,7 @@ function SettingsModal({show,hide,user}) {
                 <p>Password:</p>
                 <div className="settingsmodal__input">
                     <p>*********</p>
-                    <img src={edit}/>
+                    <img src={edit} onClick={updatePassword}/>
                 </div>
                 <div className="settingmodal__buttons">
                     <button className="logout" onClick={handleLogout}>Log Out</button>
