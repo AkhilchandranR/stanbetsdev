@@ -72,13 +72,19 @@ function ChatWindow({logUser}) {
             </div>
            {currentUser ? (
                <div className="chatwindow__messaging">
-               <form className="chatwindow__inpuField">
+            {logUser?.isMuted ? (
+                <div className="chatwindow__muted">
+                    <h3>You are muted!!</h3>
+                </div>
+            ):(
+                <form className="chatwindow__inpuField">
                    <input type="text" placeholder="Type message here..."
                    value={input} onChange={(e)=>{setInput(e.target.value)}}/>
                        <button type="submit" onClick={sendMessage}>
                             <ChatBubbleRoundedIcon/>
                        </button>
-               </form>
+                </form>
+            )}
            </div>
            ):(
             <div className="chatwindow__login">

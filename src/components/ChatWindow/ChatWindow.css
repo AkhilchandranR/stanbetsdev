@@ -103,6 +103,9 @@
 .chatwindow__close > .MuiSvgIcon-root{
     cursor: pointer;
 }
+.chatwindow__muted{
+    color: white;
+}
 @media screen and (max-width:950px) {
     .chatwindow__inpuField{
         width: fit-content;

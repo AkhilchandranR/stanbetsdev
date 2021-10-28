@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import './SettingsModal.css';
 import edit from '../../images/edit.png';
 import CloseIcon from '@mui/icons-material/Close';
@@ -6,10 +6,34 @@ import ReactDOM from 'react-dom';
 import { useAuth } from "../../AuthContext";
 import { useHistory } from "react-router-dom";
 import firebase from 'firebase';
+import { db } from '../../firebase';
 
 function SettingsModal({show,hide,user}) {
     const { currentUser,logout } = useAuth();
+    const [docId,setDocId] = useState('');
     const history = useHistory();
+
+    useEffect(() => {
+        //finds the doc id of the current user for deletion of firestore data
+        const getDocId = async()=>{
+            if(currentUser){
+                const userRef = db.collection('users');
+                const snapshot = await userRef.get();
+                if (snapshot.empty) {
+                return;
+                }  
+                
+                snapshot.forEach(doc => {
+                if (doc.data().userId == currentUser.uid){
+                    setDocId(doc.id)
+                }
+                })
+            }
+        }
+        getDocId();
+    },[currentUser])
+
+    //logs out a user and routes to login page
     const handleLogout = async(e) =>{
         e.preventDefault();
         try{
@@ -21,20 +45,25 @@ function SettingsModal({show,hide,user}) {
             window.alert("failed to logout")
         }
     }
-    const handleSelfDelete = () =>{
-        try{
-            firebase.auth.deleteUser(currentUser.uid)
+
+    //self deletion of users account and data
+    const handleSelfDelete = async(e) =>{
+        e.preventDefault();
+        const confirm = window.confirm("This action cannot be undone.")
+        if(confirm){
+            await db.collection('users').doc(docId).delete()
             .then(()=>{
-                history.push('/signup')
-                window.alert("account has been deleted")
+                firebase.auth().currentUser.delete()
+                .then((res)=>res)
+                .catch((err)=>window.alert(err))
+                history.push('/login')
+                window.alert("account is deleted")
             })
-            .catch((error)=>{
-                console.log(error)
+            .catch((err)=>{
+                window.alert(err)
             })
         }
-        catch{
-            window.alert("Failed to delete the account")
-        }
+        hide();
     }
     if (!show) return null;
 

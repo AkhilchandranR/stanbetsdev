@@ -23,8 +23,8 @@ function UserStatsModal({show,hide,isAnAdmin}) {
         )))
 
         if(currentUser){
-            const citiesRef = db.collection('users');
-            const snapshot = await citiesRef.get();
+            const userRef = db.collection('users');
+            const snapshot = await userRef.get();
             if (snapshot.empty) {
             return;
             }  
@@ -41,11 +41,23 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     const muteUser = async(e) =>{
         await db.collection('users').doc(docId).update({
             isMuted: true
-        }).then((response)=>console.log(response))
-        .catch((e)=>console.log(e.message))
+        }).then((response)=>response)
+        .catch((e)=>window.alert(e.message))
+    }
+
+    //unmute a user can be done in same function in mute but stays like this for now
+    const unMuteUser = async(e) =>{
+        await db.collection('users').doc(docId).update({
+            isMuted: false
+        }).then((response)=>response)
+        .catch((e)=>window.alert(e.message))
     }
 
     //delete a user details
+    const deleteUser = async(e) =>{
+        e.preventDefault();
+        // await db.collection('users').doc(docId).delete()
+    }
     
 
     useEffect(() => {
@@ -57,13 +69,16 @@ function UserStatsModal({show,hide,isAnAdmin}) {
             setCurrentChatId(chatsCollection?.filter((chat)=>(
                 chat.id == chatUser
             )))
-            setCurrentUserId(currentChatId[0]?.userId)
-            await setUser(currentUserId)
+            if(currentChatId){
+                setCurrentUserId(currentChatId[0]?.userId)
+                await setUser(currentUserId)
+            }
        }
        getChatUser()
     },[currentChatId])
 
     if(!show) return null;
+
 
     else{
         if(isAnAdmin){
@@ -106,7 +121,12 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">
+                        {currentUser[0]?.isMuted ? (
+                        <button className="usermute" onClick={unMuteUser}>Unmute</button>
+                        ):(
                         <button className="usermute" onClick={muteUser}>Mute</button>
+                        )
+                        }
                         <button className="userdelete">Delete</button>
                     </div>
                 </div>
