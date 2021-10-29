@@ -28,7 +28,7 @@ function SignUp() {
         }
         hideChatButton();
         //decides the length of captcha
-        loadCaptchaEnginge(4);   
+        loadCaptchaEnginge(7);   
     })
     //function to create a user in database
     const handleSubmit = async(e) =>{
@@ -52,15 +52,25 @@ function SignUp() {
             await signup(emailRef.current.value,passwordRef.current.value)
             .then(
                 (response)=>{
+                    const today = new Date();
+                    const creationDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
                     db.collection('users').add({
                         username: nameRef.current.value,
                         userId: response.user.uid,
                         isAdmin: false,
-                        // accountCreated: response.user.metadata.creationtime,
+                        isMuted: false,
+                        isOnline:false,
+                        accountCreated: creationDate,
+                        lastOnline: creationDate,
                         emailId:response.user.email
                         // country: DeviceInfo.getDeviceCountry(),
                     })
-                    history.push("/login")
+                    response.user.sendEmailVerification()
+                    .then(()=>{
+                        window.alert("Email verification sent. Please verify to continue")
+                        history.push("/login")
+                    })
+                    .catch((err)=>alert(err.message))
                 }
             )
             .catch((error)=>{window.alert(error.message)})

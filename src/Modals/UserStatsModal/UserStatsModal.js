@@ -117,7 +117,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Account Created:</p>
                         <div className="userstatsmodal__data">
-                            <p>16/04/21</p>
+                            <p>{currentUser[0].accountCreated}</p>
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">

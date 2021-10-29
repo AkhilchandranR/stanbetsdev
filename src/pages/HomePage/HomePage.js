@@ -18,6 +18,7 @@ import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
+import { DataSaverOffSharp, DataSaverOnRounded } from '@mui/icons-material';
 
 
 function HomePage() {
@@ -39,7 +40,7 @@ function HomePage() {
         const showChatWindowIcon = () =>{
             dispatch(showChat());
         }
-        showChatWindowIcon();   
+        showChatWindowIcon(); 
     })
     useEffect(() => {
         const getUserData = async() =>{
@@ -51,7 +52,7 @@ function HomePage() {
                 setLoggedInUser(userCollection.filter((user)=>(
                     user.userId == currentUser.uid
                 )))
-            }
+                }
         }
         getUserData()
     })

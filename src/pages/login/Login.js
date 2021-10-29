@@ -6,13 +6,14 @@ import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
+import { db } from '../../firebase';
 import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
-    const { login } = useAuth();
+    const { currentUser,login } = useAuth();
     const history = useHistory();
     const[loading,setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
@@ -33,9 +34,27 @@ function Login() {
             setWrongCaptcha(true);
             return
         }
+        if(!currentUser.emailVerified){
+            window.alert("Please verify your email")
+            return
+        }
         try{
             setLoading(true)
             await login(emailRef.current.value,passwordRef.current.value)
+            const userRef = db.collection('users');
+            const snapshot = await userRef.get();
+            if (snapshot.empty) {
+                return;
+            }  
+                
+            snapshot.forEach(doc => {
+            if (doc.data().userId == currentUser.uid){
+                db.collection('users').doc(doc.id).update({
+                    isOnline: true,
+                    lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
+            })
+            }
+            })
             history.push("/")
         }
         catch{

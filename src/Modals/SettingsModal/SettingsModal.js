@@ -35,15 +35,15 @@ function SettingsModal({show,hide,user}) {
 
     //logs out a user and routes to login page
     const handleLogout = async(e) =>{
-        e.preventDefault();
-        try{
-            hide();
-            await logout();
-            history.push('/login');
-        }
-        catch{
-            window.alert("failed to logout")
-        }
+        e.preventDefault();  
+        hide();
+        await db.collection('users').doc(docId).update({
+            lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
+            isOnline: false,
+        }).then(()=>{
+            logout();
+            history.push('/login')
+        }).catch((err)=>console.log(err))
     }
 
     //self deletion of users account and data
