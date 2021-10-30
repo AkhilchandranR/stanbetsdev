@@ -16,11 +16,16 @@ function AdminGame({ show,hide }) {
     const[openCreateModal,setOpenCreateModal] = useState(false);
     useEffect(() => {
         const currentGames = async()=>{
-            const games = await db.collection('games').get()
-            const gameCollection = games?.docs?.map((doc)=>(
-                doc?.data()
-            )).slice(0,5);
-            setCurrentGames(gameCollection)
+            try{
+                const games = await db.collection('games').get()
+                const gameCollection = games?.docs?.map((doc)=>(
+                    doc?.data()
+                )).slice(0,5);
+                setCurrentGames(gameCollection)
+            }
+            catch{
+                alert("failed to load games please try again")
+            }
         }
         currentGames()
     })

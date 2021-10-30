@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './GameDetails.css';
-import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
 import { useDispatch,useSelector } from 'react-redux';
-import { openBet } from '../../States/slices/userSlice';
+import { openBet,setBetGameId } from '../../States/slices/userSlice';
 
 function GameDetails({ id,name,date,time,team1,team2,link }) {
-    
-    const[showBetModal,setShowBetModal] = useState(false);
+    const dispatch = useDispatch();
+    const handleClick = (e) =>{
+        e.preventDefault();
+        //dispatch set games bet
+        dispatch(setBetGameId({
+            betGameId: id
+        }))
+        dispatch(openBet());
+    }
     return (
-        <div className="gamedetails" onClick={()=>{setShowBetModal(true)}}>
+        <div className="gamedetails" onClick={handleClick}>
             <div className="gamedetails__heading">
                 <h5>{name}</h5>
                 <p>{date}</p>
@@ -25,11 +31,6 @@ function GameDetails({ id,name,date,time,team1,team2,link }) {
                     </div>
                 </div>
             </div>
-            <CreateBetModal 
-            show={showBetModal} 
-            hide={()=>setShowBetModal(false)}
-            team1={team1} team2={team2} id={id} link={link}
-            />
         </div>
     )
 }

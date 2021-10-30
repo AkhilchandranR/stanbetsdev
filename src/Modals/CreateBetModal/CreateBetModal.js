@@ -1,25 +1,99 @@
 import Close from '@mui/icons-material/Close';
-import React,{ useState,useEffect } from 'react';
+import React,{ useState,useEffect,useRef } from 'react';
 import './CreateBetModal.css';
 import { db } from '../../firebase';
+import { useSelector } from 'react-redux';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useAuth } from "../../AuthContext";
 import ReactDom from 'react-dom';
+import { v4 as uuidv4} from 'uuid';
 
-function CreateBetModal({ show,hide,id,team1,team2,link }) {
-    const [betAmount,setBetAmount] = useState(0.0);
+function CreateBetModal({ show,hide }) {
+    const { currentUser } = useAuth();
+    const [betAmount,setBetAmount] = useState(0);
+    const gameToBetId = useSelector((state)=>state.user.betGameId);
+    const [gameToBet,setGameToBet] = useState();
+    const moneyForTeam1 = useRef(0.0);
+    const moneyForTeam2 = useRef(0.0);
 
+    //pulls out the required game
+    useEffect(() => {
+        const subscription = {unsubscribe: () => undefined}
+        const getGame = async() =>{
+            try{
+                const games = await db.collection('games').get()
+                const gamesCollection = await games?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                setGameToBet(gamesCollection?.filter((game)=>(
+                    game.id == gameToBetId
+                )))
+            }
+            catch{
+                console.log("please wait")
+            }
+        }
+        getGame()
+        return () => {
+            subscription.unsubscribe()
+        }
+    },[gameToBetId])
+
+
+   //updates the win= section
+    useEffect(() => {
+        const subscription = {unsubscribe: () => undefined}
+        const update = async() =>{
+            try{
+                const team = await gameToBet[0];
+                if(team){
+                    moneyForTeam1.current = team.team1?.odds * betAmount;
+                    moneyForTeam2.current = team.team2?.odds * betAmount;
+                }
+            }
+            catch{
+                console.log("error");
+            }
+        }
+        update();
+        return () => {
+            subscription.unsubscribe()
+        }
+    }, [betAmount])
+
+    //place a bet
+    const placeBet = async(team) =>{
+        try{
+            await db.collection('bets').add({
+                id:uuidv4(),
+                user: currentUser.uid,
+                game: gameToBet[0]?.id,
+                gamename: gameToBet[0]?.gameName,
+                gameTime: gameToBet[0]?.time,
+                gameDate: gameToBet[0]?.date,
+                team: team?.name,
+                odd: team?.odds,
+                winAmount: betAmount
+            })
+        }
+        catch{
+            window.alert("failed to create bet. Please try again")
+        }
+    }
+
+    
     if (!show) return null;
     return ReactDom.createPortal(
         <>
         <div className="overlay"/>
         <div className="createbet">
             <div className="createbet__header">
-                <h2>Bet on {team1?.name} vs {team2?.name}</h2>
+                <h2>Bet on {gameToBet[0]?.team1?.name} vs {gameToBet[0]?.team2?.name}</h2>
                 <Close onClick={hide}/>
             </div>
             <p>Bet Amount:</p>
             <div className="createbet__amount">
-                <input type="text" value={betAmount} onChange={(e)=>{setBetAmount(e.target.value)}}/>
+                <input type="number" value={betAmount} onChange={(e)=>setBetAmount(e.target.value)}/>
             </div>
             <ProgressBar completed={73}
              isLabelVisible={false}
@@ -27,19 +101,21 @@ function CreateBetModal({ show,hide,id,team1,team2,link }) {
              baseBgColor="#f27272"
              borderRadius="0px"/>
             <div className="createbet__buttons">
-                <button className="blue">
-                    <p>{team1?.name} @ {team1?.odds}</p>
-                    <p>Win = $2.50</p>
+                <button className="blue" onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
+                    <p>{gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}</p>
+                    <p>Win = ${moneyForTeam1.current}</p>
                 </button>
-                <button className="red">
-                    <p>{team2?.name} @ {team2?.odds}</p>
-                    <p>Win = $6.66</p>
+                <button className="red" onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
+                    <p>{gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}</p>
+                    <p>Win = ${moneyForTeam2.current}</p>
                 </button>
             </div>
-           {link && <div className="createbet__matchlink">
+           {gameToBet[0]?.link &&
+            <div className="createbet__matchlink">
                 <p>Watch the game live on Twitch(19:00 UTC 18/10/21)
                 </p>
-            </div>}
+            </div>
+            }
         </div>
         </>,
         document.getElementById('portal')

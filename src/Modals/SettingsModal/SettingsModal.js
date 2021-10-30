@@ -16,18 +16,23 @@ function SettingsModal({show,hide,user}) {
     useEffect(() => {
         //finds the doc id of the current user for deletion of firestore data
         const getDocId = async()=>{
-            if(currentUser){
-                const userRef = db.collection('users');
-                const snapshot = await userRef.get();
-                if (snapshot.empty) {
-                return;
-                }  
-                
-                snapshot.forEach(doc => {
-                if (doc.data().userId == currentUser.uid){
-                    setDocId(doc.id)
+            try{
+                if(currentUser){
+                    const userRef = db.collection('users');
+                    const snapshot = await userRef.get();
+                    if (snapshot.empty) {
+                    return;
+                    }  
+                    
+                    snapshot.forEach(doc => {
+                    if (doc.data().userId == currentUser.uid){
+                        setDocId(doc.id)
+                    }
+                    })
                 }
-                })
+            }
+            catch{
+
             }
         }
         getDocId();

@@ -1,10 +1,32 @@
-import React from 'react';
+import React,{ useEffect,useState } from 'react';
 import './MyBetsModal.css';
 import Close from '@mui/icons-material/Close';
 import MyBetComponent from './MyBetComponent';
 import ReactDOM from 'react-dom';
+import { db } from '../../firebase';
+import { useAuth } from "../../AuthContext";
 
 function MyBetsModal({show,hide}) {
+    const { currentUser } = useAuth();
+    const [userBets,setUserBets] = useState();
+
+    useEffect(() => {
+       const getMyBets = async() =>{
+           try{
+            const betData = await db.collection('bets').get()
+            const betCollection = betData?.docs?.map((doc)=>(
+                 doc?.data()
+            ))
+            setUserBets(betCollection.filter((bet)=>(
+                 bet.user === currentUser.uid
+            )))
+           }
+           catch{
+                console.log("error")
+           }
+       }
+       getMyBets();
+    },[userBets])
 
     if(!show) return null
 
@@ -17,9 +39,15 @@ function MyBetsModal({show,hide}) {
                 <Close onClick={hide}/>
             </div>
             <div className="mybets__body">
-                <MyBetComponent/>
-                <MyBetComponent/>
-                <MyBetComponent/>
+                {userBets.map((bets)=>(
+                    <MyBetComponent key={bets.id}
+                    name={bets.gamename}
+                    team={bets.team}
+                    odd={bets.odd}
+                    time={bets.gameTime}
+                    date={bets.gameDate}
+                    />
+                ))}
             </div>
         </div>
         </>,

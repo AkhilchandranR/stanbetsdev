@@ -10,15 +10,15 @@ import { hideUserSettings } from '../../States/slices/chatSlice';
 import { showChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import chatbubble from '../../images/chaticon.png';
+import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
 import { openWindow } from '../../States/slices/chatSlice';
-import { closeStats } from '../../States/slices/userSlice';
+import { closeStats,closeBet } from '../../States/slices/userSlice';
 import SettingsModal from '../../Modals/SettingsModal/SettingsModal';
 import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
 import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
-import { DataSaverOffSharp, DataSaverOnRounded } from '@mui/icons-material';
 
 
 function HomePage() {
@@ -32,7 +32,8 @@ function HomePage() {
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
-    const showStatsModal = useSelector((state)=>state.user.openStatsModal); 
+    const showStatsModal = useSelector((state)=>state.user.openStatsModal);
+    const showBetModal = useSelector((state)=>state.user.openBetModal);  
     const openChat = () =>{
         dispatch(openWindow());  
     }
@@ -123,6 +124,7 @@ function HomePage() {
             <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())} isAnAdmin={loggedInUser[0]?.isAdmin}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
+            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())}/>
             {/* <Footer/> */}
         </div>
     )

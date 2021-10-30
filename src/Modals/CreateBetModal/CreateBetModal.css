@@ -35,7 +35,6 @@
     background-color: #151923;
     display: flex;
     margin-bottom: 10px;
-    width: 300px;
     border-radius: 3px;
 }
 .createbet__amount > input{
@@ -64,6 +63,7 @@
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
+    margin-right: 10px;
 }
 .red{
     background-color: #f27272;
@@ -73,6 +73,14 @@
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    -moz-appearance: textfield;
 }
 @media screen and (max-width: 414px) {
     .createbet__amount{

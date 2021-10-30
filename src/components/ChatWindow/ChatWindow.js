@@ -20,6 +20,7 @@ function ChatWindow({logUser}) {
 
     useEffect(() => {
        const getMessages = async() =>{
+           try{
             const messagesObject = await db.collection('chats').get()
             const messagesArray = messagesObject?.docs?.map((doc)=>(
                 doc?.data()
@@ -28,6 +29,10 @@ function ChatWindow({logUser}) {
                 b.timestamp - a.timestamp
             ))
             setMessages(arrangedMessages);
+           }
+           catch{
+               window.alert("failed to load messages");
+           }
        }
        getMessages();
     }, [messages])
@@ -35,17 +40,17 @@ function ChatWindow({logUser}) {
         //closes the chat window and adjust the body
         dispatch(closeWindow());
     }
-   const sendMessage = (e) =>{
+   const sendMessage = async(e) =>{
         e.preventDefault();
         if(input){
-            db.collection('chats').add({
+            await db.collection('chats').add({
                 id: uuidv4(),
                 userId:logUser.userId,
                 userName: logUser.username,
                 isAdmin: logUser.isAdmin,
                 message: input,
                 timestamp : firebase.firestore.FieldValue.serverTimestamp(),
-            })
+            }).catch((err)=>alert(err.message))
         }
         setInput('');
    }
