@@ -34,12 +34,12 @@ function Login() {
             setWrongCaptcha(true);
             return
         }
-        if(!currentUser.emailVerified){
-            window.alert("Please verify your email")
-            return
-        }
         try{
             setLoading(true)
+            if(!currentUser.emailVerified){
+                window.alert("Please verify your email")
+                return
+            }
             await login(emailRef.current.value,passwordRef.current.value)
             const userRef = db.collection('users');
             const snapshot = await userRef.get();

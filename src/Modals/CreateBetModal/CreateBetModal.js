@@ -7,6 +7,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useAuth } from "../../AuthContext";
 import ReactDom from 'react-dom';
 import { v4 as uuidv4} from 'uuid';
+import LockIcon from '@mui/icons-material/Lock';
 
 function CreateBetModal({ show,hide }) {
     const { currentUser } = useAuth();
@@ -75,6 +76,7 @@ function CreateBetModal({ show,hide }) {
                 odd: team?.odds,
                 winAmount: betAmount
             })
+            window.alert("your bet is placed")
         }
         catch{
             window.alert("failed to create bet. Please try again")
@@ -101,12 +103,18 @@ function CreateBetModal({ show,hide }) {
              baseBgColor="#f27272"
              borderRadius="0px"/>
             <div className="createbet__buttons">
-                <button className="blue" onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
-                    <p>{gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}</p>
+                <button className="blue" disabled={gameToBet[0]?.team1?.locked} onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
+                    <p>
+                        {gameToBet[0]?.team1?.locked && <LockIcon/>}
+                        {gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}
+                    </p>
                     <p>Win = ${moneyForTeam1.current}</p>
                 </button>
-                <button className="red" onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
-                    <p>{gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}</p>
+                <button className="red" disabled={gameToBet[0]?.team2?.locked} onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
+                    <p>
+                        {gameToBet[0]?.team2?.locked && <LockIcon/>}
+                        {gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}
+                    </p>
                     <p>Win = ${moneyForTeam2.current}</p>
                 </button>
             </div>

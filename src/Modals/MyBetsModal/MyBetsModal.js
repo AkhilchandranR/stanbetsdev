@@ -26,7 +26,7 @@ function MyBetsModal({show,hide}) {
            }
        }
        getMyBets();
-    },[userBets])
+    })
 
     if(!show) return null
 
@@ -39,13 +39,14 @@ function MyBetsModal({show,hide}) {
                 <Close onClick={hide}/>
             </div>
             <div className="mybets__body">
-                {userBets.map((bets)=>(
-                    <MyBetComponent key={bets.id}
-                    name={bets.gamename}
-                    team={bets.team}
-                    odd={bets.odd}
-                    time={bets.gameTime}
-                    date={bets.gameDate}
+                {userBets?.map((bets)=>(
+                    <MyBetComponent key={bets?.id}
+                    name={bets?.gamename}
+                    team={bets?.team}
+                    odd={bets?.odd}
+                    time={bets?.gameTime}
+                    date={bets?.gameDate}
+                    amount={bets?.winAmount}
                     />
                 ))}
             </div>

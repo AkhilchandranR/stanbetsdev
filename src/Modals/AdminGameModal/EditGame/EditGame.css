@@ -55,7 +55,7 @@
     border: none;
     flex: 1;
 }
-.editgame__inputs > input:focus{
+.editgame__inputshalf > input:focus{
     outline: none;
 }
 .editgame > button{
