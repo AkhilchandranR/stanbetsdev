@@ -54,6 +54,7 @@ function AdminGame({ show,hide }) {
                     date={game?.date}
                     time={game?.time}
                     link={game?.link}
+                    payout={game?.payOut}
                     />
                     // open={()=>{setOpenEdit(true)}
                 ))}

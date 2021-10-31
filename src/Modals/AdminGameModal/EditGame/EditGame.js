@@ -3,17 +3,21 @@ import './EditGame.css';
 import Close from '@mui/icons-material/Close';
 import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
+import { TrendingUp } from '@mui/icons-material';
 
-function EditGame({open,hide,name,date,time,link,team1,team2,id}) {
+function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameName,setGameName] = useState(name);
     const[gameDate,setDate] = useState(date);
     const[gameTime,setTime] = useState(time);
     const[gameLink,setLink] = useState(link);
+    const[payedOut,setPayedOut] = useState(isPayOut);
     const[gameTeam1Name,setGameTeam1Name] = useState(team1.name);
     const[gameTeam1odd,setGameTeam1odd] = useState(team1.odds);
     const[gameTeam2Name,setGameTeam2Name] = useState(team2.name);
     const[gameTeam2odd,setGameTeam2odd] = useState(team2.odds);
     const[docId,setDocId] = useState('');
+    const[betDocId,setBetDocId] = useState([]);
+    const[userDocId,setUserDocId] = useState([]);
 
     //effect to find the current doc id of the game for the purpose of updation
     useEffect(() => {
@@ -38,6 +42,28 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id}) {
         getDocId();
     })
 
+    useEffect(() => {
+        const getBetDocId = async() =>{
+            try{
+                const betRef = await db.collection('bets');
+                const eachsnapshot = await betRef.get();
+                if (eachsnapshot.empty) {
+                    return;
+                }  
+                    
+                eachsnapshot.forEach(doc => {
+                if (doc.data().game == id){
+                      setBetDocId(oldArray=>[...oldArray,doc.id])
+                }
+                })
+            }
+            catch{
+
+            }
+        }
+        getBetDocId();
+    },[])
+
     //edit the listed game if changes
     const editCurrentGame = async(e) =>{
         e.preventDefault();
@@ -48,6 +74,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id}) {
                 date:gameDate,
                 time:gameTime,
                 link:gameLink,
+                payOut:false,
                 team1:{name:gameTeam1Name,odds:gameTeam1odd,locked:team1.locked},
                 team2:{name:gameTeam2Name,odds:gameTeam2odd,locked:team2.locked},
             })
@@ -76,6 +103,39 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id}) {
         catch{
             window.alert("Process failed.Please try again.")
         }
+    }
+
+    //payout for won bets
+    const payOut = async(team) =>{
+        console.log("clicked")
+        console.log(">>",payedOut)
+        try{
+            console.log("try")
+            await db.collection('games').doc(docId).update({
+                payOut: true
+            }).catch((err)=>console.log(err))
+            setPayedOut(true)
+            betDocId.forEach((id)=>{
+                const bets = db.collection('bets').doc(id)
+                bets.get().then((doc)=>{
+                    if(doc.exists){
+                        if(doc.data().team == team){
+                             db.collection('bets').doc(id).update({
+                                isWon: true,
+                                wonDate: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
+                            })
+
+                        }
+                    }
+                
+                }).catch((err)=>console.log(err))
+            })
+            //update the balance of the user also
+        }
+        catch{
+            window.alert("failed to payout.Please try again")
+        }
+        hide();
     }
 
     if(!open) return null
@@ -143,8 +203,12 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id}) {
                 </button>
             </div>
             <div className="editgame__payout">
-                <button>Payout Team1 @ {gameTeam1odd}</button>
-                <button>Payout Team2 @ {gameTeam2odd}</button>
+                <button onClick={()=>{payOut(gameTeam1Name)}} disabled={payedOut}>
+                    Payout {gameTeam1Name} @ {gameTeam1odd}
+                </button>
+                <button onClick={()=>{payOut(gameTeam2Name)}} disabled={payedOut}>
+                    Payout {gameTeam2Name} @ {gameTeam2odd}
+                </button>
             </div>
         </div>
         </>,

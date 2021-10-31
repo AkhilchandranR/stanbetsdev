@@ -5,7 +5,7 @@ import EditGame from '../AdminGameModal/EditGame/EditGame';
 import { useDispatch } from 'react-redux';
 import { setEditGameId } from '../../States/slices/userSlice';
 
-function GameComponent({team1,team2,id,name,date,time,link}) {
+function GameComponent({team1,team2,id,name,date,time,link,payout}) {
 
     const [openEdit,setOpenEdit] = useState(false);
 
@@ -28,7 +28,7 @@ function GameComponent({team1,team2,id,name,date,time,link}) {
             </div>
             <EditGame open={openEdit} hide={()=>{setOpenEdit(false)}}
             name={name} date={date} time={time} link={link} 
-            team1={team1} team2={team2} id={id}/>
+            team1={team1} team2={team2} id={id} isPayOut={payout}/>
         </div>
         
     )
