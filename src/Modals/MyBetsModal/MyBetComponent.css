@@ -10,9 +10,18 @@
 .mybetcomponent__details > p{
     font-size: 1.1rem;
 }
+.mybetcomponent__amount{
+    color: yellow;
+}
 .mybetcomponent__amount > h3{
     font-size: 1.4rem;
     font-weight: 500;
+}
+.mybetcomponent__amountWon{
+    color: green !important;
+}
+.mybetcomponent__amountLoss{
+    color: red !important;
 }
 @media screen and (max-width:440px) {
     .mybetcomponent{

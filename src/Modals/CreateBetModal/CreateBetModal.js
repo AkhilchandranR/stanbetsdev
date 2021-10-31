@@ -74,7 +74,9 @@ function CreateBetModal({ show,hide }) {
                 gameDate: gameToBet[0]?.date,
                 team: team?.name,
                 odd: team?.odds,
-                winAmount: betAmount
+                winAmount: betAmount,
+                isWon: false,
+                isOver: false
             })
             window.alert("your bet is placed")
         }
@@ -104,18 +106,31 @@ function CreateBetModal({ show,hide }) {
              borderRadius="0px"/>
             <div className="createbet__buttons">
                 <button className="blue" disabled={gameToBet[0]?.team1?.locked} onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
+                {gameToBet[0]?.team1?.locked &&
+                    <div>
+                        <LockIcon/>
+                    </div>
+                    }
+                    <div>
                     <p>
-                        {gameToBet[0]?.team1?.locked && <LockIcon/>}
                         {gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}
                     </p>
                     <p>Win = ${moneyForTeam1.current}</p>
+                    </div>
                 </button>
                 <button className="red" disabled={gameToBet[0]?.team2?.locked} onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
+                    {gameToBet[0]?.team2?.locked &&
+                    <div>
+                        <LockIcon/>
+                    </div>
+                    }
+                    <div>
                     <p>
-                        {gameToBet[0]?.team2?.locked && <LockIcon/>}
+                        
                         {gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}
                     </p>
                     <p>Win = ${moneyForTeam2.current}</p>
+                    </div>
                 </button>
             </div>
            {gameToBet[0]?.link &&

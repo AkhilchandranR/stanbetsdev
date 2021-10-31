@@ -7,17 +7,19 @@ import { showUserSettings } from '../../States/slices/chatSlice';
 import { Link } from 'react-router-dom'; 
 import { useAuth } from "../../AuthContext";
 
-function Header({ user }) {
+function Header({ user,online,showOnline }) {
     const dispatch = useDispatch();
     const { currentUser } = useAuth();
     return (
         <div className="header">
             <div className="header__logo">
                 <h2>StanBets</h2>
-                <div className="header__users">
+               { showOnline &&
+               <div className="header__users">
                     <GroupsRoundedIcon/>
-                    <p>1234</p>
+                    <p>{online}</p>
                 </div>
+                }
             </div>
             {(currentUser&& user) ? (
                 <div className="header__user" onClick={()=>{dispatch(showUserSettings())}}>

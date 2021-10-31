@@ -18,6 +18,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[docId,setDocId] = useState('');
     const[betDocId,setBetDocId] = useState([]);
     const[userDocId,setUserDocId] = useState([]);
+    const[userIds,setUserIds] = useState([]);
 
     //effect to find the current doc id of the game for the purpose of updation
     useEffect(() => {
@@ -107,10 +108,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
 
     //payout for won bets
     const payOut = async(team) =>{
-        console.log("clicked")
-        console.log(">>",payedOut)
         try{
-            console.log("try")
             await db.collection('games').doc(docId).update({
                 payOut: true
             }).catch((err)=>console.log(err))
@@ -122,15 +120,16 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                         if(doc.data().team == team){
                              db.collection('bets').doc(id).update({
                                 isWon: true,
+                                isOver: true,
                                 wonDate: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
                             })
-
+                        // setUserIds(old=>[...old,doc.data().user])
                         }
                     }
                 
                 }).catch((err)=>console.log(err))
             })
-            //update the balance of the user also
+
         }
         catch{
             window.alert("failed to payout.Please try again")

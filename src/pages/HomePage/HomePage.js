@@ -27,6 +27,7 @@ function HomePage() {
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
     const [loggedInUser,setLoggedInUser] = useState([]);
+    const [onlineUsers,setOnlineUsers] = useState(1);
     const [listedGames,setListedGames] = useState([]);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
@@ -41,36 +42,64 @@ function HomePage() {
         const showChatWindowIcon = () =>{
             dispatch(showChat());
         }
-        showChatWindowIcon(); 
+        showChatWindowIcon();
+        const getOnlineUsers = async()=>{
+            try{
+                if(currentUser){
+                    const userData = await db.collection('users').get()
+                    const userCollection = userData?.docs?.map((doc)=>(
+                        doc?.data()
+                    ))
+                    setOnlineUsers(userCollection.filter((user)=>(
+                        user.isOnline == true
+                    )).length)
+                    }  
+            }
+            catch{
+    
+            }
+        }
+        getOnlineUsers();
     })
+
     useEffect(() => {
         const getUserData = async() =>{
-            if(currentUser){
-                const userData = await db.collection('users').get()
-                const userCollection = userData?.docs?.map((doc)=>(
-                    doc?.data()
-                ))
-                setLoggedInUser(userCollection.filter((user)=>(
-                    user.userId == currentUser.uid
-                )))
-                }
+            try{
+                if(currentUser){
+                    const userData = await db.collection('users').get()
+                    const userCollection = userData?.docs?.map((doc)=>(
+                        doc?.data()
+                    ))
+                    setLoggedInUser(userCollection.filter((user)=>(
+                        user.userId == currentUser.uid
+                    )))
+                    }   
+            }
+            catch{
+
+            }
         }
         getUserData()
     })
     useEffect(() => {
         const getGamesData = async()=>{
-            const games = await db.collection('games').get()
+            try{
+                const games = await db.collection('games').get()
             const gameCollection = games?.docs?.map((doc)=>(
                 doc?.data()
             ))
             
             setListedGames(gameCollection)
+            }
+            catch{
+
+            }
         }
         getGamesData()
     }, [listedGames])
     return (
         <div className="homepage">
-            <Header user={loggedInUser}/>
+            <Header user={loggedInUser} online={onlineUsers}/>
             <div className="homepage__body">
                 <div className="homepage__chat" onClick={openChat}>
                     {showChatIcon &&

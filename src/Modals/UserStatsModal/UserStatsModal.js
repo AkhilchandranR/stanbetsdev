@@ -14,26 +14,31 @@ function UserStatsModal({show,hide,isAnAdmin}) {
 
     //sets the current user and document id
     const setUser = async(userid) =>{
-        const userData = await db.collection('users').get()
-        const userCollection = userData?.docs?.map((doc)=>(
-             doc?.data()
-        ))
-        setCurrentUser(userCollection.filter((user)=>(
-             user.userId === userid
-        )))
+        try{
+            const userData = await db.collection('users').get()
+            const userCollection = userData?.docs?.map((doc)=>(
+                doc?.data()
+            ))
+            setCurrentUser(userCollection.filter((user)=>(
+                user.userId === userid
+            )))
 
-        if(currentUser){
-            const userRef = db.collection('users');
-            const snapshot = await userRef.get();
-            if (snapshot.empty) {
-            return;
-            }  
-            
-            snapshot.forEach(doc => {
-            if (doc.data().userId == currentUser[0]?.userId){
-                setDocId(doc.id)
+            if(currentUser){
+                const userRef = db.collection('users');
+                const snapshot = await userRef.get();
+                if (snapshot.empty) {
+                return;
+                }  
+                
+                snapshot.forEach(doc => {
+                if (doc.data().userId == currentUser[0]?.userId){
+                    setDocId(doc.id)
+                }
+                })
             }
-            })
+        }
+        catch{
+
         }
     }
     
@@ -62,6 +67,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
 
     useEffect(() => {
        const getChatUser = async() =>{
+           try{
             const chats = await db.collection('chats').get()
             const chatsCollection = chats?.docs?.map((doc)=>(
                 doc?.data()
@@ -73,6 +79,10 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 setCurrentUserId(currentChatId[0]?.userId)
                 await setUser(currentUserId)
             }
+           }
+           catch{
+
+           }           
        }
        getChatUser()
     },[currentChatId])
@@ -113,11 +123,11 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">
-                            <p>16/06/21</p>
+                            <p>{currentUser[0]?.lastOnline}</p>
                         </div>
                         <p>Account Created:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0].accountCreated}</p>
+                            <p>{currentUser[0]?.accountCreated}</p>
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">
@@ -154,11 +164,11 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">
-                            <p>16/06/21</p>
+                            <p>{currentUser[0]?.lastOnline}</p>
                         </div>
                         <p>Account Created:</p>
                         <div className="userstatsmodal__data">
-                            <p>16/04/21</p>
+                            <p>{currentUser[0]?.accountCreated}</p>
                         </div>
                     </div>
                 </div>

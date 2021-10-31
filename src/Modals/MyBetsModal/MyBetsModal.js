@@ -47,6 +47,8 @@ function MyBetsModal({show,hide}) {
                     time={bets?.gameTime}
                     date={bets?.gameDate}
                     amount={bets?.winAmount}
+                    bets={bets?.isWon}
+                    over={bets?.isOver}
                     />
                 ))}
             </div>
