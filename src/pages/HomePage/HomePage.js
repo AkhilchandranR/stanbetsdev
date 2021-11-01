@@ -23,6 +23,7 @@ import { db } from '../../firebase';
 
 function HomePage() {
     const { currentUser } = useAuth();
+    const[showOnline,setShowOnline] = useState(true);
     const [searchTerm,setSearchTerm] = useState('');
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
@@ -99,7 +100,7 @@ function HomePage() {
     }, [listedGames])
     return (
         <div className="homepage">
-            <Header user={loggedInUser} online={onlineUsers}/>
+            <Header user={loggedInUser} online={onlineUsers} showOnline/>
             <div className="homepage__body">
                 <div className="homepage__chat" onClick={openChat}>
                     {showChatIcon &&

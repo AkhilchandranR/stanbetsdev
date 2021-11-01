@@ -13,7 +13,8 @@ function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
-    const { currentUser,login } = useAuth();
+    const[currentUser,setCurrentUser] = useState(null);
+    const { login } = useAuth();
     const history = useHistory();
     const[loading,setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
@@ -36,19 +37,23 @@ function Login() {
         }
         try{
             setLoading(true)
-            if(!currentUser.emailVerified){
-                window.alert("Please verify your email")
-                return
-            }
             await login(emailRef.current.value,passwordRef.current.value)
-            const userRef = db.collection('users');
+            .then((res)=>{
+                if(!(res.user.emailVerified)){
+                    window.alert("Please verify your email")
+                    return
+                }
+                setCurrentUser(res.user.uid)
+            })
+            .catch((err)=>console.log(err))
+            const userRef = await db.collection('users');
             const snapshot = await userRef.get();
             if (snapshot.empty) {
                 return;
             }  
                 
-            snapshot.forEach(doc => {
-            if (doc.data().userId == currentUser.uid){
+            await snapshot.forEach(doc => {
+            if (doc.data().userId == currentUser){
                 db.collection('users').doc(doc.id).update({
                     isOnline: true,
                     lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
@@ -58,7 +63,7 @@ function Login() {
             history.push("/")
         }
         catch{
-            window.alert("Invalid username or password")
+            window.alert("Invalid email or password")
         }
         setLoading(false);
         setWrongCaptcha(false);
