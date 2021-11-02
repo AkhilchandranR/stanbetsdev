@@ -70,14 +70,16 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
         e.preventDefault();
         try{
             hide();
+            const fairoddOne = Math.round((1/gameTeam1odd*100)/((1/gameTeam1odd*100)+(1/gameTeam2odd*100))*100);
+            const fairoddTwo = Math.round((1/gameTeam2odd*100)/((1/gameTeam1odd*100)+(1/gameTeam2odd*100))*100);
             await db.collection('games').doc(docId).update({
                 gameName:gameName,
                 date:gameDate,
                 time:gameTime,
                 link:gameLink,
                 payOut:false,
-                team1:{name:gameTeam1Name,odds:gameTeam1odd,locked:team1.locked},
-                team2:{name:gameTeam2Name,odds:gameTeam2odd,locked:team2.locked},
+                team1:{name:gameTeam1Name,odds:gameTeam1odd,locked:team1.locked,fairOdds:fairoddOne},
+                team2:{name:gameTeam2Name,odds:gameTeam2odd,locked:team2.locked,fairOdds:fairoddTwo},
             })
             window.alert("Successfully Updated")
 

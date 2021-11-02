@@ -20,6 +20,8 @@ function CreateGame({open,hide}) {
         const confirm = window.confirm("List this game ?");
         if (confirm){
             try{
+                const fairoddOne = Math.round((1/teamOneOddsRef*100)/((1/teamOneOddsRef*100)+(1/teamTwoOddsRef*100))*100);
+                const fairoddTwo = Math.round((1/teamTwoOddsRef*100)/((1/teamOneOddsRef*100)+(1/teamTwoOddsRef*100))*100);
                 await db.collection('games').add({
                     id:uuidv4(),
                     gameName:gameRef.current.value,
@@ -28,11 +30,15 @@ function CreateGame({open,hide}) {
                     link: linkRef.current.value,
                     team1:{
                         name:teamOneRef.current.value,
-                        odds: teamOneOddsRef.current.value
+                        odds: teamOneOddsRef.current.value,
+                        locked: false,
+                        fairOdds: fairoddOne
                     },
                     team2:{
                         name:teamTwoRef.current.value,
-                        odds: teamTwoOddsRef.current.value
+                        odds: teamTwoOddsRef.current.value,
+                        locked: false,
+                        fairOdds: fairoddTwo
                     }
                 })
             }

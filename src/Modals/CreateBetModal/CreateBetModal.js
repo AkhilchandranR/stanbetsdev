@@ -30,7 +30,7 @@ function CreateBetModal({ show,hide }) {
                 ))
                 setGameToBet(gamesCollection?.filter((game)=>(
                     game.id == gameToBetId
-                )))
+                )))           
             }
             catch{
                 console.log("please wait")
@@ -41,6 +41,7 @@ function CreateBetModal({ show,hide }) {
             subscription.unsubscribe()
         }
     },[gameToBetId])
+
 
 
    //updates the win= section
@@ -106,6 +107,9 @@ function CreateBetModal({ show,hide }) {
              bgColor="#3d96e8"
              baseBgColor="#f27272"
              borderRadius="0px"/>
+             <div className="createbet__oddspercent">
+                 <p>73% | 27%</p>
+             </div>
             <div className="createbet__buttons">
                 <button className="blue" disabled={gameToBet[0]?.team1?.locked} onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
                 {gameToBet[0]?.team1?.locked &&
