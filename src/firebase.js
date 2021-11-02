@@ -14,15 +14,13 @@ import firebase from 'firebase';
 //   };
 
 //development version
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDECiAt8hDgw_Tp0mqcu8sY2GzZYoOihX4",
-  authDomain: "stanbets-dev-2bd85.firebaseapp.com",
-  projectId: "stanbets-dev-2bd85",
-  storageBucket: "stanbets-dev-2bd85.appspot.com",
-  messagingSenderId: "956962062245",
-  appId: "1:956962062245:web:2338dfebba35390ed0b24c",
-  measurementId: "G-C9DM5JYLKD"
+  apiKey: "AIzaSyAJuBgPE9Nlq-YSGg1S8p021eyexfDhY30",
+  authDomain: "stanbets-test.firebaseapp.com",
+  projectId: "stanbets-test",
+  storageBucket: "stanbets-test.appspot.com",
+  messagingSenderId: "873761308583",
+  appId: "1:873761308583:web:ea3c3eaa94bba89533c082"
 };
 
 const app = firebase.initializeApp(firebaseConfig);

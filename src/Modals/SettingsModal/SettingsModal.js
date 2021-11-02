@@ -42,13 +42,18 @@ function SettingsModal({show,hide,user}) {
     const handleLogout = async(e) =>{
         e.preventDefault();  
         hide();
-        await db.collection('users').doc(docId).update({
-            lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
-            isOnline: false,
-        }).then(()=>{
-            logout();
-            history.push('/login')
-        }).catch((err)=>console.log(err))
+        try{
+            await db.collection('users').doc(docId).update({
+                lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
+                isOnline: false,
+            }).then(()=>{
+                logout();
+                history.push('/login')
+            }).catch((err)=>console.log(err))
+        }
+        catch{
+            window.alert("failed to logout")
+        }
     }
 
     //self deletion of users account and data

@@ -7,7 +7,9 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useAuth } from "../../AuthContext";
 import ReactDom from 'react-dom';
 import { v4 as uuidv4} from 'uuid';
+import { Link } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 function CreateBetModal({ show,hide }) {
     const { currentUser } = useAuth();
@@ -135,7 +137,11 @@ function CreateBetModal({ show,hide }) {
             </div>
            {gameToBet[0]?.link &&
             <div className="createbet__matchlink">
-                <p>Watch the game live on Twitch(19:00 UTC 18/10/21)
+                <p>
+                Watch the game live on Twitch(19:00 UTC 18/10/21)
+                <Link to={gameToBet[0].link} target="_blank" rel="noreferrer noopener">
+                    <OpenInNewIcon/>
+                </Link>
                 </p>
             </div>
             }

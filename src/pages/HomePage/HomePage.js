@@ -35,15 +35,20 @@ function HomePage() {
     const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
     const showStatsModal = useSelector((state)=>state.user.openStatsModal);
-    const showBetModal = useSelector((state)=>state.user.openBetModal);  
+    const showBetModal = useSelector((state)=>state.user.openBetModal);
+    
+    //to open chatwindow,but has to be changed
+    //according to the design
     const openChat = () =>{
         dispatch(openWindow());  
     }
+
+    //to pull the no of users online and to show chat window icon
     useEffect(() => {
-        const showChatWindowIcon = () =>{
-            dispatch(showChat());
-        }
-        showChatWindowIcon();
+        //shows chat window icon with a redux operation
+        dispatch(showChat());
+
+        //to get the no. of online users..
         const getOnlineUsers = async()=>{
             try{
                 if(currentUser){
@@ -61,8 +66,10 @@ function HomePage() {
             }
         }
         getOnlineUsers();
-    })
+    },[])
 
+    //to pull the data of currentuser from the database
+    //when logging in
     useEffect(() => {
         const getUserData = async() =>{
             try{
@@ -81,16 +88,18 @@ function HomePage() {
             }
         }
         getUserData()
-    })
+    },[currentUser,loggedInUser])
+
+    //lists out the games in the database and sets it to the state listedGames...
     useEffect(() => {
         const getGamesData = async()=>{
             try{
                 const games = await db.collection('games').get()
-            const gameCollection = games?.docs?.map((doc)=>(
-                doc?.data()
-            ))
-            
-            setListedGames(gameCollection)
+                const gameCollection = games?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                
+                setListedGames(gameCollection)
             }
             catch{
 
@@ -98,6 +107,8 @@ function HomePage() {
         }
         getGamesData()
     }, [listedGames])
+
+
     return (
         <div className="homepage">
             <Header user={loggedInUser} online={onlineUsers} showOnline/>

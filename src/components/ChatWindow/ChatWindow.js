@@ -18,8 +18,12 @@ function ChatWindow({logUser}) {
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
 
+
+    //pulls the new messages from the database when db changes 
     useEffect(() => {
        const getMessages = async() =>{
+           //function pulls the messages and sorts it according to timestamp
+           //in the descending order to display and sets the state 
            try{
             const messagesObject = await db.collection('chats').get()
             const messagesArray = messagesObject?.docs?.map((doc)=>(
@@ -36,10 +40,16 @@ function ChatWindow({logUser}) {
        }
        getMessages();
     }, [messages])
+
+    //closes the chat window but has to be changed to dom manipulation methods 
+    //according to the design
     const closeChat = () =>{
         //closes the chat window and adjust the body
         dispatch(closeWindow());
     }
+
+   //adds message to the database
+   //timestamp is used for sorting and later deletion of expired message
    const sendMessage = async(e) =>{
         e.preventDefault();
         if(input){

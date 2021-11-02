@@ -13,12 +13,14 @@ function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
-    const[currentUser,setCurrentUser] = useState(null);
+    const[loggedInUser,setLoggedInUser] = useState(null);
     const { login } = useAuth();
     const history = useHistory();
     const[loading,setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
+    const [userDocId,setUserDocId] = useState(null);
     const dispatch = useDispatch();
+
     useEffect(() => {
         //hides chaticon for non logged in users
         const hideChatButton = () =>{
@@ -28,13 +30,17 @@ function Login() {
         //decides the length of captcha
         loadCaptchaEnginge(7);   
     })
+
     //function to handle login functionality
     const handleSubmit = async(e) =>{
         e.preventDefault();
+
+        //check the captcha,if wron then return else proceed to the login steps 
         if(validateCaptcha(captchaRef.current.value)==false){
             setWrongCaptcha(true);
             return
         }
+
         try{
             setLoading(true)
             await login(emailRef.current.value,passwordRef.current.value)
@@ -43,23 +49,27 @@ function Login() {
                     window.alert("Please verify your email")
                     return
                 }
-                setCurrentUser(res.user.uid)
+                setLoggedInUser(res.user.uid)
             })
             .catch((err)=>console.log(err))
-            const userRef = await db.collection('users');
-            const snapshot = await userRef.get();
-            if (snapshot.empty) {
-                return;
-            }  
-                
-            await snapshot.forEach(doc => {
-            if (doc.data().userId == currentUser){
-                db.collection('users').doc(doc.id).update({
-                    isOnline: true,
-                    lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
-            })
-            }
-            })
+
+            //to set the online status of the user, to find the document id 
+            // const userRef = await db.collection('users');
+            // const snapshot = await userRef.get();
+            // await snapshot.forEach(doc => {
+            // if (doc.data().userId == loggedInUser){
+            //     setUserDocId(doc.id)
+            // }
+            // }).catch((err)=>console.log(err))
+
+            // //update once we have the document id
+            // await db.collection('users').doc(userDocId).update({
+            //     isOnline: true,
+            //     lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
+            // })
+            // .catch((err)=>console.log("up>>",err))
+
+            //route to the home page with the current user
             history.push("/")
         }
         catch{
@@ -68,6 +78,8 @@ function Login() {
         setLoading(false);
         setWrongCaptcha(false);
     } 
+
+
     return (
         <div className="login">
             <Header/>

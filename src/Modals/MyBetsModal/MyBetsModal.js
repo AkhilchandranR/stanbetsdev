@@ -22,11 +22,11 @@ function MyBetsModal({show,hide}) {
             )))
            }
            catch{
-                console.log("error")
+
            }
        }
        getMyBets();
-    })
+    },[currentUser])
 
     if(!show) return null
 

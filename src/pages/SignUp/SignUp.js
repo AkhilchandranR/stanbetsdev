@@ -21,6 +21,7 @@ function SignUp() {
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
     const [nameTaken,setNameTaken] = useState(false);
     const dispatch = useDispatch();
+
     useEffect(() => {
         //hides the chat icon when the user is not logged in
         const hideChatButton = () =>{
@@ -30,9 +31,12 @@ function SignUp() {
         //decides the length of captcha
         loadCaptchaEnginge(7);   
     })
+
     //function to create a user in database
     const handleSubmit = async(e) =>{
         e.preventDefault();
+
+        //check if username is already taken
         const userData = await db.collection('users').get()
         const userCollection = userData?.docs?.map((doc)=>(
             doc?.data()
@@ -41,7 +45,9 @@ function SignUp() {
             nameRef.current.value == user.username))){
                     setNameTaken(true)
                     return
-            }
+        }
+
+        //check the correctness of captcha..
         if(validateCaptcha(captchaRef.current.value)==false){
             setWrongCaptcha(true);
             return
@@ -63,7 +69,7 @@ function SignUp() {
                         accountCreated: creationDate,
                         lastOnline: creationDate,
                         emailId:response.user.email
-                        // country: DeviceInfo.getDeviceCountry(),
+                        // country: set country from the navigator,
                     })
                     response.user.sendEmailVerification()
                     .then(()=>{
@@ -82,6 +88,8 @@ function SignUp() {
             setWrongCaptcha(false);
             setNameTaken(false);
         }
+
+
     return (
         <div className="signup">
             <Header/>

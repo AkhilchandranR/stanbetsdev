@@ -12,8 +12,8 @@ import EditGame from './EditGame/EditGame';
 function AdminGame({ show,hide }) {
     const[currentGames,setCurrentGames] = useState([]);
     const [openStats,setOpenStats] = useState(false);
-    // const [openEdit,setOpenEdit] = useState(false);
     const[openCreateModal,setOpenCreateModal] = useState(false);
+
     useEffect(() => {
         const currentGames = async()=>{
             try{
@@ -28,7 +28,7 @@ function AdminGame({ show,hide }) {
             }
         }
         currentGames()
-    })
+    },[currentGames])
     
     if(!show) return null;
 
@@ -61,7 +61,6 @@ function AdminGame({ show,hide }) {
             </div>
         </div>
         <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}}/>
-        {/* <EditGame open={openEdit} hide={()=>{setOpenEdit(false)}}/> */}
         <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
         </>,
         document.getElementById('portal')
