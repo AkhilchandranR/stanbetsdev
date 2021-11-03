@@ -71,6 +71,9 @@
 .login__inputField > input:focus{
     outline: none;
 }
+.login__forgotPassword{
+    text-align: right;
+}
 /* .captcha__image{
     position: relative;
     height: 40px;

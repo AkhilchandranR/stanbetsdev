@@ -20,8 +20,10 @@ function CreateGame({open,hide}) {
         const confirm = window.confirm("List this game ?");
         if (confirm){
             try{
-                const fairoddOne = Math.round((1/teamOneOddsRef*100)/((1/teamOneOddsRef*100)+(1/teamTwoOddsRef*100))*100);
-                const fairoddTwo = Math.round((1/teamTwoOddsRef*100)/((1/teamOneOddsRef*100)+(1/teamTwoOddsRef*100))*100);
+                const teamOneOdds = parseFloat(teamOneOddsRef.current.value);
+                const teamTwoOdds = parseFloat(teamTwoOddsRef.current.value);
+                const fairoddOne = Math.round((1/teamOneOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
+                const fairoddTwo = Math.round((1/teamTwoOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
                 await db.collection('games').add({
                     id:uuidv4(),
                     gameName:gameRef.current.value,

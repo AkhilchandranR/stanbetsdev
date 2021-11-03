@@ -102,14 +102,18 @@ function CreateBetModal({ show,hide }) {
             <div className="createbet__amount">
                 <input type="number" value={betAmount} onChange={(e)=>setBetAmount(e.target.value)}/>
             </div>
-            <ProgressBar completed={73}
-             isLabelVisible={false}
-             bgColor="#3d96e8"
-             baseBgColor="#f27272"
-             borderRadius="0px"/>
-             <div className="createbet__oddspercent">
-                 <p>73% | 27%</p>
-             </div>
+
+            <div className="createbet__progressBar">
+                <ProgressBar completed={gameToBet[0]?.team1?.fairOdds}
+                isLabelVisible={false}
+                bgColor="#3d96e8"
+                baseBgColor="#f27272"
+                borderRadius="0px"/>
+                <div className="createbet__oddspercent">
+                    <p>{gameToBet[0]?.team1?.fairOdds}% | {gameToBet[0]?.team2?.fairOdds}%</p>
+                </div>
+            </div>
+
             <div className="createbet__buttons">
                 <button className="blue" disabled={gameToBet[0]?.team1?.locked} onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
                 {gameToBet[0]?.team1?.locked &&

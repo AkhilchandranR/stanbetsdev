@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
-import { db } from '../../firebase';
+import { db,auth } from '../../firebase';
 import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 function Login() {
@@ -79,6 +79,22 @@ function Login() {
         setWrongCaptcha(false);
     } 
 
+    //password reset email
+    const resetPassword = async() =>{
+        try{
+            await auth.sendPasswordResetEmail(emailRef.current.value)
+            .then(() => {
+                window.alert("Please check your mail for furthur instructions");
+            })
+            .catch((error) => {
+                window.alert(error.message);
+            });
+        }
+        catch{
+            window.alert("Unable to sent email.Please try again")
+        }
+    }
+
 
     return (
         <div className="login">
@@ -97,6 +113,9 @@ function Login() {
                         <div className="login__inputField">
                             <input type="password" ref={passwordRef} required/>
                         </div>
+                        <p className="login__forgotPassword" onClick={resetPassword}>
+                            Forgot Password ?
+                        </p>
                     </div>
                     <div className="captcha__image">
                         <LoadCanvasTemplateNoReload/>
