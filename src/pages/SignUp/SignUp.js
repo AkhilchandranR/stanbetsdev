@@ -8,6 +8,7 @@ import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import axios from 'axios';
 
 
 function SignUp() {
@@ -20,14 +21,13 @@ function SignUp() {
     const [loading, setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
     const [nameTaken,setNameTaken] = useState(false);
+    const [userCountry,setUserCountry] = useState('');
+    const API_KEY = process.env.REACT_APP_COUNTRY_ACCESS_KEY;
     const dispatch = useDispatch();
 
     useEffect(() => {
         //hides the chat icon when the user is not logged in
-        const hideChatButton = () =>{
-            dispatch(hideChat());
-        }
-        hideChatButton();
+        dispatch(hideChat());
         //decides the length of captcha
         loadCaptchaEnginge(7);   
     })
@@ -35,7 +35,6 @@ function SignUp() {
     //function to create a user in database
     const handleSubmit = async(e) =>{
         e.preventDefault();
-
         //check if username is already taken
         const userData = await db.collection('users').get()
         const userCollection = userData?.docs?.map((doc)=>(
@@ -53,6 +52,26 @@ function SignUp() {
             return
         }
 
+        //location is added while registering for the account
+        await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
+        .then((response)=>response.data.location)
+        .then((data)=>setUserCountry(data.country.name))
+        .catch((error)=>(error))
+        //code for adding location
+
+        //restrict users from a particular regions..
+        // await db.collection('restrictedCountries').get()
+        // .then((querySnapShot)=>{
+        //     querySnapShot.forEach((doc)=>{
+        //         if(doc.data().name == userCountry){
+        //             window.alert(`Users from ${userCountry} currently aren't allowed to access stanbets.`);
+        //             return
+        //         } 
+        //     })
+        // })
+        
+        //if everything passes proceed to login..., create tha user data with the
+        //required credentials in the database.....
         try{
             setLoading(true)
             await signup(emailRef.current.value,passwordRef.current.value)
@@ -68,8 +87,8 @@ function SignUp() {
                         isOnline:false,
                         accountCreated: creationDate,
                         lastOnline: creationDate,
-                        emailId:response.user.email
-                        // country: set country from the navigator,
+                        emailId:response.user.email,
+                        country: userCountry,
                     })
                     response.user.sendEmailVerification()
                     .then(()=>{

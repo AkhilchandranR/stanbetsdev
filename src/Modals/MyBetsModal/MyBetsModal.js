@@ -26,7 +26,7 @@ function MyBetsModal({show,hide}) {
            }
        }
        getMyBets();
-    },[currentUser])
+    },[currentUser,userBets])
 
     if(!show) return null
 

@@ -53,22 +53,6 @@ function Login() {
             })
             .catch((err)=>console.log(err))
 
-            //to set the online status of the user, to find the document id 
-            // const userRef = await db.collection('users');
-            // const snapshot = await userRef.get();
-            // await snapshot.forEach(doc => {
-            // if (doc.data().userId == loggedInUser){
-            //     setUserDocId(doc.id)
-            // }
-            // }).catch((err)=>console.log(err))
-
-            // //update once we have the document id
-            // await db.collection('users').doc(userDocId).update({
-            //     isOnline: true,
-            //     lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
-            // })
-            // .catch((err)=>console.log("up>>",err))
-
             //route to the home page with the current user
             history.push("/")
         }

@@ -88,7 +88,7 @@ function HomePage() {
             }
         }
         getUserData()
-    },[currentUser,loggedInUser])
+    },[currentUser])
 
     //lists out the games in the database and sets it to the state listedGames...
     useEffect(() => {
