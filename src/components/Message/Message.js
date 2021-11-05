@@ -27,7 +27,8 @@ function Message({alternate,id,username,usermessage,isAdmin}) {
             </div>
             }
             <div className="message__user">
-                <p>{username}: {usermessage}</p>
+                <p>{username}:</p> 
+                <p>{usermessage}</p>
             </div>
         </div>
     )

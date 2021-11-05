@@ -63,6 +63,10 @@ function CreateBetModal({ show,hide }) {
 
     //place a bet
     const placeBet = async(team) =>{
+        if(betAmount <= 0){
+            window.alert("Please enter a valid amount");
+            return;
+        }
         try{
             const betDocumentId = uuidv4();
             await db.collection('bets').doc(betDocumentId).set({

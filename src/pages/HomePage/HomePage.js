@@ -49,23 +49,23 @@ function HomePage() {
         dispatch(showChat());
 
         //to get the no. of online users..
-        const getOnlineUsers = async()=>{
-            try{
-                if(currentUser){
-                    const userData = await db.collection('users').get()
-                    const userCollection = userData?.docs?.map((doc)=>(
-                        doc?.data()
-                    ))
-                    setOnlineUsers(userCollection.filter((user)=>(
-                        user.isOnline == true
-                    )).length)
-                    }  
-            }
-            catch{
+        // const getOnlineUsers = async()=>{
+        //     try{
+        //         if(currentUser){
+        //             const userData = await db.collection('users').get()
+        //             const userCollection = userData?.docs?.map((doc)=>(
+        //                 doc?.data()
+        //             ))
+        //             setOnlineUsers(userCollection.filter((user)=>(
+        //                 user.isOnline == true
+        //             )).length)
+        //             }  
+        //     }
+        //     catch{
     
-            }
-        }
-        getOnlineUsers();
+        //     }
+        // }
+        // getOnlineUsers();
     },[])
 
     //to pull the data of currentuser from the database

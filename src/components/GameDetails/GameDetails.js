@@ -1,13 +1,23 @@
 import React from 'react';
 import './GameDetails.css';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useAuth } from "../../AuthContext";
 import { openBet,setBetGameId } from '../../States/slices/userSlice';
 
 function GameDetails({ id,name,date,time,team1,team2,link }) {
+    const { currentUser } = useAuth();
     const dispatch = useDispatch();
     const handleClick = (e) =>{
         e.preventDefault();
-        //dispatch set games bet
+
+        //only works if the user is logged in otherwise dont...
+        if(!currentUser){
+            window.alert("You are not logged in");
+            return;
+        }
+
+        //dispatch set games bet for setting up id in createbetmodal
+        // otherwise ie,if user is present,them open the createbetmodal
         dispatch(setBetGameId({
             betGameId: id
         }))
