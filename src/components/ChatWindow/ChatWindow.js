@@ -53,8 +53,9 @@ function ChatWindow({logUser}) {
    const sendMessage = async(e) =>{
         e.preventDefault();
         if(input){
-            await db.collection('chats').add({
-                id: uuidv4(),
+            const chatDocumentId = uuidv4();
+            await db.collection('chats').doc(chatDocumentId).set({
+                id: chatDocumentId,
                 userId:logUser.userId,
                 userName: logUser.username,
                 isAdmin: logUser.isAdmin,

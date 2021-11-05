@@ -79,7 +79,7 @@ function SignUp() {
                 (response)=>{
                     const today = new Date();
                     const creationDate = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-                    db.collection('users').add({
+                    db.collection('users').doc(response.user.uid).set({
                         username: nameRef.current.value,
                         userId: response.user.uid,
                         isAdmin: false,

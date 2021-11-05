@@ -21,7 +21,6 @@ function CreateBetModal({ show,hide }) {
 
     //pulls out the required game
     useEffect(() => {
-        const subscription = {unsubscribe: () => undefined}
         const getGame = async() =>{
             try{
                 const games = await db.collection('games').get()
@@ -37,9 +36,6 @@ function CreateBetModal({ show,hide }) {
             }
         }
         getGame()
-        return () => {
-            subscription.unsubscribe()
-        }
     },[gameToBetId])
 
 
@@ -68,8 +64,9 @@ function CreateBetModal({ show,hide }) {
     //place a bet
     const placeBet = async(team) =>{
         try{
-            await db.collection('bets').add({
-                id:uuidv4(),
+            const betDocumentId = uuidv4();
+            await db.collection('bets').doc(betDocumentId).set({
+                id:betDocumentId,
                 user: currentUser.uid,
                 game: gameToBet[0]?.id,
                 gamename: gameToBet[0]?.gameName,
@@ -79,13 +76,17 @@ function CreateBetModal({ show,hide }) {
                 odd: team?.odds,
                 winAmount: betAmount,
                 isWon: false,
-                isOver: false
+                isOver: false,
+                AmountIfWon: betAmount * team?.odds
+                
             })
             window.alert("your bet is placed")
         }
         catch{
             window.alert("failed to create bet. Please try again")
         }
+        hide();
+        setBetAmount(0);
     }
 
     

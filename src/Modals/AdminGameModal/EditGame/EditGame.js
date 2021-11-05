@@ -3,7 +3,6 @@ import './EditGame.css';
 import Close from '@mui/icons-material/Close';
 import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
-import { TrendingUp } from '@mui/icons-material';
 
 function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameName,setGameName] = useState(name);
@@ -20,50 +19,6 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[userDocId,setUserDocId] = useState([]);
     const[userIds,setUserIds] = useState([]);
 
-    //effect to find the current doc id of the game for the purpose of updation
-    useEffect(() => {
-        const getDocId = async()=>{
-            try{
-                const gameRef = await db.collection('games');
-                    const snapshot = await gameRef.get();
-                    if (snapshot.empty) {
-                    return;
-                    }  
-                    
-                    snapshot.forEach(doc => {
-                    if (doc.data().id == id){
-                        setDocId(doc.id)
-                    }
-                    })
-            }
-            catch{
-
-            }
-        }
-        getDocId();
-    })
-
-    useEffect(() => {
-        const getBetDocId = async() =>{
-            try{
-                const betRef = await db.collection('bets');
-                const eachsnapshot = await betRef.get();
-                if (eachsnapshot.empty) {
-                    return;
-                }  
-                    
-                eachsnapshot.forEach(doc => {
-                if (doc.data().game == id){
-                      setBetDocId(oldArray=>[...oldArray,doc.id])
-                }
-                })
-            }
-            catch{
-
-            }
-        }
-        getBetDocId();
-    },[])
 
     //edit the listed game if changes
     const editCurrentGame = async(e) =>{
@@ -74,7 +29,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             const teamTwoOdds = parseFloat(gameTeam2odd);
             const fairoddOne = Math.round((1/teamOneOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
             const fairoddTwo = Math.round((1/teamTwoOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
-            await db.collection('games').doc(docId).update({
+            await db.collection('games').doc(id).update({
                 gameName:gameName,
                 date:gameDate,
                 time:gameTime,
@@ -95,13 +50,13 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const lockBets = async(team) =>{
         try{
             if(team == "team1"){
-                await db.collection('games').doc(docId).update({
-                    team1:{name:team1.name,odds:team1.odds,locked:!(team1.locked)}
+                await db.collection('games').doc(id).update({
+                    team1:{name:team1.name,odds:team1.odds,locked:!(team1.locked),fairOdds:team1.fairOdds}
                 }).catch((err)=>alert(err.message))
             }
             if(team == "team2"){
-                await db.collection('games').doc(docId).update({
-                    team2:{name:team2.name,odds:team2.odds,locked:!(team2.locked)}
+                await db.collection('games').doc(id).update({
+                    team2:{name:team2.name,odds:team2.odds,locked:!(team2.locked),fairOdds:team2.fairOdds}
                 }).catch((err)=>alert(err.message))
             }
         }
@@ -112,33 +67,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
 
     //payout for won bets
     const payOut = async(team) =>{
-        try{
-            await db.collection('games').doc(docId).update({
-                payOut: true
-            }).catch((err)=>console.log(err))
-            setPayedOut(true)
-            betDocId.forEach((id)=>{
-                const bets = db.collection('bets').doc(id)
-                bets.get().then((doc)=>{
-                    if(doc.exists){
-                        if(doc.data().team == team){
-                             db.collection('bets').doc(id).update({
-                                isWon: true,
-                                isOver: true,
-                                wonDate: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
-                            })
-                        // setUserIds(old=>[...old,doc.data().user])
-                        }
-                    }
-                
-                }).catch((err)=>console.log(err))
-            })
-
-        }
-        catch{
-            window.alert("failed to payout.Please try again")
-        }
-        hide();
+       console.log(team);
     }
 
     if(!open) return null

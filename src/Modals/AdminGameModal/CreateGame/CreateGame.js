@@ -20,12 +20,13 @@ function CreateGame({open,hide}) {
         const confirm = window.confirm("List this game ?");
         if (confirm){
             try{
+                const gameDocumentId = uuidv4();
                 const teamOneOdds = parseFloat(teamOneOddsRef.current.value);
                 const teamTwoOdds = parseFloat(teamTwoOddsRef.current.value);
                 const fairoddOne = Math.round((1/teamOneOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
                 const fairoddTwo = Math.round((1/teamTwoOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
-                await db.collection('games').add({
-                    id:uuidv4(),
+                await db.collection('games').doc(gameDocumentId).set({
+                    id:gameDocumentId,
                     gameName:gameRef.current.value,
                     date: dateRef.current.value,
                     time: timeRef,

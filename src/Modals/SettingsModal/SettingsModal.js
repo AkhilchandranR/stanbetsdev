@@ -6,44 +6,19 @@ import ReactDOM from 'react-dom';
 import { useAuth } from "../../AuthContext";
 import { useHistory } from "react-router-dom";
 import firebase from 'firebase';
-import { db,auth } from '../../firebase';
+import { db } from '../../firebase';
 
 function SettingsModal({show,hide,user}) {
     const { currentUser,logout } = useAuth();
-    const [docId,setDocId] = useState('');
     const history = useHistory();
 
-    useEffect(() => {
-        //finds the doc id of the current user for deletion of firestore data
-        const getDocId = async()=>{
-            try{
-                if(currentUser){
-                    const userRef = db.collection('users');
-                    const snapshot = await userRef.get();
-                    if (snapshot.empty) {
-                    return;
-                    }  
-                    
-                    snapshot.forEach(doc => {
-                    if (doc.data().userId == currentUser.uid){
-                        setDocId(doc.id)
-                    }
-                    })
-                }
-            }
-            catch{
-
-            }
-        }
-        getDocId();
-    },[currentUser])
 
     //logs out a user and routes to login page
     const handleLogout = async(e) =>{
         e.preventDefault();  
         hide();
         try{
-            await db.collection('users').doc(docId).update({
+            await db.collection('users').doc(currentUser.uid).update({
                 lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
                 isOnline: false,
             }).then(()=>{
@@ -61,7 +36,7 @@ function SettingsModal({show,hide,user}) {
         e.preventDefault();
         const confirm = window.confirm("This action cannot be undone.")
         if(confirm){
-            await db.collection('users').doc(docId).delete()
+            await db.collection('users').doc(currentUser.uid).delete()
             .then(()=>{
                 firebase.auth().currentUser.delete()
                 .then((res)=>res)
@@ -83,7 +58,7 @@ function SettingsModal({show,hide,user}) {
         //dont have to update if no changes are made
         if(newName === user?.username) return
         else{
-            await db.collection('users').doc(docId).update({
+            await db.collection('users').doc(currentUser.uid).update({
                 username: newName
             }).then(()=>{
                 window.alert("username successfully updated")
