@@ -10,8 +10,9 @@ import { v4 as uuidv4} from 'uuid';
 import { Link } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import firebase from 'firebase';
 
-function CreateBetModal({ show,hide }) {
+function CreateBetModal({ show,hide,userBalance }) {
     const { currentUser } = useAuth();
     const [betAmount,setBetAmount] = useState(0);
     const gameToBetId = useSelector((state)=>state.user.betGameId);
@@ -67,6 +68,10 @@ function CreateBetModal({ show,hide }) {
             window.alert("Please enter a valid amount");
             return;
         }
+        else if((userBalance - betAmount) < 0){
+            window.alert("Insufficient Balance");
+            return;
+        }
         try{
             const betDocumentId = uuidv4();
             await db.collection('bets').doc(betDocumentId).set({
@@ -83,6 +88,9 @@ function CreateBetModal({ show,hide }) {
                 isOver: false,
                 AmountIfWon: betAmount * team?.odds
                 
+            })
+            await db.collection('users').doc(currentUser.uid).update({
+                totalBalance: firebase.firestore.FieldValue.increment(-(betAmount))
             })
             window.alert("your bet is placed")
         }

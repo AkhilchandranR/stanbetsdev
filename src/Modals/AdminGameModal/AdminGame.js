@@ -6,13 +6,15 @@ import ReactDOM from 'react-dom';
 import CreateGame from './CreateGame/CreateGame';
 import { db } from '../../firebase';
 import SiteStats from '../SiteStatsModal/SiteStats';
-import EditGame from './EditGame/EditGame';
+import UserLookUpModal from '../UserLookUpModal/UserLookUpModal';
 
 
 function AdminGame({ show,hide }) {
     const[currentGames,setCurrentGames] = useState([]);
     const [openStats,setOpenStats] = useState(false);
     const[openCreateModal,setOpenCreateModal] = useState(false);
+    const[searchedUser,setSearchedUser] = useState();
+    const[openLookUp,setOpenLookUp] = useState(false);
 
     useEffect(() => {
         const currentGames = async()=>{
@@ -29,6 +31,36 @@ function AdminGame({ show,hide }) {
         }
         currentGames()
     },[currentGames])
+
+    //handles the click of user look up button by admin
+    const handleUserLookUp = async(e) =>{
+        e.preventDefault();
+        const searchName = window.prompt("Please enter the name you want to search");
+        if(searchName){
+            try{
+                const userData = await db.collection('users').get()
+                const userCollection = await userData?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                const SearchedUserData = await userCollection.find((user)=>(
+                    user.username.toLowerCase() === searchName.toLowerCase()
+                ))
+                if(userData){
+                   await setSearchedUser(SearchedUserData);
+                   await setOpenLookUp(true);
+                }
+                else{
+                    window.alert("This user doesn't exist");
+                    return;
+                }
+            }
+            catch{
+                window.alert("Search failed .Please try again");
+                return;
+            }
+        }
+        
+    } 
     
     if(!show) return null;
 
@@ -38,7 +70,7 @@ function AdminGame({ show,hide }) {
         <div className="admingame">
             <div className="admingame__buttons">
                 <button className="admingame__control" onClick={()=>{setOpenCreateModal(true)}}>New Game</button>
-                <button className="admingame__control">User Lookup</button>
+                <button className="admingame__control" onClick={handleUserLookUp}>User Lookup</button>
                 <button className="admingame__control" onClick={()=>{setOpenStats(true)}}>Site Stats</button>
                 <Close onClick={hide}/>
             </div>
@@ -56,12 +88,12 @@ function AdminGame({ show,hide }) {
                     link={game?.link}
                     payout={game?.payOut}
                     />
-                    // open={()=>{setOpenEdit(true)}
                 ))}
             </div>
         </div>
         <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}}/>
         <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
+        <UserLookUpModal open={openLookUp} hide={()=>setOpenLookUp(false)} currentUser={searchedUser}/>
         </>,
         document.getElementById('portal')
     )

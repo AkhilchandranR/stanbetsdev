@@ -107,19 +107,19 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Country:</p>
                         <div className="userstatsmodal__data">
-                            <p>America</p>
+                            <p>{currentUser[0]?.country}</p>
                         </div>
                         <p>Balance:</p>
                         <div className="userstatsmodal__data">
-                            <p>$105.00</p>
+                            <p>${currentUser[0]?.totalBalance}</p>
                         </div>
                         <p>Total Deposited:</p>
                         <div className="userstatsmodal__data">
-                            <p>$105.20</p>
+                            <p>${currentUser[0]?.totalDeposited}</p>
                         </div>
                         <p>Total Withdrawn:</p>
                         <div className="userstatsmodal__data">
-                            <p>$10.40</p>
+                            <p>${currentUser[0].totalWithdrawn}</p>
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">
@@ -156,7 +156,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                     <div className="userstatsmodal__body">
                         <p>Balance:</p>
                         <div className="userstatsmodal__data">
-                            <p>$105.00</p>
+                            <p>$1{currentUser[0]?.totalBalance}</p>
                         </div>
                         <p>Total Wagered:</p>
                         <div className="userstatsmodal__data">

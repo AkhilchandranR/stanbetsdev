@@ -7,7 +7,7 @@ import { hideChat } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import axios from 'axios';
 
 
@@ -16,7 +16,7 @@ function SignUp() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
-    const { signup,currentUser } = useAuth();
+    const { signup } = useAuth();
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
@@ -89,6 +89,9 @@ function SignUp() {
                         lastOnline: creationDate,
                         emailId:response.user.email,
                         country: userCountry,
+                        totalBalance: 10,
+                        totalDeposited: 10,
+                        totalWithdrawn: 0,
                     })
                     response.user.sendEmailVerification()
                     .then(()=>{

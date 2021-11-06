@@ -15,12 +15,12 @@ import firebase from 'firebase';
 
 //development version
 const firebaseConfig = {
-  apiKey: "AIzaSyAJuBgPE9Nlq-YSGg1S8p021eyexfDhY30",
-  authDomain: "stanbets-test.firebaseapp.com",
-  projectId: "stanbets-test",
-  storageBucket: "stanbets-test.appspot.com",
-  messagingSenderId: "873761308583",
-  appId: "1:873761308583:web:ea3c3eaa94bba89533c082"
+  apiKey: "AIzaSyC6PAOL5IXzB7YzWQwMjQ-hV6bYnbJiXmw",
+  authDomain: "stanbets-test-b83db.firebaseapp.com",
+  projectId: "stanbets-test-b83db",
+  storageBucket: "stanbets-test-b83db.appspot.com",
+  messagingSenderId: "12568318192",
+  appId: "1:12568318192:web:7eeaf571464267d3337235"
 };
 
 const app = firebase.initializeApp(firebaseConfig);

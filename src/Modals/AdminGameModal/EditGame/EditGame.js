@@ -3,6 +3,7 @@ import './EditGame.css';
 import Close from '@mui/icons-material/Close';
 import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
+import firebase from 'firebase';
 
 function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameName,setGameName] = useState(name);
@@ -14,9 +15,6 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameTeam1odd,setGameTeam1odd] = useState(team1.odds);
     const[gameTeam2Name,setGameTeam2Name] = useState(team2.name);
     const[gameTeam2odd,setGameTeam2odd] = useState(team2.odds);
-    const[docId,setDocId] = useState('');
-    const[betDocId,setBetDocId] = useState([]);
-    const[userDocId,setUserDocId] = useState([]);
     const[userIds,setUserIds] = useState([]);
 
 
@@ -67,7 +65,53 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
 
     //payout for won bets
     const payOut = async(team) =>{
-       console.log(team);
+       try{
+           //has to specify that the game is already paid out..
+           await db.collection('games').doc(id).update({
+                payOut: true,
+                team1:{name:team1.name,odds:team1.odds,locked:true,fairOdds:team1.fairOdds},
+                team2:{name:team2.name,odds:team2.odds,locked:true,fairOdds:team2.fairOdds},
+           })
+           //find out the bets with the game id and update it to payed out and iswon or not....
+           //also update the user balance
+           await db.collection("bets").where("game", "==", id)
+           .get()
+           .then((querySnapshot) => {
+               querySnapshot.forEach((doc) => {
+                   const today = new Date();
+                   const data = doc.data();
+                   if(data.team == team){
+                       const updateBetsAndUser =async()=>{
+                            await db.collection('bets').doc(doc.id).update({
+                                isOver: true,
+                                isWon: true,
+                                OverDate:  today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
+                            })
+                            const wonUser = data.user;
+                            const Amount = data.AmountIfWon;
+                            await db.collection('users').doc(wonUser).update({
+                                totalBalance: firebase.firestore.FieldValue.increment(Amount)
+                            })
+                       }
+                       updateBetsAndUser();
+                   }
+                   else{
+                        db.collection('bets').doc(doc.id).update({
+                            isOver: true,
+                            isWon: false,
+                            OverDate: today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
+                        })
+                   }
+               });
+           })
+           .catch((error) => {
+               console.log("Error getting documents: ", error);
+           });
+
+       }
+       catch{
+           window.alert("failed to payout.Please try again")
+       }
     }
 
     if(!open) return null

@@ -165,7 +165,7 @@ function HomePage() {
             <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())} isAnAdmin={loggedInUser[0]?.isAdmin}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
-            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())}/>
+            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser[0]?.totalBalance}/>
             {/* <Footer/> */}
         </div>
     )

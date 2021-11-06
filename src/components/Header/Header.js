@@ -28,7 +28,7 @@ function Header({ user,online,showOnline }) {
                     <p>{user[0]?.username}</p>
                 </div>
                 <div className="header__amount">
-                    <p>$6.00</p>
+                    <p>${user[0]?.totalBalance}</p>
                 </div>
             </div>
             ):(

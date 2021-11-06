@@ -3,8 +3,8 @@ import './GameDetails.css';
 import { useDispatch } from 'react-redux';
 import { useAuth } from "../../AuthContext";
 import { openBet,setBetGameId } from '../../States/slices/userSlice';
-
-function GameDetails({ id,name,date,time,team1,team2,link }) {
+ 
+function GameDetails({ id,name,date,time,team1,team2 }) {
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
     const handleClick = (e) =>{
@@ -22,6 +22,7 @@ function GameDetails({ id,name,date,time,team1,team2,link }) {
             betGameId: id
         }))
         dispatch(openBet());
+        
     }
     return (
         <div className="gamedetails" onClick={handleClick}>
