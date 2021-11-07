@@ -45,9 +45,10 @@ function AdminGame({ show,hide }) {
                 const SearchedUserData = await userCollection.find((user)=>(
                     user.username.toLowerCase() === searchName.toLowerCase()
                 ))
-                if(userData){
+                if(SearchedUserData){
                    await setSearchedUser(SearchedUserData);
                    await setOpenLookUp(true);
+                   return;
                 }
                 else{
                     window.alert("This user doesn't exist");

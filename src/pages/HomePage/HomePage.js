@@ -28,7 +28,7 @@ function HomePage() {
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
     const [loggedInUser,setLoggedInUser] = useState([]);
-    const [onlineUsers,setOnlineUsers] = useState(1);
+    const [noOfOnlineUsers,setNoOfOnlineUsers] = useState(0);
     const [listedGames,setListedGames] = useState([]);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
@@ -47,25 +47,6 @@ function HomePage() {
     useEffect(() => {
         //shows chat window icon with a redux operation
         dispatch(showChat());
-
-        //to get the no. of online users..
-        // const getOnlineUsers = async()=>{
-        //     try{
-        //         if(currentUser){
-        //             const userData = await db.collection('users').get()
-        //             const userCollection = userData?.docs?.map((doc)=>(
-        //                 doc?.data()
-        //             ))
-        //             setOnlineUsers(userCollection.filter((user)=>(
-        //                 user.isOnline == true
-        //             )).length)
-        //             }  
-        //     }
-        //     catch{
-    
-        //     }
-        // }
-        // getOnlineUsers();
     },[])
 
     //to pull the data of currentuser from the database
@@ -79,8 +60,12 @@ function HomePage() {
                         doc?.data()
                     ))
                     setLoggedInUser(userCollection.filter((user)=>(
-                        user.userId == currentUser.uid
+                        user.userId === currentUser.uid
                     )))
+                    const OnlineUsers = await userCollection.filter((user)=>(
+                        user.isOnline === true
+                    ))
+                    setNoOfOnlineUsers(OnlineUsers.length);
                     }   
             }
             catch{
@@ -111,7 +96,7 @@ function HomePage() {
 
     return (
         <div className="homepage">
-            <Header user={loggedInUser} online={onlineUsers} showOnline/>
+            <Header user={loggedInUser} online={noOfOnlineUsers} showOnline/>
             <div className="homepage__body">
                 <div className="homepage__chat" onClick={openChat}>
                     {showChatIcon &&

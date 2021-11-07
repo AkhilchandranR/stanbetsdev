@@ -1,10 +1,55 @@
 import Close from '@mui/icons-material/Close';
-import React from 'react';
+import React,{ useEffect,useState } from 'react';
 import './SiteStats.css';
+import { db } from '../../firebase';
 import ReactDOM from 'react-dom';
 import { Pie } from 'react-chartjs-2';
 
 function SiteStats({open,hide}) {
+    const [totalUsers,setTotalUsers] = useState(0);
+    const [totalOnlineUsers,setTotalOnlineUsers] = useState(0);
+    const [totalAmountDeposited,setTotalAmountDeposited] = useState(0);
+    const [totalAmountWithdrawn,setTotalAmountWithdrawn] = useState(0);
+
+    //populates data in stats..
+    useEffect(() => {
+        const getSiteStats = async() =>{
+            try{
+                //pull necessary data from database..
+                const userData = await db.collection('users').get()
+                const userCollection = userData?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                const betsData = await db.collection('bets').get()
+                const betsCollection = betsData?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+
+                // get users data required to populate the fields..
+                await setTotalUsers(userCollection.length);
+                const Online = await userCollection.filter((user)=>(
+                    user.isOnline === true
+                ))
+                await setTotalOnlineUsers(Online.length);
+                const Deposited = await userCollection.map((user)=>(user.totalDeposited)).reduce((total,amount)=>(total+amount,0))
+                await setTotalAmountDeposited(Deposited)
+                const Withdrawn = await userCollection.map((user)=>(user.totalWithdrawn)).reduce((total,amount)=>(total+amount,0))
+                await setTotalAmountWithdrawn(Withdrawn)
+
+                //get details related to bets and user activities..
+                
+                
+
+            }
+            catch{
+                window.alert("failed to get stats.Please try again after some time.")
+            }
+            
+        }
+        getSiteStats();
+    }, [])
+
+    //pie chart data
     const data = {
         labels: [],
         datasets: [
@@ -31,6 +76,7 @@ function SiteStats({open,hide}) {
           },
         ],
       };
+      //piechart data ends........
     
       if(!open) return null;
       
@@ -78,11 +124,11 @@ function SiteStats({open,hide}) {
                     </div>
                     <p>Total Amount Deposited:</p>
                     <div className="sitestats__leftValue">
-                        <p>$2567.00</p>
+                        <p>${totalAmountDeposited}</p>
                     </div>
                     <p>Total Amount Withdrawn:</p>
                     <div className="sitestats__leftValue">
-                        <p>$1457.00</p>
+                        <p>${totalAmountWithdrawn}</p>
                     </div>
                 </div>
                 <div className="sitestats__right">
@@ -93,11 +139,11 @@ function SiteStats({open,hide}) {
                     </div> */}
                     <p>Total Online Users:</p>
                     <div className="sitestats__leftValue">
-                        <p>1500</p>
+                        <p>{totalOnlineUsers}</p>
                     </div>
                     <p>Total Registered Users:</p>
                     <div className="sitestats__leftValue">
-                        <p>15000</p>
+                        <p>{totalUsers}</p>
                     </div>
                     <p>Total Bets Today:</p>
                     <div className="sitestats__leftValue">

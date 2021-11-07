@@ -13,14 +13,15 @@ import firebase from 'firebase';
 //     measurementId: "G-5X5LQEYGG5"
 //   };
 
-//development version
+// Development version
 const firebaseConfig = {
-  apiKey: "AIzaSyC6PAOL5IXzB7YzWQwMjQ-hV6bYnbJiXmw",
-  authDomain: "stanbets-test-b83db.firebaseapp.com",
-  projectId: "stanbets-test-b83db",
-  storageBucket: "stanbets-test-b83db.appspot.com",
-  messagingSenderId: "12568318192",
-  appId: "1:12568318192:web:7eeaf571464267d3337235"
+  apiKey: "AIzaSyCLPrOzkWQ60bB8JrD_K8JPqiISbbHyLUM",
+  authDomain: "stanbets-dev-ac21b.firebaseapp.com",
+  projectId: "stanbets-dev-ac21b",
+  storageBucket: "stanbets-dev-ac21b.appspot.com",
+  messagingSenderId: "742490728990",
+  appId: "1:742490728990:web:38f1765b37dc1bfe571c0f",
+  measurementId: "G-58YQW24236"
 };
 
 const app = firebase.initializeApp(firebaseConfig);

@@ -86,7 +86,8 @@ function CreateBetModal({ show,hide,userBalance }) {
                 winAmount: betAmount,
                 isWon: false,
                 isOver: false,
-                AmountIfWon: betAmount * team?.odds
+                AmountIfWon: betAmount * team?.odds,
+                timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
                 
             })
             await db.collection('users').doc(currentUser.uid).update({

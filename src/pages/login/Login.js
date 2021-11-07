@@ -13,12 +13,10 @@ function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
-    const[loggedInUser,setLoggedInUser] = useState(null);
     const { login } = useAuth();
     const history = useHistory();
     const[loading,setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
-    const [userDocId,setUserDocId] = useState(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -49,12 +47,19 @@ function Login() {
                     window.alert("Please verify your email")
                     return
                 }
-                setLoggedInUser(res.user.uid)
+
+                //update user's online status
+                db.collection('users').doc(res.user.uid).update({
+                    isOnline: true,
+                    lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
+                }).catch((err)=>err)
+
             })
             .catch((err)=>console.log(err))
 
             //route to the home page with the current user
-            history.push("/")
+            history.push("/");
+
         }
         catch{
             window.alert("Invalid email or password")

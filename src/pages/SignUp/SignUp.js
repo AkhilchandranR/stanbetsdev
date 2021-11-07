@@ -22,7 +22,6 @@ function SignUp() {
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
     const [nameTaken,setNameTaken] = useState(false);
     const [userCountry,setUserCountry] = useState('');
-    const API_KEY = process.env.REACT_APP_COUNTRY_ACCESS_KEY;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -53,6 +52,7 @@ function SignUp() {
         }
 
         //location is added while registering for the account
+        const API_KEY = process.env.REACT_APP_COUNTRY_ACCESS_KEY;
         await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
         .then((response)=>response.data.location)
         .then((data)=>setUserCountry(data.country.name))
