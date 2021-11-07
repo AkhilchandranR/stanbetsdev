@@ -17,7 +17,7 @@ function AdminGame({ show,hide }) {
     const[openLookUp,setOpenLookUp] = useState(false);
 
     useEffect(() => {
-        const currentGames = async()=>{
+        const getCurrentGames = async()=>{
             try{
                 const games = await db.collection('games').get()
                 const gameCollection = games?.docs?.map((doc)=>(
@@ -29,7 +29,7 @@ function AdminGame({ show,hide }) {
                 alert("failed to load games please try again")
             }
         }
-        currentGames()
+        getCurrentGames()
     },[currentGames])
 
     //handles the click of user look up button by admin

@@ -10,12 +10,23 @@ function SiteStats({open,hide}) {
     const [totalOnlineUsers,setTotalOnlineUsers] = useState(0);
     const [totalAmountDeposited,setTotalAmountDeposited] = useState(0);
     const [totalAmountWithdrawn,setTotalAmountWithdrawn] = useState(0);
+    const [totalBets,setTotalBets] = useState(0);
+    const [totalBetsToday,setTotalBetsToday] = useState(0);
+    const [totalBetsWon,setTotalBetsWon] = useState(0);
+    const [totalBetsWonToday,setTotalBetsWonToday] = useState(0);
+    const [totalBetsLost,setTotalBetsLost] = useState(0);
+    const [totalBetsLostToday,setTotalBetsLostToday] = useState(0);
+    const [totalProfits,setTotalProfits] = useState(0);
+    const [totalProfitsToday,setTotalProfitsToday] = useState(0);
+    const [totalLoss,setTotalLoss] = useState(0);
+    const [totalLossToday,setTotalLossToday] = useState(0);
 
     //populates data in stats..
     useEffect(() => {
         const getSiteStats = async() =>{
             try{
                 //pull necessary data from database..
+                const today = new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear();
                 const userData = await db.collection('users').get()
                 const userCollection = userData?.docs?.map((doc)=>(
                     doc?.data()
@@ -37,9 +48,36 @@ function SiteStats({open,hide}) {
                 await setTotalAmountWithdrawn(Withdrawn)
 
                 //get details related to bets and user activities..
-                
-                
+                await setTotalBets(betsCollection.length);
+                const betsToday = await betsCollection.filter((bet)=>(
+                    bet.date == today
+                ))
+                await setTotalBetsToday(betsToday.length);
 
+                const betsWonToday = await betsCollection.filter((bet)=>(
+                    bet.isWon === true && bet.OverDate == today
+                ))
+                await setTotalBetsWonToday(betsWonToday.length);
+
+                const betsWon = await betsCollection.filter((bet)=>(
+                    bet.isWon === true
+                ))
+                await setTotalBetsWon(betsWon.length);
+
+                const betsLostToday = await betsCollection.filter((bet)=>(
+                    bet.isOver === true && bet.isWon === false && bet.OverDate == today
+                ))
+                await setTotalBetsLostToday(betsLostToday.length);
+
+                const betsLost = await betsCollection.filter((bet)=>(
+                    bet.isOver === true && bet.isWon === false
+                ))
+                await setTotalBetsLost(betsLost.length);
+                
+                betsLost.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0));
+                betsLostToday.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0));
+                betsWonToday.map((bet)=>(bet.profit)).reduce((total,amount)=>(total + amount,0));
+                betsWon.map((bet)=>(bet.profit)).reduce((total,amount)=>(total + amount,0));              
             }
             catch{
                 window.alert("failed to get stats.Please try again after some time.")
@@ -92,35 +130,35 @@ function SiteStats({open,hide}) {
                 <div className="sitestats__left">
                     <p>Total Bets Won Today:</p>
                     <div className="sitestats__leftValue">
-                        <p>500</p>
+                        <p>{totalBetsWonToday}</p>
                     </div>
                     <p>Total Bets Won:</p>
                     <div className="sitestats__leftValue">
-                        <p>5106</p>
+                        <p>{totalBetsWon}</p>
                     </div>
                     <p>Total Bets Lost Today:</p>
                     <div className="sitestats__leftValue">
-                        <p>1345</p>
+                        <p>{totalBetsLostToday}</p>
                     </div>
                     <p>Total Bets Lost:</p>
                     <div className="sitestats__leftValue">
-                        <p>14724</p>
+                        <p>{totalBetsLost}</p>
                     </div>
                     <p>Total User Profit Today:</p>
                     <div className="sitestats__leftValue">
-                        <p>$2456.00</p>
+                        <p>${totalProfitsToday}</p>
                     </div>
                     <p>Total User Profit:</p>
                     <div className="sitestats__leftValue">
-                        <p>$5797</p>
+                        <p>${totalProfits}</p>
                     </div>
                     <p>Total User Loss Today:</p>
                     <div className="sitestats__leftValue">
-                        <p>$5267.00</p>
+                        <p>${totalLossToday}</p>
                     </div>
                     <p>Total User Loss:</p>
                     <div className="sitestats__leftValue">
-                        <p>$6898.00</p>
+                        <p>${totalLoss}</p>
                     </div>
                     <p>Total Amount Deposited:</p>
                     <div className="sitestats__leftValue">
@@ -147,11 +185,11 @@ function SiteStats({open,hide}) {
                     </div>
                     <p>Total Bets Today:</p>
                     <div className="sitestats__leftValue">
-                        <p>1845</p>
+                        <p>{totalBetsToday}</p>
                     </div>
                     <p>Total Bets:</p>
                     <div className="sitestats__leftValue">
-                        <p>19830</p>
+                        <p>{totalBets}</p>
                     </div>
                     <p>Most Recent Bet:</p>
                     <div className="sitestats__recentbet">

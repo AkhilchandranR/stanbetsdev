@@ -77,6 +77,7 @@ function CreateBetModal({ show,hide,userBalance }) {
             await db.collection('bets').doc(betDocumentId).set({
                 id:betDocumentId,
                 user: currentUser.uid,
+                date: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
                 game: gameToBet[0]?.id,
                 gamename: gameToBet[0]?.gameName,
                 gameTime: gameToBet[0]?.time,
@@ -86,8 +87,10 @@ function CreateBetModal({ show,hide,userBalance }) {
                 winAmount: betAmount,
                 isWon: false,
                 isOver: false,
+                OverDate: "",
                 AmountIfWon: betAmount * team?.odds,
                 timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
+                profit: (betAmount * team?.odds)-betAmount,
                 
             })
             await db.collection('users').doc(currentUser.uid).update({
