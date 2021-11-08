@@ -1,0 +1,22 @@
+.restricted__screen{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #222838;
+}
+.restricted__header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 60px;
+    background-color: #4b5264;
+    padding: 10px;
+    color: white;
+    font-size: 1.3rem;
+}
+.restricted__body > h3{
+    color: white;
+    text-align: center;
+    margin-top: 50vh;
+}

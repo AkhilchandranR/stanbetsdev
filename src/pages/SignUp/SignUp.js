@@ -15,13 +15,14 @@ function SignUp() {
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
+    const confirmPasswordRef = useRef();
     const captchaRef = useRef();
     const { signup } = useAuth();
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [wrongCaptcha,setWrongCaptcha] = useState(false);
     const [nameTaken,setNameTaken] = useState(false);
-    const [userCountry,setUserCountry] = useState('');
+    const[passwordNotMatching,setPasswordNotMatching] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -45,6 +46,12 @@ function SignUp() {
                     return
         }
 
+        //check for password matching...
+        if(passwordRef != confirmPasswordRef){
+            setPasswordNotMatching(true);
+            return;
+        }
+
         //check the correctness of captcha..
         if(validateCaptcha(captchaRef.current.value)==false){
             setWrongCaptcha(true);
@@ -52,23 +59,11 @@ function SignUp() {
         }
 
         //location is added while registering for the account
-        const API_KEY = process.env.REACT_APP_COUNTRY_ACCESS_KEY;
-        await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
+        const API_KEY = "noy8k819phh5xunl ";
+        const userCountry = await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
         .then((response)=>response.data.location)
-        .then((data)=>setUserCountry(data.country.name))
+        .then((data)=>data.country.name)
         .catch((error)=>(error))
-        //code for adding location
-
-        //restrict users from a particular regions..
-        // await db.collection('restrictedCountries').get()
-        // .then((querySnapShot)=>{
-        //     querySnapShot.forEach((doc)=>{
-        //         if(doc.data().name == userCountry){
-        //             window.alert(`Users from ${userCountry} currently aren't allowed to access stanbets.`);
-        //             return
-        //         } 
-        //     })
-        // })
         
         //if everything passes proceed to login..., create tha user data with the
         //required credentials in the database.....
@@ -109,6 +104,7 @@ function SignUp() {
             setLoading(false);
             setWrongCaptcha(false);
             setNameTaken(false);
+            setPasswordNotMatching(false);
         }
 
 
@@ -136,6 +132,13 @@ function SignUp() {
                             <div className="signup__inputField">
                                 <input type="password" ref={passwordRef} required/>
                             </div>
+                        </div>
+                        <div className="signup__input">
+                            <p>Confirm Password:</p>
+                            <div className="signup__inputField">
+                                <input type="password" ref={confirmPasswordRef} required/>
+                            </div>
+                            {passwordNotMatching && <p className="captcha">Passwords does not match !</p>}
                         </div>
                         <LoadCanvasTemplateNoReload/>
                         <div className="signup__input">

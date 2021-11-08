@@ -79,13 +79,14 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 setCurrentUserId(currentChatId[0]?.userId)
                 await setUser(currentUserId)
             }
+            console.log("userstats")
            }
            catch{
 
            }           
        }
-       getChatUser()
-    },[currentChatId])
+       getChatUser();
+    },[show])
 
     if(!show) return null;
 
@@ -119,7 +120,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Total Withdrawn:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0].totalWithdrawn}</p>
+                            <p>${currentUser[0]?.totalWithdrawn}</p>
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">

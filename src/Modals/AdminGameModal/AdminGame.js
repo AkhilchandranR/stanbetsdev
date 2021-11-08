@@ -23,14 +23,14 @@ function AdminGame({ show,hide }) {
                 const gameCollection = games?.docs?.map((doc)=>(
                     doc?.data()
                 )).slice(0,5);
-                setCurrentGames(gameCollection)
+                await setCurrentGames(gameCollection);
             }
             catch{
                 alert("failed to load games please try again")
             }
         }
         getCurrentGames()
-    },[currentGames])
+    },[show])
 
     //handles the click of user look up button by admin
     const handleUserLookUp = async(e) =>{

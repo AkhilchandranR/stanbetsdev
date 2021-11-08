@@ -20,6 +20,8 @@ function SiteStats({open,hide}) {
     const [totalProfitsToday,setTotalProfitsToday] = useState(0);
     const [totalLoss,setTotalLoss] = useState(0);
     const [totalLossToday,setTotalLossToday] = useState(0);
+    const [latestBet,setLatestBet] = useState([]);
+
 
     //populates data in stats..
     useEffect(() => {
@@ -73,11 +75,29 @@ function SiteStats({open,hide}) {
                     bet.isOver === true && bet.isWon === false
                 ))
                 await setTotalBetsLost(betsLost.length);
-                
-                betsLost.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0));
-                betsLostToday.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0));
-                betsWonToday.map((bet)=>(bet.profit)).reduce((total,amount)=>(total + amount,0));
-                betsWon.map((bet)=>(bet.profit)).reduce((total,amount)=>(total + amount,0));              
+
+                const arrangedBets = await betsCollection.sort((a,b)=>(
+                    a.timestamp - b.timestamp
+                ))
+                await setLatestBet(arrangedBets[0]); 
+                console.log(betsLost)
+                console.log(betsLostToday)
+                console.log(betsWon)
+                console.log(betsWonToday)
+
+                if(betsLost.length > 0){
+                    await setTotalLoss(betsLost?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                }
+                if(betsLostToday.length > 0){
+                    await setTotalLossToday(betsLostToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                }
+                if(betsWon.length > 0){
+                    await setTotalProfits(betsWon?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                }
+                if(betsWonToday.length > 0){
+                    await setTotalProfitsToday(betsWonToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                }
+                          
             }
             catch{
                 window.alert("failed to get stats.Please try again after some time.")
@@ -194,13 +214,13 @@ function SiteStats({open,hide}) {
                     <p>Most Recent Bet:</p>
                     <div className="sitestats__recentbet">
                         <div className="sitestats__details">
-                            <p>User: Username</p>
+                            <p>User: akhil</p>
                             <p>Team1 vs Team2</p>
-                            <p>Team2 @ 3.33</p>
-                            <p>19:00 UTC - 16/09/21</p>
+                            <p>{latestBet?.team} @ {latestBet?.odd}</p>
+                            <p>{latestBet?.gameDate}UTC - {latestBet?.gameTime}</p>
                         </div>
                         <div className="sitestats__amount">
-                            <h3>$1.00</h3>
+                            <h3>${latestBet?.winAmount}</h3>
                         </div>
                     </div>
                 </div>

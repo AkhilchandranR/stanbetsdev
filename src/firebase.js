@@ -15,13 +15,13 @@ import firebase from 'firebase';
 
 // Development version
 const firebaseConfig = {
-  apiKey: "AIzaSyCLPrOzkWQ60bB8JrD_K8JPqiISbbHyLUM",
-  authDomain: "stanbets-dev-ac21b.firebaseapp.com",
-  projectId: "stanbets-dev-ac21b",
-  storageBucket: "stanbets-dev-ac21b.appspot.com",
-  messagingSenderId: "742490728990",
-  appId: "1:742490728990:web:38f1765b37dc1bfe571c0f",
-  measurementId: "G-58YQW24236"
+  apiKey: "AIzaSyAi9Rgw6ZK2NV8t1O36sO4fsKTPfjbKQFI",
+  authDomain: "stanbets-dev2.firebaseapp.com",
+  projectId: "stanbets-dev2",
+  storageBucket: "stanbets-dev2.appspot.com",
+  messagingSenderId: "1021663084579",
+  appId: "1:1021663084579:web:789496da1fb5ae52aab196",
+  measurementId: "G-V1H2CF0J4T"
 };
 
 const app = firebase.initializeApp(firebaseConfig);

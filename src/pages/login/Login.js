@@ -54,12 +54,14 @@ function Login() {
                     lastOnline: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()
                 }).catch((err)=>err)
 
+                //route to the home page with the current user
+                history.push("/");
+
+
             })
             .catch((err)=>console.log(err))
 
-            //route to the home page with the current user
-            history.push("/");
-
+            
         }
         catch{
             window.alert("Invalid email or password")

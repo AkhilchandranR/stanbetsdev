@@ -73,7 +73,7 @@ function HomePage() {
             }
         }
         getUserData()
-    },[currentUser])
+    },[currentUser,loggedInUser])
 
     //lists out the games in the database and sets it to the state listedGames...
     useEffect(() => {
@@ -84,14 +84,15 @@ function HomePage() {
                     doc?.data()
                 ))
                 
-                setListedGames(gameCollection)
+                await setListedGames(gameCollection);
+                console.log("listedgames");
             }
             catch{
 
             }
         }
         getGamesData()
-    }, [listedGames])
+    }, [openAdminGame])
 
 
     return (

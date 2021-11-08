@@ -32,7 +32,9 @@ function ChatWindow({logUser}) {
             const arrangedMessages = messagesArray.sort((a,b)=>(
                 b.timestamp - a.timestamp
             ))
-            setMessages(arrangedMessages);
+            await setMessages(arrangedMessages);
+            console.log("messages")
+            return;
            }
            catch{
                window.alert("failed to load messages");

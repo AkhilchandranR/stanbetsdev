@@ -17,16 +17,17 @@ function MyBetsModal({show,hide}) {
             const betCollection = betData?.docs?.map((doc)=>(
                  doc?.data()
             ))
-            setUserBets(betCollection.filter((bet)=>(
+            await setUserBets(betCollection.filter((bet)=>(
                  bet.user === currentUser.uid
             )))
+            console.log("mbets")
            }
            catch{
 
            }
        }
        getMyBets();
-    },[currentUser,userBets])
+    },[show])
 
     if(!show) return null
 
