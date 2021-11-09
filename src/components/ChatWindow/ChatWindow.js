@@ -41,7 +41,7 @@ function ChatWindow({logUser}) {
            }
        }
        getMessages();
-    }, [messages])
+    }, [input])
 
     //closes the chat window but has to be changed to dom manipulation methods 
     //according to the design

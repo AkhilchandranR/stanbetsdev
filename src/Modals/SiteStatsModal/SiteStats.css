@@ -57,7 +57,15 @@
 }
 .sitestats__graph{
     background-color: #151923;
+    width: 300px;
+    height: 246px;
+    padding: 5px;
+    overflow: scroll;
 }
+.sitestats__country{
+    columns: 3;
+}
+
 @media screen and (max-width:675px) {
     .sitestats__body{
         flex-direction: column;

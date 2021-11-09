@@ -79,7 +79,6 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 setCurrentUserId(currentChatId[0]?.userId)
                 await setUser(currentUserId)
             }
-            console.log("userstats")
            }
            catch{
 
