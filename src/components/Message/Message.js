@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React from 'react';
 import './Message.css';
 import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
@@ -13,23 +13,21 @@ function Message({alternate,id,username,usermessage,isAdmin}) {
         e.preventDefault();
         dispatch(setChatUser({
             chatUserId: id
-        }))
-        dispatch(openStats())
+        }));
+        dispatch(openStats());
     }
     
     return (
-        <div className={`message ${alternate && "message__alternate"}`} 
+        <div className={`message ${alternate && "message__alternate"}`}
         onClick={handleClick}>
-            {isAdmin && 
-            <div className="message__admin">
-                <StarIcon/>
-                <p>MOD</p>
-            </div>
-            }
-            <div className="message__user">
-                <p>{username}: </p>
-                <p className="ms_body">{usermessage}</p>
-            </div>
+            <span className="message__admin">
+                    { isAdmin && 
+                    <>
+                        <StarIcon/> MOD
+                    </>
+                    }
+                    <span>{username}: <span className="message__message">{usermessage}</span></span>
+            </span>
         </div>
     )
 }

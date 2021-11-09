@@ -29,6 +29,11 @@
 .homepage__gamedetails{
     margin-top: 40px;
 }
+.homepage__gamedetailsEmpty{
+    color: white;
+    text-align: center;
+    margin-top: 50px;
+}
 .homepage__options{
     display: flex;
     align-items: center;

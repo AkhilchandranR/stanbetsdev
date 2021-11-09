@@ -12,7 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import firebase from 'firebase';
 
-function CreateBetModal({ show,hide,userBalance }) {
+function CreateBetModal({ show,hide,userBalance,username }) {
     const { currentUser } = useAuth();
     const [betAmount,setBetAmount] = useState(0);
     const gameToBetId = useSelector((state)=>state.user.betGameId);
@@ -43,7 +43,6 @@ function CreateBetModal({ show,hide,userBalance }) {
 
    //updates the win= section
     useEffect(() => {
-        const subscription = {unsubscribe: () => undefined}
         const update = async() =>{
             try{
                 const team = await gameToBet[0];
@@ -57,9 +56,6 @@ function CreateBetModal({ show,hide,userBalance }) {
             }
         }
         update();
-        return () => {
-            subscription.unsubscribe()
-        }
     }, [betAmount])
 
     //place a bet
@@ -77,12 +73,15 @@ function CreateBetModal({ show,hide,userBalance }) {
             await db.collection('bets').doc(betDocumentId).set({
                 id:betDocumentId,
                 user: currentUser.uid,
+                userName: username,
                 date: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
                 game: gameToBet[0]?.id,
                 gamename: gameToBet[0]?.gameName,
                 gameTime: gameToBet[0]?.time,
                 gameDate: gameToBet[0]?.date,
                 team: team?.name,
+                team1: gameToBet[0].team1.name,
+                team2: gameToBet[0].team2.name,
                 odd: team?.odds,
                 winAmount: betAmount,
                 isWon: false,

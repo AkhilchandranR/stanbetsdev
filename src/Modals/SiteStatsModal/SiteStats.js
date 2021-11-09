@@ -206,8 +206,8 @@ function SiteStats({open,hide}) {
                     <p>Most Recent Bet:</p>
                     <div className="sitestats__recentbet">
                         <div className="sitestats__details">
-                            <p>User: akhil</p>
-                            <p>Team1 vs Team2</p>
+                            <p>User: {latestBet?.username}</p>
+                            <p>{latestBet?.team1} vs {latestBet?.team2}</p>
                             <p>{latestBet?.team} @ {latestBet?.odd}</p>
                             <p>{latestBet?.gameDate}UTC - {latestBet?.gameTime}</p>
                         </div>

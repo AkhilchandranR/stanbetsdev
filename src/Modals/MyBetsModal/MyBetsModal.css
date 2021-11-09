@@ -29,6 +29,10 @@
     top: -5px;
     right: -8px;
 }
+.mybets__body{
+    height: 300px;
+    overflow-y: scroll;
+}
 .mybets__body > *{
     margin-bottom: 10px;
 }

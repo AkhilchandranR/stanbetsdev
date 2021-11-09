@@ -1,6 +1,4 @@
 .message{
-    display: flex;
-    align-items: flex-start;
     color: white;
     background-color: #2d3446;
     padding: 5px;
@@ -9,24 +7,18 @@
     background-color: #1d1e2a !important;
 }
 .message__admin{
-    display: flex;
-    align-items: center;
-}
-.message__admin > p{
     font-weight: 700;
-}
-.message__user{
-    margin-left: 4px;
-    display: flex;
-    justify-content: start;
-}
-.message__user p:first-of-type{
-    font-weight: 700;
-    margin-right: 2px;
-}
-.ms_body{
+    display: inline-block;
+    vertical-align: middle;
     word-break: break-all;
+}
+.message__admin > span{
+    margin-left: 5px;
+}
+.message__message{
+    font-weight: normal;
 }
 .message__admin > .MuiSvgIcon-root{
     color: #ff9ff5;
+    font-size: 1.2em !important;
 }

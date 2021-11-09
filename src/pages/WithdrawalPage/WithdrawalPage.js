@@ -12,8 +12,8 @@ function WithdrawalPage() {
         <div className="withdrawalpage__contents">
           <WithdrawalWindow />
         </div>
+        <Footer/>
       </div>
-      {/* <Footer/> */}
     </div>
   );
 }

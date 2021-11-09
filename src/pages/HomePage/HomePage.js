@@ -66,13 +66,13 @@ function HomePage() {
                         user.isOnline === true
                     ))
                     setNoOfOnlineUsers(OnlineUsers.length);
-                    }   
+                    } 
             }
             catch{
 
             }
         }
-        getUserData()
+        getUserData();
     },[currentUser])
 
     //lists out the games in the database and sets it to the state listedGames...
@@ -93,7 +93,6 @@ function HomePage() {
         }
         getGamesData()
     }, [openAdminGame])
-
 
     return (
         <div className="homepage">
@@ -122,7 +121,12 @@ function HomePage() {
                             </div>}
                         </div>
                     </div>
-                    <div className="homepage__gamedetails">
+                    {!listedGames ? (
+                        <div className="homepage__gamedetailsEmpty">
+                            <h2>No games are available currently.Please come back later.</h2>
+                        </div>
+                    ):(
+                        <div className="homepage__gamedetails">
                         {listedGames?.filter((games)=>{
                             if(searchTerm == ''){
                                 return games
@@ -145,14 +149,16 @@ function HomePage() {
                         ))
                         }
                     </div>
+                    )}
+                    
                 </div>
+                <Footer/>
             </div>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser[0]}/>
             <UserStatsModal show={showStatsModal} hide={()=>dispatch(closeStats())} isAnAdmin={loggedInUser[0]?.isAdmin}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
-            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser[0]?.totalBalance}/>
-            {/* <Footer/> */}
+            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser[0]?.totalBalance} username={loggedInUser[0]?.username}/>
         </div>
     )
 }
