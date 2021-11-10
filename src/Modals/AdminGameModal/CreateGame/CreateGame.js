@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
 import { v4 as uuidv4} from 'uuid';
 
-function CreateGame({open,hide}) {
+function CreateGame({open,hide,hideAdmin}) {
     const gameRef = useRef();
     const dateRef = useRef();
     const [timeRef,setTimeRef] = useState("00:00");
@@ -31,6 +31,7 @@ function CreateGame({open,hide}) {
                     date: dateRef.current.value,
                     time: timeRef,
                     link: linkRef.current.value,
+                    payOut: false,
                     team1:{
                         name:teamOneRef.current.value,
                         odds: teamOneOddsRef.current.value,
@@ -50,6 +51,7 @@ function CreateGame({open,hide}) {
             }
         }
         hide();
+        hideAdmin();
     }
 
     if (!open) return null;

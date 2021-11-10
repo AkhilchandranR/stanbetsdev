@@ -1,12 +1,12 @@
 import React from 'react';
 import './MyBetComponent.css';
 
-function MyBetComponent({ name,team,odd,time,date,amount,bets,over}) {
+function MyBetComponent({ name,team,odd,time,date,amount,bets,over,team1,team2}) {
     return (
         <div className="mybetcomponent">
             <div className="mybetcomponent__details">
                 <p>{name}</p>
-                <p>Team1 vs Team2</p>
+                <p>{team1} vs {team2}</p>
                 <p>{team}@{odd}</p>
                 <p>{time} UTC - {date}</p>
             </div>

@@ -55,7 +55,7 @@
     border: none;
     flex: 1;
 }
-.creategame__inputs > input:focus{
+.creategame__inputshalf > input:focus{
     outline: none;
 }
 .creategame > button{

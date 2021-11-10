@@ -47,7 +47,7 @@ function SignUp() {
         }
 
         //check for password matching...
-        if(passwordRef != confirmPasswordRef){
+        if(passwordRef.current.value !== confirmPasswordRef.current.value){
             setPasswordNotMatching(true);
             return;
         }
@@ -87,6 +87,7 @@ function SignUp() {
                         totalBalance: 10,
                         totalDeposited: 10,
                         totalWithdrawn: 0,
+                        totalWagered: 0,
                     })
                     response.user.sendEmailVerification()
                     .then(()=>{

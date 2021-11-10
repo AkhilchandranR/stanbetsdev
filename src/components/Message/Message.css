@@ -2,6 +2,7 @@
     color: white;
     background-color: #2d3446;
     padding: 5px;
+    cursor: pointer;
 }
 .message__alternate{
     background-color: #1d1e2a !important;

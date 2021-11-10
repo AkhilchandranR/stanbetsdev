@@ -1,9 +1,43 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import './UserLookUpModal.css';
 import ReactDom from 'react-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { db } from '../../firebase';
 
 function UserLookUpModal({open,hide,currentUser}) {
+    const[userMuted,setUserMuted] = useState(currentUser?.isMuted);
+
+    //mute a user....
+    const muteUser = async(e) =>{
+        e.preventDefault();
+        try{
+            await db.collection('users').doc(currentUser?.userId).update({
+                isMuted: true
+            })
+            .catch((e)=>window.alert(e.message))
+            setUserMuted(true);
+        }
+        catch{
+            window.alert("failed to mute.Please try again")
+        }
+        
+    }
+
+    //unmute a user can be done in same function in mute but stays like this for now...
+    const unMuteUser = async(e) =>{
+        e.preventDefault();
+        try{
+            await db.collection('users').doc(currentUser?.userId).update({
+                isMuted: false
+            })
+            .catch((e)=>window.alert(e.message))
+            setUserMuted(false);
+        }
+        catch{
+            window.alert("failed to unmute.Please try again")
+        }
+        
+    }
 
     if(!open) return null;
 
@@ -46,10 +80,10 @@ function UserLookUpModal({open,hide,currentUser}) {
                 </div>
             </div>
             <div className="userlookupmodal__buttons">
-                {currentUser?.isMuted ? (
-                <button className="usermute">Unmute</button>
+                {userMuted ? (
+                <button className="usermute" onClick={unMuteUser}>Unmute</button>
                 ):(
-                <button className="usermute">Mute</button>
+                <button className="usermute" onClick={muteUser}>Mute</button>
                 )
                 }
                 <button className="userdelete">Delete</button>

@@ -121,7 +121,7 @@ function HomePage() {
                             </div>}
                         </div>
                     </div>
-                    {!listedGames ? (
+                    {(listedGames.length <= 0) ? (
                         <div className="homepage__gamedetailsEmpty">
                             <h2>No games are available currently.Please come back later.</h2>
                         </div>

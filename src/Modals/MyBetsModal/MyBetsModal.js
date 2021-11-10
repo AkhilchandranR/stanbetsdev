@@ -8,7 +8,7 @@ import { useAuth } from "../../AuthContext";
 
 function MyBetsModal({show,hide}) {
     const { currentUser } = useAuth();
-    const [userBets,setUserBets] = useState();
+    const [userBets,setUserBets] = useState([]);
 
     useEffect(() => {
        const getMyBets = async() =>{
@@ -20,7 +20,6 @@ function MyBetsModal({show,hide}) {
             await setUserBets(betCollection.filter((bet)=>(
                  bet.user === currentUser.uid
             )))
-            console.log("mbets")
            }
            catch{
 
@@ -39,20 +38,28 @@ function MyBetsModal({show,hide}) {
                 <h2>My Bets</h2>
                 <Close onClick={hide}/>
             </div>
-            <div className="mybets__body">
-                {userBets?.map((bets)=>(
-                    <MyBetComponent key={bets?.id}
-                    name={bets?.gamename}
-                    team={bets?.team}
-                    odd={bets?.odd}
-                    time={bets?.gameTime}
-                    date={bets?.gameDate}
-                    amount={bets?.winAmount}
-                    bets={bets?.isWon}
-                    over={bets?.isOver}
-                    />
-                ))}
-            </div>
+            {(userBets.length > 0) ? (
+                <div className="mybets__body">
+                    {userBets?.map((bets)=>(
+                        <MyBetComponent key={bets?.id}
+                        name={bets?.gamename}
+                        team={bets?.team}
+                        team1={bets?.team1}
+                        team2={bets?.team2}
+                        odd={bets?.odd}
+                        time={bets?.gameTime}
+                        date={bets?.gameDate}
+                        amount={bets?.winAmount}
+                        bets={bets?.isWon}
+                        over={bets?.isOver}
+                        />
+                    ))}
+                </div>
+            ):(
+                <div className="mybets__betsEmpty">
+                    <h3>You haven't placed a bet yet</h3>
+                </div>
+            )}
         </div>
         </>,
         document.getElementById('portal')

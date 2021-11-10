@@ -54,6 +54,10 @@
     justify-content: flex-start;
     flex-wrap: wrap;
 }
+.admingame__gamesEmpty{
+    color: white;
+    text-align: center;
+}
 .admingame__games > *{
     flex: 0.20;
     margin-right: 15px;

@@ -17,8 +17,8 @@ function CreateBetModal({ show,hide,userBalance,username }) {
     const [betAmount,setBetAmount] = useState(0);
     const gameToBetId = useSelector((state)=>state.user.betGameId);
     const [gameToBet,setGameToBet] = useState();
-    const moneyForTeam1 = useRef(0.0);
-    const moneyForTeam2 = useRef(0.0);
+    const [moneyForTeam1,setMoneyForTeam1] = useState(0);
+    const [moneyForTeam2,setMoneyForTeam2] = useState(0);
 
     //pulls out the required game
     useEffect(() => {
@@ -33,7 +33,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                 )))           
             }
             catch{
-                console.log("please wait")
+                window.alert("failed to load games.Please try again later.")
             }
         }
         getGame()
@@ -47,8 +47,8 @@ function CreateBetModal({ show,hide,userBalance,username }) {
             try{
                 const team = await gameToBet[0];
                 if(team){
-                    moneyForTeam1.current = team.team1?.odds * betAmount;
-                    moneyForTeam2.current = team.team2?.odds * betAmount;
+                    setMoneyForTeam1((team.team1?.odds * betAmount).toFixed(2));
+                    setMoneyForTeam2((team.team2?.odds * betAmount).toFixed(2));
                 }
             }
             catch{
@@ -93,7 +93,8 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                 
             })
             await db.collection('users').doc(currentUser.uid).update({
-                totalBalance: firebase.firestore.FieldValue.increment(-(betAmount))
+                totalBalance: firebase.firestore.FieldValue.increment(-(betAmount)),
+                totalWagered: firebase.firestore.FieldValue.increment(betAmount),
             })
             window.alert("your bet is placed")
         }
@@ -102,6 +103,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
         }
         hide();
         setBetAmount(0);
+        window.location.reload();
     }
 
     
@@ -141,7 +143,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                     <p>
                         {gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}
                     </p>
-                    <p>Win = ${moneyForTeam1.current}</p>
+                    <p>Win = ${moneyForTeam1}</p>
                     </div>
                 </button>
                 <button className="red" disabled={gameToBet[0]?.team2?.locked} onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
@@ -155,7 +157,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                         
                         {gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}
                     </p>
-                    <p>Win = ${moneyForTeam2.current}</p>
+                    <p>Win = ${moneyForTeam2}</p>
                     </div>
                 </button>
             </div>

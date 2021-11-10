@@ -78,7 +78,7 @@ function SiteStats({open,hide}) {
                 await setTotalBetsLost(betsLost.length);
 
                 const arrangedBets = await betsCollection.sort((a,b)=>(
-                    a.timestamp - b.timestamp
+                    b.timeStamp - a.timeStamp
                 ))
                 await setLatestBet(arrangedBets[0]); 
 
@@ -115,7 +115,7 @@ function SiteStats({open,hide}) {
     }, [])
 
     console.log(pieChartData)
-    const graphicColor = ['#388087', '#6fb3b8', '#badfe7'];
+    const graphicColor = ['#FFB6C1','#FF1493','#9932CC','#8B008B','#C71585'];
       //piechart data ends........
     
       if(!open) return null;
@@ -206,7 +206,7 @@ function SiteStats({open,hide}) {
                     <p>Most Recent Bet:</p>
                     <div className="sitestats__recentbet">
                         <div className="sitestats__details">
-                            <p>User: {latestBet?.username}</p>
+                            <p>User: {latestBet?.userName}</p>
                             <p>{latestBet?.team1} vs {latestBet?.team2}</p>
                             <p>{latestBet?.team} @ {latestBet?.odd}</p>
                             <p>{latestBet?.gameDate}UTC - {latestBet?.gameTime}</p>

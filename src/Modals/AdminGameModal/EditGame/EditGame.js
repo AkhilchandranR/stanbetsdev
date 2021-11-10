@@ -4,6 +4,7 @@ import Close from '@mui/icons-material/Close';
 import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
 import firebase from 'firebase';
+import Loader from '../../../components/Laoder/Loader';
 
 function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameName,setGameName] = useState(name);
@@ -15,6 +16,10 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameTeam1odd,setGameTeam1odd] = useState(team1.odds);
     const[gameTeam2Name,setGameTeam2Name] = useState(team2.name);
     const[gameTeam2odd,setGameTeam2odd] = useState(team2.odds);
+    const[TeamOneLocked,setTeamOneLocked] = useState(team1.locked);
+    const[TeamTwoLocked,setTeamTwoLocked] = useState(team2.locked);
+    const[loadingPayoutOne,setLoadingPayoutOne] = useState(false);
+    const[loadingPayoutTwo,setLoadingPayoutTwo] = useState(false);
     const[userIds,setUserIds] = useState([]);
 
 
@@ -28,6 +33,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             const fairoddOne = Math.round((1/teamOneOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
             const fairoddTwo = Math.round((1/teamTwoOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
             await db.collection('games').doc(id).update({
+                id:id,
                 gameName:gameName,
                 date:gameDate,
                 time:gameTime,
@@ -51,11 +57,13 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                 await db.collection('games').doc(id).update({
                     team1:{name:team1.name,odds:team1.odds,locked:!(team1.locked),fairOdds:team1.fairOdds}
                 }).catch((err)=>alert(err.message))
+                setTeamOneLocked(!TeamOneLocked);
             }
             if(team == "team2"){
                 await db.collection('games').doc(id).update({
                     team2:{name:team2.name,odds:team2.odds,locked:!(team2.locked),fairOdds:team2.fairOdds}
                 }).catch((err)=>alert(err.message))
+                setTeamTwoLocked(!TeamTwoLocked);
             }
         }
         catch{
@@ -66,6 +74,13 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     //payout for won bets
     const payOut = async(team) =>{
        try{
+           if(team == team1.name){
+                setLoadingPayoutOne(true);
+           }
+           else if(team == team2.name){
+               setLoadingPayoutTwo(true);
+           }
+           
            //has to specify that the game is already paid out..
            await db.collection('games').doc(id).update({
                 payOut: true,
@@ -112,6 +127,10 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
        catch{
            window.alert("failed to payout.Please try again")
        }
+       setLoadingPayoutOne(false);
+       setLoadingPayoutTwo(false);
+       hide();
+       window.location.reload();
     }
 
     if(!open) return null
@@ -172,18 +191,26 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             <button onClick={editCurrentGame}>Edit Current Listing</button>
             <div className="editgame__lock">
                 <button onClick={()=>{lockBets("team1")}}>
-                    {team1.locked ? "Unlock" : "Lock"} Bets For {gameTeam1Name}
+                    {TeamOneLocked? "Unlock" : "Lock"} Bets For {gameTeam1Name}
                 </button>
                 <button onClick={()=>{lockBets("team2")}}>
-                    {team2.locked ? "Unlock" : "Lock"} Bets For {gameTeam2Name}
+                    {TeamTwoLocked? "Unlock" : "Lock"} Bets For {gameTeam2Name}
                 </button>
             </div>
             <div className="editgame__payout">
                 <button onClick={()=>{payOut(gameTeam1Name)}} disabled={payedOut}>
-                    Payout {gameTeam1Name} @ {gameTeam1odd}
+                    {loadingPayoutOne ? (
+                        <Loader/>
+                    ):(
+                        `Payout ${gameTeam1Name} @ ${gameTeam1odd}`  
+                    )} 
                 </button>
                 <button onClick={()=>{payOut(gameTeam2Name)}} disabled={payedOut}>
-                    Payout {gameTeam2Name} @ {gameTeam2odd}
+                    {loadingPayoutTwo ? (
+                        <Loader/>
+                    ):(
+                        `Payout ${gameTeam2Name} @ ${gameTeam2odd}` 
+                    )} 
                 </button>
             </div>
         </div>

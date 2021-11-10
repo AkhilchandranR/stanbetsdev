@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ReactDom from 'react-dom';
 import { useSelector } from 'react-redux';
 import { db } from '../../firebase';
+import Loader from '../../components/Laoder/Loader';
 
 function UserStatsModal({show,hide,isAnAdmin}) {
     const[docId,setDocId] = useState("");
@@ -11,6 +12,31 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     const[currentUserId,setCurrentUserId] = useState('');
     const[currentUser,setCurrentUser] = useState([]);
     const chatUser = useSelector((state)=>state.user.chatUserId);
+    const[userMuted,setUserMuted] = useState(false);
+
+
+    useEffect(() => {
+        const getChatUser = async() =>{
+            try{
+             const chats = await db.collection('chats').get()
+             const chatsCollection = chats?.docs?.map((doc)=>(
+                 doc?.data()
+             ))
+             setCurrentChatId(chatsCollection?.filter((chat)=>(
+                 chat.id == chatUser
+             )))
+             if(currentChatId){
+                 setCurrentUserId(currentChatId[0]?.userId)
+                 await setUser(currentUserId)
+             }
+            }
+            catch{
+ 
+            }           
+        }
+        getChatUser();
+     },[show,chatUser])
+
 
     //sets the current user and document id
     const setUser = async(userid) =>{
@@ -19,9 +45,10 @@ function UserStatsModal({show,hide,isAnAdmin}) {
             const userCollection = userData?.docs?.map((doc)=>(
                 doc?.data()
             ))
-            setCurrentUser(userCollection.filter((user)=>(
+            await setCurrentUser(userCollection.filter((user)=>(
                 user.userId === userid
             )))
+            await setUserMuted(currentUser[0]?.isMuted);
 
             if(currentUser){
                 const userRef = db.collection('users');
@@ -44,18 +71,32 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     
     //mute a user
     const muteUser = async(e) =>{
-        await db.collection('users').doc(docId).update({
-            isMuted: true
-        }).then((response)=>response)
-        .catch((e)=>window.alert(e.message))
+        try{
+            await db.collection('users').doc(docId).update({
+                isMuted: true
+            })
+            .catch((e)=>window.alert(e.message))
+            setUserMuted(true);
+        }
+        catch{
+            window.alert("failed to mute.Please try again")
+        }
+        
     }
 
     //unmute a user can be done in same function in mute but stays like this for now
     const unMuteUser = async(e) =>{
-        await db.collection('users').doc(docId).update({
-            isMuted: false
-        }).then((response)=>response)
-        .catch((e)=>window.alert(e.message))
+        try{
+            await db.collection('users').doc(docId).update({
+                isMuted: false
+            })
+            .catch((e)=>window.alert(e.message))
+            setUserMuted(false);
+        }
+        catch{
+            window.alert("failed to unmute.Please try again")
+        }
+        
     }
 
     //delete a user details, can only be performed from server side
@@ -65,30 +106,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     // }
     
 
-    useEffect(() => {
-       const getChatUser = async() =>{
-           try{
-            const chats = await db.collection('chats').get()
-            const chatsCollection = chats?.docs?.map((doc)=>(
-                doc?.data()
-            ))
-            setCurrentChatId(chatsCollection?.filter((chat)=>(
-                chat.id == chatUser
-            )))
-            if(currentChatId){
-                setCurrentUserId(currentChatId[0]?.userId)
-                await setUser(currentUserId)
-            }
-           }
-           catch{
-
-           }           
-       }
-       getChatUser();
-    },[show])
-
     if(!show) return null;
-
 
     else{
         if(isAnAdmin){
@@ -96,7 +114,11 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 <>
                 <div className="overlay"></div>
                 <div className="userstatsmodal">
-                    <div className="userstatsmodal__header">
+                    {(currentUser.length === 0) ? (
+                        <Loader/>
+                    ):(
+                        <>
+                        <div className="userstatsmodal__header">
                         <h2>{currentUser[0]?.username}'s Stats/info</h2>
                         <CloseIcon onClick={hide}/>
                     </div>
@@ -131,7 +153,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">
-                        {currentUser[0]?.isMuted ? (
+                        {userMuted ? (
                         <button className="usermute" onClick={unMuteUser}>Unmute</button>
                         ):(
                         <button className="usermute" onClick={muteUser}>Mute</button>
@@ -139,6 +161,9 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         }
                         <button className="userdelete">Delete</button>
                     </div>
+                        </>
+                    )}
+                    
                 </div>
                 </>,
                 document.getElementById('portal')
@@ -160,7 +185,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         </div>
                         <p>Total Wagered:</p>
                         <div className="userstatsmodal__data">
-                            <p>$105.00</p>
+                            <p>${currentUser[0]?.totalWagered}</p>
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">

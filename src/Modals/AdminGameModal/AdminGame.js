@@ -22,8 +22,11 @@ function AdminGame({ show,hide }) {
                 const games = await db.collection('games').get()
                 const gameCollection = games?.docs?.map((doc)=>(
                     doc?.data()
-                )).slice(0,5);
-                await setCurrentGames(gameCollection);
+                ))
+                const gamesGoingOn = gameCollection?.filter((game)=>(
+                    game.payOut === false
+                ))
+                await setCurrentGames(gamesGoingOn);
             }
             catch{
                 alert("failed to load games please try again")
@@ -76,23 +79,30 @@ function AdminGame({ show,hide }) {
                 <Close onClick={hide}/>
             </div>
             <p>Current Listed Games:</p>
-            <div className="admingame__games">
-                {currentGames?.map((game)=>(
-                    <GameComponent 
-                    key={game?.id}
-                    id={game?.id}
-                    team1={game?.team1}
-                    team2={game?.team2}
-                    name={game?.gameName}
-                    date={game?.date}
-                    time={game?.time}
-                    link={game?.link}
-                    payout={game?.payOut}
-                    />
-                ))}
-            </div>
+            {(currentGames.length > 0)?(
+                <div className="admingame__games">
+                    {currentGames?.map((game)=>(
+                        <GameComponent 
+                        key={game?.id}
+                        id={game?.id}
+                        team1={game?.team1}
+                        team2={game?.team2}
+                        name={game?.gameName}
+                        date={game?.date}
+                        time={game?.time}
+                        link={game?.link}
+                        payout={game?.payOut}
+                        />
+                    ))}
+                </div>
+            ):(
+                <div className = "admingame__gamesEmpty">
+                    <h3>No games are listed currently</h3>
+                </div>
+            )}
+            
         </div>
-        <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}}/>
+        <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}} hideAdmin={hide}/>
         <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
         <UserLookUpModal open={openLookUp} hide={()=>setOpenLookUp(false)} currentUser={searchedUser}/>
         </>,
