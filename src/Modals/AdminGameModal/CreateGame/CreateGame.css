@@ -80,3 +80,15 @@
     top: -10px;
     right: -10px;
 }
+@media screen and (max-width:658px) {
+    .creategame__inputs{
+        width: unset;
+    }
+    .creategame__inputshalf{
+        width: unset;
+    }
+    .creategame__teams{
+        flex-direction: column;
+        align-items: unset;
+    }
+}

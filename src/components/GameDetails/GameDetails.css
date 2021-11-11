@@ -37,6 +37,15 @@
     border-radius: 15px;
     margin-left: 20px;
 }
+.gamedetails__time{
+    display: flex;
+    align-items: center;
+}
+.gamedetails__time > .MuiSvgIcon-root{
+    color: white !important;
+    margin-left: 7px;
+    cursor: pointer;
+}
 @media screen and (max-width:769px) {
     .gamedetails{
         width: 75vw;
@@ -56,5 +65,10 @@
     }
     .gamedetails{
         width: 90vw;
+    }
+}
+@media screen and (max-width:370px) {
+    .gamedetails__bet{
+        margin-left: 5px;
     }
 }

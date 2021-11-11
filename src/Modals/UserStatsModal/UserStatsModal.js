@@ -2,77 +2,44 @@ import React,{ useState,useEffect } from 'react';
 import './UserStatsModal.css';
 import CloseIcon from '@mui/icons-material/Close';
 import ReactDom from 'react-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { db } from '../../firebase';
 import Loader from '../../components/Laoder/Loader';
+import { closeStats } from '../../States/slices/userSlice';
 
-function UserStatsModal({show,hide,isAnAdmin}) {
-    const[docId,setDocId] = useState("");
-    const[currentChatId,setCurrentChatId] = useState([]);
-    const[currentUserId,setCurrentUserId] = useState('');
+function UserStatsModal({isAnAdmin,isMuted}) {
     const[currentUser,setCurrentUser] = useState([]);
     const chatUser = useSelector((state)=>state.user.chatUserId);
-    const[userMuted,setUserMuted] = useState(false);
+    const showStatsModal = useSelector((state)=>state.user.openStatsModal);
+    const[userMuted,setUserMuted] = useState(isMuted);
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
         const getChatUser = async() =>{
+            console.log(chatUser)
             try{
-             const chats = await db.collection('chats').get()
-             const chatsCollection = chats?.docs?.map((doc)=>(
+             const user = await db.collection('users').get()
+             const userCollection = user?.docs?.map((doc)=>(
                  doc?.data()
              ))
-             setCurrentChatId(chatsCollection?.filter((chat)=>(
-                 chat.id == chatUser
+             setCurrentUser(userCollection?.filter((u)=>(
+                 u.userId == chatUser
              )))
-             if(currentChatId){
-                 setCurrentUserId(currentChatId[0]?.userId)
-                 await setUser(currentUserId)
-             }
             }
             catch{
  
             }           
         }
         getChatUser();
-     },[show,chatUser])
+     },[chatUser,showStatsModal])
 
 
-    //sets the current user and document id
-    const setUser = async(userid) =>{
-        try{
-            const userData = await db.collection('users').get()
-            const userCollection = userData?.docs?.map((doc)=>(
-                doc?.data()
-            ))
-            await setCurrentUser(userCollection.filter((user)=>(
-                user.userId === userid
-            )))
-            await setUserMuted(currentUser[0]?.isMuted);
-
-            if(currentUser){
-                const userRef = db.collection('users');
-                const snapshot = await userRef.get();
-                if (snapshot.empty) {
-                return;
-                }  
-                
-                snapshot.forEach(doc => {
-                if (doc.data().userId == currentUser[0]?.userId){
-                    setDocId(doc.id)
-                }
-                })
-            }
-        }
-        catch{
-
-        }
-    }
     
     //mute a user
     const muteUser = async(e) =>{
         try{
-            await db.collection('users').doc(docId).update({
+            await db.collection('users').doc(chatUser).update({
                 isMuted: true
             })
             .catch((e)=>window.alert(e.message))
@@ -87,7 +54,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     //unmute a user can be done in same function in mute but stays like this for now
     const unMuteUser = async(e) =>{
         try{
-            await db.collection('users').doc(docId).update({
+            await db.collection('users').doc(chatUser).update({
                 isMuted: false
             })
             .catch((e)=>window.alert(e.message))
@@ -99,6 +66,11 @@ function UserStatsModal({show,hide,isAnAdmin}) {
         
     }
 
+    const hide =(e)=>{
+        e.preventDefault();
+        dispatch(closeStats())
+    }
+
     //delete a user details, can only be performed from server side
     // const deleteUser = async(e) =>{
     //     e.preventDefault();
@@ -106,7 +78,7 @@ function UserStatsModal({show,hide,isAnAdmin}) {
     // }
     
 
-    if(!show) return null;
+    if(!showStatsModal) return null;
 
     else{
         if(isAnAdmin){
@@ -114,10 +86,6 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                 <>
                 <div className="overlay"></div>
                 <div className="userstatsmodal">
-                    {(currentUser.length === 0) ? (
-                        <Loader/>
-                    ):(
-                        <>
                         <div className="userstatsmodal__header">
                         <h2>{currentUser[0]?.username}'s Stats/info</h2>
                         <CloseIcon onClick={hide}/>
@@ -161,8 +129,6 @@ function UserStatsModal({show,hide,isAnAdmin}) {
                         }
                         <button className="userdelete">Delete</button>
                     </div>
-                        </>
-                    )}
                     
                 </div>
                 </>,

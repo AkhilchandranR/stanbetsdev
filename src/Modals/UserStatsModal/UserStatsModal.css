@@ -40,8 +40,8 @@
 }
 .userstatsmodal__data{
     background-color: #151923;
-    width: 30vw;
     padding: 10px 8px;
+    width: 290px;
 }
 .userstatsmodal__data > p{
     font-size: 1.2rem;
@@ -72,22 +72,4 @@
     padding: 4px 8px;
     border-radius: 5px;
     width: 120px;
-}
-@media screen and (max-width:750px) {
-    .userstatsmodal__data{
-        width: 40vw;
-    }
-    
-}
-@media screen and (max-width:500px) {
-    .userstatsmodal__data{
-        width: 50vw;
-    }
-    
-}
-@media screen and (max-width:390px) {
-    .userstatsmodal__data{
-        width: 60vw;
-    }
-    
 }

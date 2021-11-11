@@ -165,9 +165,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
             <div className="createbet__matchlink">
                 <p>
                 Watch the game live on Twitch(19:00 UTC 18/10/21)
-                <Link to={gameToBet[0].link} target="_blank" rel="noreferrer noopener">
-                    <OpenInNewIcon/>
-                </Link>
+                <OpenInNewIcon onClick={()=>{window.open(gameToBet[0]?.link,'_blank')}}/>
                 </p>
             </div>
             }

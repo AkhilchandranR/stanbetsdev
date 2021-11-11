@@ -120,3 +120,31 @@
 .editgame__payout > button:nth-child(2){
     background-color: #f27272 !important;
 }
+@media screen and (max-width:658px) {
+    .editgame__inputs{
+        width: 290px;
+    }
+    .editgame__inputshalf{
+        width: 290px;
+    }
+    .editgame__teams{
+        flex-direction: column;
+        align-items: unset;
+    }
+    .editgame__lock > button{
+        width: unset;
+        margin-top: 4px;
+    }
+    .editgame__payout > button{
+        width: unset;
+        margin-top: 4px;
+    }
+    .editgame__lock{
+        flex-direction: column;
+        align-items: unset;
+    }
+    .editgame__payout{
+        flex-direction: column;
+        align-items: unset;
+    }
+}

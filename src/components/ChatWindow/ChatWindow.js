@@ -85,6 +85,8 @@ function ChatWindow({logUser}) {
                     isAdmin ={message?.isAdmin}
                     usermessage={message?.message}
                     alternate={alternatingColor[index % alternatingColor.length]}
+                    isAnAdmin={logUser?.isAdmin}
+                    isMuted={logUser?.isMuted}
                     />
                 ))}
             </div>
