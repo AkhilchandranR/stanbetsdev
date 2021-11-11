@@ -33,7 +33,6 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             const fairoddOne = Math.round((1/teamOneOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
             const fairoddTwo = Math.round((1/teamTwoOdds*100)/((1/teamOneOdds*100)+(1/teamTwoOdds*100))*100);
             await db.collection('games').doc(id).update({
-                id:id,
                 gameName:gameName,
                 date:gameDate,
                 time:gameTime,
@@ -106,7 +105,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                             const Amount = data.AmountIfWon;
                             await db.collection('users').doc(wonUser).update({
                                 totalBalance: firebase.firestore.FieldValue.increment(Amount)
-                            })
+                            }).catch((err)=>{console.log(err)})
                        }
                        updateBetsAndUser();
                    }
@@ -129,8 +128,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
        }
        setLoadingPayoutOne(false);
        setLoadingPayoutTwo(false);
-       hide();
-       window.location.reload();
+        hide();
     }
 
     if(!open) return null
