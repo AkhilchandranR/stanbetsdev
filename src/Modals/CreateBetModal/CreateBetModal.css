@@ -104,11 +104,26 @@ input::-webkit-inner-spin-button {
 input[type=number]{
     -moz-appearance: textfield;
 }
+@media screen and (max-width:794px) {
+    .blue,.red{
+        font-size: 0.9em;
+        font-weight: 600;
+    }
+}
+@media screen and (max-width:422px) {
+    .createbet{
+        padding: 10px 30px;
+    }
+}
 @media screen and (max-width: 414px) {
     .createbet__amount{
         width:230px;
     }
     .red,.blue{
         font-size: 0.8rem;
+    }
+    .createbet__oddspercent{
+        font-size: 0.9em;
+        top: 0px;
     }
 }
