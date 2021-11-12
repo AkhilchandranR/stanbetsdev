@@ -153,8 +153,8 @@ function HomePage() {
                     )}
                     
                 </div>
-                <Footer/>
             </div>
+            <Footer/>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser[0]}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 

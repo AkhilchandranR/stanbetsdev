@@ -9,6 +9,7 @@
     display: grid;
     place-items: center;
     background-color: #151923;
+    overflow-y: scroll;
 }
 .login__form{
     background-color: #4b5264;
@@ -18,6 +19,7 @@
     width: fit-content;
     padding: 20px 18px;
     border-radius: 20px;
+    margin-top: 20px !important;
 }
 .login__form > h1{
     color: white;
@@ -58,7 +60,7 @@
     display: flex;
     background-color: white;
     width: 35vw;
-    height: 5vh;
+    height: 50px;
     padding: 7px;
     border-radius: 5px;
     overflow: hidden;
@@ -83,45 +85,82 @@
     left: 65px;
     top: 0;
 } */
-
-@media screen and (max-width:550px) {
+@media screen and (max-width:750px) {
     .login__inputField{
-        width: 40vw;
+        width: 300px;
     }
     .login__form{
         padding: 20px 14px;
     }
+    .login__form > button{
+        width: 300px;
+    }
+}
+@media screen and (max-width:630px) {
+    .login__inputField{
+        width: 300px;
+    }
+    .login__form{
+        padding: 20px 14px;
+    }
+    .login__form > button{
+        width: 300px;
+    }
+}
+
+@media screen and (max-width:550px) {
+    .login__inputField{
+        width: 300px;
+    }
+    .login__form{
+        padding: 20px 14px;
+    }
+    .login__form > button{
+        width: 300px;
+    }
 }
 @media screen and (max-width:480px) {
     .login__inputField{
-        width: 43vw;
+        width: 280px;
     }
     .login__form{
         padding: 17px 12px;
     }
+    .login__form > button{
+        width: 280px;
+    }
 }
 @media screen and (max-width:414px) {
     .login__inputField{
-        width: 45vw;
+        width: 270px;
     }
     .login__form{
         padding: 17px 10px;
     }
+    .login__form > button{
+        width: 270px;
+    }
 }
 @media screen and (max-width:350px) {
     .login__inputField{
-        width: 50vw;
+        width: 250px;
     }
     .login__form{
-        padding: 14px 8px;
+        padding: 14px 2px;
+    }
+    .login__form > button{
+        width: 250px;
     }
 }
 @media screen and (max-width:328px) {
     .login__inputField{
-        width: 55vw;
+        width: 240px;
     }
     .login__form{
-        padding: 14px 6px;
+        padding: 14px 2px;
+    }
+    .login__form > button{
+        width: 240px;
     }
 }
 

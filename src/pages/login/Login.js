@@ -113,7 +113,7 @@ function Login() {
                     </div>
                         <div className="signup__input">
                             <p>Enter the Captcha:</p>
-                            <div className="signup__inputField">
+                            <div className="login__inputField">
                                 <input type="text" ref={captchaRef} required/>
                             </div>
                             {wrongCaptcha && <p className="captcha">Captchas does not match !</p>}

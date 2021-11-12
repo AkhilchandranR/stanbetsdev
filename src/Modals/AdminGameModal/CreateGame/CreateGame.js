@@ -36,13 +36,13 @@ function CreateGame({open,hide,hideAdmin}) {
                         name:teamOneRef.current.value,
                         odds: teamOneOddsRef.current.value,
                         locked: false,
-                        fairOdds: fairoddOne
+                        fairOdds: fairoddOne.toFixed(2)
                     },
                     team2:{
                         name:teamTwoRef.current.value,
                         odds: teamTwoOddsRef.current.value,
                         locked: false,
-                        fairOdds: fairoddTwo
+                        fairOdds: fairoddTwo.toFixed(2)
                     }
                 })
             }
