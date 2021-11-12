@@ -27,7 +27,7 @@ function HomePage() {
     const [searchTerm,setSearchTerm] = useState('');
     const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
-    const [loggedInUser,setLoggedInUser] = useState([]);
+    const [loggedInUser,setLoggedInUser] = useState({});
     const [noOfOnlineUsers,setNoOfOnlineUsers] = useState(0);
     const [listedGames,setListedGames] = useState([]);
     const dispatch = useDispatch();
@@ -59,17 +59,20 @@ function HomePage() {
                     const userCollection = userData?.docs?.map((doc)=>(
                         doc?.data()
                     ))
-                    setLoggedInUser(userCollection.filter((user)=>(
-                        user.userId === currentUser.uid
-                    )))
                     const OnlineUsers = await userCollection.filter((user)=>(
                         user.isOnline === true
                     ))
                     setNoOfOnlineUsers(OnlineUsers.length);
+
+                    await db.collection("users").doc(currentUser.uid)
+                    .onSnapshot((doc) => {
+                        setLoggedInUser(doc.data())
+                    });
+
                     } 
             }
-            catch{
-
+            catch(error){
+                console.log(error)
             }
         }
         getUserData();
@@ -105,7 +108,7 @@ function HomePage() {
                     />
                     }
                 </div>
-                {openChatbox && <ChatWindow logUser={loggedInUser[0]}/>}
+                {openChatbox && <ChatWindow logUser={loggedInUser}/>}
                 <div className="homepage__contents">
                     <div className="homepage__options">
                         <div className="homepage__searchbar">
@@ -116,7 +119,7 @@ function HomePage() {
                             {currentUser && <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
                                 <ReceiptIcon/>
                             </div>}
-                            {loggedInUser[0]?.isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
+                            {loggedInUser?.isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
                                 <StarIcon className="star"/>
                             </div>}
                         </div>
@@ -145,20 +148,19 @@ function HomePage() {
                             team1 ={game?.team1}
                             team2 = {game?.team2}
                             link={game?.link}
-                            isAdmin={loggedInUser[0]?.isAdmin}
+                            isAdmin={loggedInUser?.isAdmin}
                         />
                         ))
                         }
                     </div>
                     )}
-                    
                 </div>
             </div>
             <Footer/>
-            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser[0]}/>
+            <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser}/>
             <AdminGame show={openAdminGame} hide={()=>setOpenAdminGame(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
-            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser[0]?.totalBalance} username={loggedInUser[0]?.username}/>
+            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser?.totalBalance} username={loggedInUser?.username}/>
         </div>
     )
 }

@@ -24,11 +24,11 @@ function Header({ user,online,showOnline }) {
             {(currentUser&& user) ? (
                 <div className="header__user" onClick={()=>{dispatch(showUserSettings())}}>
                 <div className="header__username">
-                    {user[0]?.isAdmin && <StarIcon/>}
-                    <p>{user[0]?.username}</p>
+                    {user?.isAdmin && <StarIcon/>}
+                    <p>{user?.username}</p>
                 </div>
                 <div className="header__amount">
-                    <p>${user[0]?.totalBalance}</p>
+                    <p>${user?.totalBalance}</p>
                 </div>
             </div>
             ):(

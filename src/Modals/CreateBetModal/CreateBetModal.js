@@ -7,7 +7,6 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useAuth } from "../../AuthContext";
 import ReactDom from 'react-dom';
 import { v4 as uuidv4} from 'uuid';
-import { Link } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import firebase from 'firebase';
@@ -103,7 +102,6 @@ function CreateBetModal({ show,hide,userBalance,username }) {
         }
         hide();
         setBetAmount(0);
-        window.location.reload();
     }
 
     

@@ -102,7 +102,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                                 OverDate:  today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
                             })
                             const wonUser = data.user;
-                            const Amount = data.AmountIfWon;
+                            const Amount = parseFloat(data.AmountIfWon).toFixed(2);
                             await db.collection('users').doc(wonUser).update({
                                 totalBalance: firebase.firestore.FieldValue.increment(Amount)
                             }).catch((err)=>{console.log(err)})
@@ -121,6 +121,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
            .catch((error) => {
                console.log("Error getting documents: ", error);
            });
+           window.alert("Payout successfully completed")
 
        }
        catch{

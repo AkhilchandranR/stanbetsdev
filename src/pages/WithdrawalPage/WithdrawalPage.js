@@ -6,14 +6,15 @@ import Footer from '../../components/Footer/Footer';
 
 function WithdrawalPage() {
   return (
+
     <div className="withdrawalpage">
-      <Header />
+       <Header />
       <div className="withdrawalpage__body">
         <div className="withdrawalpage__contents">
           <WithdrawalWindow />
         </div>
-        <Footer/>
       </div>
+      <Footer/>
     </div>
   );
 }
