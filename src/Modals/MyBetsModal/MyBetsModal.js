@@ -52,6 +52,7 @@ function MyBetsModal({show,hide}) {
                         amount={bets?.winAmount}
                         bets={bets?.isWon}
                         over={bets?.isOver}
+                        wonAmount={bets?.AmountIfWon}
                         />
                     ))}
                 </div>

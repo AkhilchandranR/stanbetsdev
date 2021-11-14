@@ -55,9 +55,22 @@ function SettingsModal({show,hide,user}) {
     const updateUserName = async(e) =>{
         e.preventDefault();
         const newName = window.prompt("Enter your new username:",user?.username);
-        //dont have to update if no changes are made
-        if(newName === user?.username) return
+
+        if(newName === null) return;
+        else if(newName === '') return;
+        else if(newName.toLowerCase() === (user.username).toLowerCase()) return;
+
         else{
+            const userData = await db.collection('users').get()
+            const userCollection = userData?.docs?.map((doc)=>(
+                doc?.data()
+            ))
+            if (userCollection.find((user)=>(
+                newName.toLowerCase() === (user.username).toLowerCase()))){
+                    window.alert("Username already taken")
+                    return;
+            }
+
             await db.collection('users').doc(currentUser.uid).update({
                 username: newName
             }).then(()=>{
@@ -65,6 +78,7 @@ function SettingsModal({show,hide,user}) {
             })
             .catch((e)=>window.alert(e.message))
         }
+
         hide();
     }
 

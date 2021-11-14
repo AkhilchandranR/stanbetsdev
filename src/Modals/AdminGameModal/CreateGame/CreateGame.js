@@ -17,6 +17,21 @@ function CreateGame({open,hide,hideAdmin}) {
 
     const createNewGame = async(e) =>{
         e.preventDefault();
+
+        var today = new Date()
+        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+today.getDate();
+        const nextMontDate = new Date(nextMonth).getTime()
+        const gamesDate = new Date(dateRef.current.value).getTime()
+
+        if(gamesDate < today.getTime()){
+            window.alert("Date and time should have to be in the future")
+            return;
+        }
+        else if(gamesDate > nextMontDate){
+            window.alert("Date should be within one month")
+            return;
+        }
+
         const confirm = window.confirm("List this game ?");
         if (confirm){
             try{

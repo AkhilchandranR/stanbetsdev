@@ -22,17 +22,13 @@ function CreateBetModal({ show,hide,userBalance,username }) {
     //pulls out the required game
     useEffect(() => {
         const getGame = async() =>{
-            try{
-                const games = await db.collection('games').get()
-                const gamesCollection = await games?.docs?.map((doc)=>(
-                    doc?.data()
-                ))
-                setGameToBet(gamesCollection?.filter((game)=>(
-                    game.id == gameToBetId
-                )))           
+            try{   
+                await db.collection("games").doc(gameToBetId)
+                    .onSnapshot((doc) => {
+                        setGameToBet(doc.data())
+                    });      
             }
             catch{
-                window.alert("failed to load games.Please try again later.")
             }
         }
         getGame()
@@ -74,13 +70,13 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                 user: currentUser.uid,
                 userName: username,
                 date: new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear(),
-                game: gameToBet[0]?.id,
-                gamename: gameToBet[0]?.gameName,
-                gameTime: gameToBet[0]?.time,
-                gameDate: gameToBet[0]?.date,
+                game: gameToBet?.id,
+                gamename: gameToBet?.gameName,
+                gameTime: gameToBet?.time,
+                gameDate: gameToBet?.date,
                 team: team?.name,
-                team1: gameToBet[0].team1.name,
-                team2: gameToBet[0].team2.name,
+                team1: gameToBet.team1.name,
+                team2: gameToBet.team2.name,
                 odd: team?.odds,
                 winAmount: betAmount,
                 isWon: false,
@@ -111,7 +107,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
         <div className="overlay"/>
         <div className="createbet">
             <div className="createbet__header">
-                <h2>Bet on {gameToBet[0]?.team1?.name} vs {gameToBet[0]?.team2?.name}</h2>
+                <h2>Bet on {gameToBet?.team1?.name} vs {gameToBet?.team2?.name}</h2>
                 <Close onClick={hide}/>
             </div>
             <p>Bet Amount:</p>
@@ -120,32 +116,32 @@ function CreateBetModal({ show,hide,userBalance,username }) {
             </div>
 
             <div className="createbet__progressBar">
-                <ProgressBar completed={gameToBet[0]?.team1?.fairOdds}
+                <ProgressBar completed={gameToBet?.team1?.fairOdds}
                 isLabelVisible={false}
                 bgColor="#3d96e8"
                 baseBgColor="#f27272"
                 borderRadius="0px"/>
                 <div className="createbet__oddspercent">
-                    <p>{gameToBet[0]?.team1?.fairOdds}% | {gameToBet[0]?.team2?.fairOdds}%</p>
+                    <p>{gameToBet?.team1?.fairOdds}% | {gameToBet?.team2?.fairOdds}%</p>
                 </div>
             </div>
 
             <div className="createbet__buttons">
-                <button className="blue" disabled={gameToBet[0]?.team1?.locked} onClick={()=>{placeBet(gameToBet[0]?.team1)}}>
-                {gameToBet[0]?.team1?.locked &&
+                <button className="blue" disabled={gameToBet?.team1?.locked} onClick={()=>{placeBet(gameToBet?.team1)}}>
+                {gameToBet?.team1?.locked &&
                     <div>
                         <LockIcon/>
                     </div>
                     }
                     <div>
                     <p>
-                        {gameToBet[0]?.team1?.name} @ {gameToBet[0]?.team1?.odds}
+                        {gameToBet?.team1?.name} @ {gameToBet?.team1?.odds}
                     </p>
                     <p>Win = ${moneyForTeam1}</p>
                     </div>
                 </button>
-                <button className="red" disabled={gameToBet[0]?.team2?.locked} onClick={()=>{placeBet(gameToBet[0]?.team2)}}>
-                    {gameToBet[0]?.team2?.locked &&
+                <button className="red" disabled={gameToBet?.team2?.locked} onClick={()=>{placeBet(gameToBet?.team2)}}>
+                    {gameToBet?.team2?.locked &&
                     <div>
                         <LockIcon/>
                     </div>
@@ -153,17 +149,17 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                     <div>
                     <p>
                         
-                        {gameToBet[0]?.team2?.name} @ {gameToBet[0]?.team2?.odds}
+                        {gameToBet?.team2?.name} @ {gameToBet?.team2?.odds}
                     </p>
                     <p>Win = ${moneyForTeam2}</p>
                     </div>
                 </button>
             </div>
-           {gameToBet[0]?.link &&
+           {gameToBet?.link &&
             <div className="createbet__matchlink">
                 <p>
                 Watch the game live on Twitch(19:00 UTC 18/10/21)
-                <OpenInNewIcon onClick={()=>{window.open(gameToBet[0]?.link,'_blank')}}/>
+                <OpenInNewIcon onClick={()=>{window.open(gameToBet?.link,'_blank')}}/>
                 </p>
             </div>
             }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './MyBetComponent.css';
 
-function MyBetComponent({ name,team,odd,time,date,amount,bets,over,team1,team2}) {
+function MyBetComponent({ name,team,odd,time,date,amount,wonAmount,bets,over,team1,team2}) {
     return (
         <div className="mybetcomponent">
             <div className="mybetcomponent__details">
@@ -15,7 +15,11 @@ function MyBetComponent({ name,team,odd,time,date,amount,bets,over,team1,team2})
                 <h3>${amount}</h3>
             </div>):(
             <div className={`${bets ? "mybetcomponent__amountWon":"mybetcomponent__amountLoss"}`}>
-                <h3>${amount}</h3>
+                {bets ? (
+                    <h3>+${wonAmount}</h3>
+                ):(
+                    <h3>-${amount}</h3>
+                )}
             </div>
             )}
         </div>
