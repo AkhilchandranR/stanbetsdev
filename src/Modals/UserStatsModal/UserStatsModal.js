@@ -84,11 +84,11 @@ function UserStatsModal({isAnAdmin,isMuted}) {
         if(isAnAdmin){
             return ReactDom.createPortal(
                 <>
-                <div className="overlay"></div>
+                <div className="overlay__chats"></div>
                 <div className="userstatsmodal">
                         <div className="userstatsmodal__header">
                         <h2>{currentUser[0]?.username}'s Stats/info</h2>
-                        <CloseIcon onClick={hide}/>
+                        <CloseIcon onClick={hide} className="close"/>
                     </div>
                     <div className="userstatsmodal__body">
                         <p>Email:</p>

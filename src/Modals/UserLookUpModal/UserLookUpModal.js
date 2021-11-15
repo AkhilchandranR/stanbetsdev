@@ -47,7 +47,7 @@ function UserLookUpModal({open,hide,currentUser}) {
         <div className="userlookupmodal">
         <div className="userlookupmodal__header">
                 <h2>{currentUser?.username}'s Stats/info</h2>
-                <CloseIcon onClick={hide}/>
+                <CloseIcon onClick={hide} className="close"/>
             </div>
             <div className="userlookupmodal__body">
                 <p>Email:</p>

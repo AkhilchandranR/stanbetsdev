@@ -26,6 +26,14 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     //edit the listed game if changes
     const editCurrentGame = async(e) =>{
         e.preventDefault();
+
+        //chech whether all fields are valid..
+        if(gameName.trim() === '' || gameDate.trim() === '' || gameTeam1Name.trim() === ''
+        || gameTeam2Name.trim() === '' || gameTeam1odd.trim() === '' || gameTeam2odd.trim() === ''){
+            window.alert("Please fill in the required fields");
+            return;
+        }
+
         try{
             hide();
             const teamOneOdds = parseFloat(gameTeam1odd);
@@ -139,7 +147,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
         <div className="editgame">
             <div className="editgame__header">
                 <h2>Edit Listing</h2>
-                <Close onClick={hide}/>
+                <Close onClick={hide} className="close"/>
             </div>
             <div className="editgame__body">
                 <p>Game:</p>

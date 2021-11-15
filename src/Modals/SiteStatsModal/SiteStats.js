@@ -126,7 +126,7 @@ function SiteStats({open,hide}) {
         <div className="sitestats">
             <div className="sitestats__header">
                 <h2>Site Stats</h2>
-                <Close onClick={hide}/>
+                <Close onClick={hide} className="close"/>
             </div>
             <div className="sitestats__body">
                 <div className="sitestats__left">

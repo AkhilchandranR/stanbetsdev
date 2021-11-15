@@ -9,7 +9,7 @@ import SiteStats from '../SiteStatsModal/SiteStats';
 import UserLookUpModal from '../UserLookUpModal/UserLookUpModal';
 
 
-function AdminGame({ show,hide }) {
+function AdminGame({ open,close }) {
     const[currentGames,setCurrentGames] = useState([]);
     const [openStats,setOpenStats] = useState(false);
     const[openCreateModal,setOpenCreateModal] = useState(false);
@@ -33,7 +33,7 @@ function AdminGame({ show,hide }) {
             }
         }
         getCurrentGames()
-    },[show])
+    },[open])
 
     //handles the click of user look up button by admin
     const handleUserLookUp = async(e) =>{
@@ -66,7 +66,7 @@ function AdminGame({ show,hide }) {
         
     } 
     
-    if(!show) return null;
+    if(!open) return null;
 
     return ReactDOM.createPortal(
         <>
@@ -76,7 +76,7 @@ function AdminGame({ show,hide }) {
                 <button className="admingame__control" onClick={()=>{setOpenCreateModal(true)}}>New Game</button>
                 <button className="admingame__control" onClick={handleUserLookUp}>User Lookup</button>
                 <button className="admingame__control" onClick={()=>{setOpenStats(true)}}>Site Stats</button>
-                <Close onClick={hide}/>
+                <Close onClick={close} className="close"/>
             </div>
             <p>Current Listed Games:</p>
             {(currentGames.length > 0)?(
@@ -102,7 +102,7 @@ function AdminGame({ show,hide }) {
             )}
             
         </div>
-        <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}} hideAdmin={hide}/>
+        <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}} hideAdmin={close}/>
         <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
         <UserLookUpModal open={openLookUp} hide={()=>setOpenLookUp(false)} currentUser={searchedUser}/>
         </>,

@@ -108,7 +108,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
         <div className="createbet">
             <div className="createbet__header">
                 <h2>Bet on {gameToBet?.team1?.name} vs {gameToBet?.team2?.name}</h2>
-                <Close onClick={hide}/>
+                <Close onClick={hide} className="close"/>
             </div>
             <p>Bet Amount:</p>
             <div className="createbet__amount">

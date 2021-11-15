@@ -104,7 +104,7 @@ function SettingsModal({show,hide,user}) {
         <div className="settingsmodal">
             <div className="settingsmodal__header">
             <h2>Settings</h2>
-            <CloseIcon onClick={hide}/>
+            <CloseIcon onClick={hide} className="close"/>
             </div>
             <div className="settingsmodal__form">
                 <p>Username:</p>

@@ -15,8 +15,16 @@ function CreateGame({open,hide,hideAdmin}) {
     const teamOneOddsRef = useRef();
     const teamTwoOddsRef = useRef();
 
+
     const createNewGame = async(e) =>{
         e.preventDefault();
+
+        //chech whether all fields are valid..
+        if((gameRef.current.value).trim() === '' || (dateRef.current.value).trim() === '' || (teamOneRef.current.value).trim() === ''
+        || (teamTwoRef.current.value).trim() === '' || (teamOneOddsRef.current.value).trim() === '' || (teamTwoOddsRef.current.value).trim() === ''){
+            window.alert("Please fill in the required fields");
+            return;
+        }
 
         var today = new Date()
         const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+today.getDate();
@@ -66,7 +74,6 @@ function CreateGame({open,hide,hideAdmin}) {
             }
         }
         hide();
-        hideAdmin();
     }
 
     if (!open) return null;
@@ -76,18 +83,18 @@ function CreateGame({open,hide,hideAdmin}) {
         <div className="creategame">
             <div className="creategame__header">
                 <h2>Create New Listing</h2>
-                <Close onClick={hide}/>
+                <Close onClick={hide} className="close"/>
             </div>
             <div className="creategame__body">
-                <p>Game:</p>
+                <p>Game*</p>
                 <div className="creategame__inputs">
                     <input type="text" ref={gameRef} required/>
                 </div>
-                <p>Date:</p>
+                <p>Date*</p>
                 <div className="creategame__inputs">
                     <input type="date" ref={dateRef} required/>
                 </div>
-                <p>Time:</p>
+                <p>Time*</p>
                 <div className="creategame__inputs">
                     <input type="time" value={timeRef} onChange={(e)=>setTimeRef(e.target.value)} required/>
                 </div>
@@ -97,13 +104,13 @@ function CreateGame({open,hide,hideAdmin}) {
                 </div>
                 <div className="creategame__teams">
                     <div className="creategame__team">
-                        <p>Team One:</p>
+                        <p>Team One*</p>
                         <div className="creategame__inputshalf">
                             <input type="text" ref={teamOneRef} required/>
                         </div>
                     </div>
                     <div className="creategame__team">
-                        <p>Team Two:</p>
+                        <p>Team Two*</p>
                         <div className="creategame__inputshalf">
                             <input type="text" ref={teamTwoRef} required/>
                         </div>
@@ -111,13 +118,13 @@ function CreateGame({open,hide,hideAdmin}) {
                 </div>
                 <div className="creategame__teams">
                 <div className="creategame__team">
-                        <p>Team One Odds:</p>
+                        <p>Team One Odds*</p>
                         <div className="creategame__inputshalf">
                             <input type="text" ref={teamOneOddsRef} required/>
                         </div>
                     </div>
                     <div className="creategame__team">
-                        <p>Team Two Odds:</p>
+                        <p>Team Two Odds*</p>
                         <div className="creategame__inputshalf">
                             <input type="text" ref={teamTwoOddsRef} required/>
                         </div>

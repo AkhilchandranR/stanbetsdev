@@ -36,7 +36,7 @@ function MyBetsModal({show,hide}) {
         <div className="mybets">
             <div className="mybets__header">
                 <h2>My Bets</h2>
-                <Close onClick={hide}/>
+                <Close onClick={hide} className="close"/>
             </div>
             {(userBets.length > 0) ? (
                 <div className="mybets__body">
