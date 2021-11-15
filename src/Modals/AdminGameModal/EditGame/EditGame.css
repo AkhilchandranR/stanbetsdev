@@ -124,11 +124,15 @@
     background-color: #f27272 !important;
 }
 @media screen and (max-width:658px) {
+    .editgame{
+        height: 90vh;
+        overflow-y: scroll;
+    }
     .editgame__inputs{
-        width: 290px;
+        width: 85vw;
     }
     .editgame__inputshalf{
-        width: 290px;
+        width: 85vw;
     }
     .editgame__teams{
         flex-direction: column;

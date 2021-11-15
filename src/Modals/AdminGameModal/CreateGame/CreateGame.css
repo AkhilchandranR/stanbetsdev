@@ -85,7 +85,10 @@
 }
 @media screen and (max-width:658px) {
     .creategame__inputs{
-        width: unset;
+        width: 85vw;
+    }
+    .creategame__header{
+        font-size: 1em;
     }
     .creategame__inputshalf{
         width: unset;
@@ -93,5 +96,9 @@
     .creategame__teams{
         flex-direction: column;
         align-items: unset;
+    }
+    .creategame{
+        height: 90vh;
+        overflow-y: scroll;
     }
 }

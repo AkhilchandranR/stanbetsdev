@@ -34,6 +34,20 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             return;
         }
 
+        var today = new Date()
+        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+today.getDate();
+        const nextMontDate = new Date(nextMonth).getTime()
+        const gamesDate = new Date(gameDate).getTime()
+
+        if(gamesDate < today.getTime()){
+            window.alert("Date and time should have to be in the future")
+            return;
+        }
+        else if(gamesDate > nextMontDate){
+            window.alert("Date should be within one month")
+            return;
+        }
+
         try{
             hide();
             const teamOneOdds = parseFloat(gameTeam1odd);
@@ -49,8 +63,7 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                 team1:{name:gameTeam1Name,odds:gameTeam1odd,locked:team1.locked,fairOdds:fairoddOne},
                 team2:{name:gameTeam2Name,odds:gameTeam2odd,locked:team2.locked,fairOdds:fairoddTwo},
             })
-            window.alert("Successfully Updated")
-
+            window.location.reload();
         }
         catch{
             window.alert("Failed to modify.Please try again")

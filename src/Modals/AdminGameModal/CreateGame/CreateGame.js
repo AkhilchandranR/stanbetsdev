@@ -4,8 +4,11 @@ import './CreateGame.css';
 import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
 import { v4 as uuidv4} from 'uuid';
+import { closeGameModal } from '../../../States/slices/chatSlice';
+import { useSelector,useDispatch } from 'react-redux';
 
-function CreateGame({open,hide,hideAdmin}) {
+function CreateGame() {
+    const openCreateGameModal = useSelector((state)=>state.chat.showCreateGame);
     const gameRef = useRef();
     const dateRef = useRef();
     const [timeRef,setTimeRef] = useState("00:00");
@@ -14,6 +17,7 @@ function CreateGame({open,hide,hideAdmin}) {
     const teamTwoRef = useRef();
     const teamOneOddsRef = useRef();
     const teamTwoOddsRef = useRef();
+    const dispatch = useDispatch();
 
 
     const createNewGame = async(e) =>{
@@ -73,17 +77,18 @@ function CreateGame({open,hide,hideAdmin}) {
                 window.alert("Failed to create")
             }
         }
-        hide();
+        dispatch(closeGameModal());
     }
 
-    if (!open) return null;
+    if (!openCreateGameModal) return null;
+    
     return ReactDOM.createPortal(
         <>
         <div className="overlay"/>
         <div className="creategame">
             <div className="creategame__header">
                 <h2>Create New Listing</h2>
-                <Close onClick={hide} className="close"/>
+                <Close onClick={()=>{dispatch(closeGameModal())}} className="close"/>
             </div>
             <div className="creategame__body">
                 <p>Game*</p>

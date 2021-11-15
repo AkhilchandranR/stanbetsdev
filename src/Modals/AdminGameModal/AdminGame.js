@@ -3,10 +3,10 @@ import React, { useState,useEffect } from 'react';
 import './AdminGame.css';
 import GameComponent from './GameComponent';
 import ReactDOM from 'react-dom';
-import CreateGame from './CreateGame/CreateGame';
 import { db } from '../../firebase';
-import SiteStats from '../SiteStatsModal/SiteStats';
 import UserLookUpModal from '../UserLookUpModal/UserLookUpModal';
+import { showGameModal,showStatsModal } from '../../States/slices/chatSlice';
+import { useDispatch} from 'react-redux';
 
 
 function AdminGame({ open,close }) {
@@ -15,6 +15,7 @@ function AdminGame({ open,close }) {
     const[openCreateModal,setOpenCreateModal] = useState(false);
     const[searchedUser,setSearchedUser] = useState();
     const[openLookUp,setOpenLookUp] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const getCurrentGames = async()=>{
@@ -34,6 +35,17 @@ function AdminGame({ open,close }) {
         }
         getCurrentGames()
     },[open])
+
+    const openCreateGameModal = (e) =>{
+        e.preventDefault();
+        close();
+        dispatch(showGameModal());
+    }
+    const openSiteStatsModal =(e) =>{
+        e.preventDefault();
+        close();
+        dispatch(showStatsModal())
+    }
 
     //handles the click of user look up button by admin
     const handleUserLookUp = async(e) =>{
@@ -73,9 +85,9 @@ function AdminGame({ open,close }) {
         <div className="overlay"/>
         <div className="admingame">
             <div className="admingame__buttons">
-                <button className="admingame__control" onClick={()=>{setOpenCreateModal(true)}}>New Game</button>
+                <button className="admingame__control" onClick={openCreateGameModal}>New Game</button>
                 <button className="admingame__control" onClick={handleUserLookUp}>User Lookup</button>
-                <button className="admingame__control" onClick={()=>{setOpenStats(true)}}>Site Stats</button>
+                <button className="admingame__control" onClick={openSiteStatsModal}>Site Stats</button>
                 <Close onClick={close} className="close"/>
             </div>
             <p>Current Listed Games:</p>
@@ -102,8 +114,6 @@ function AdminGame({ open,close }) {
             )}
             
         </div>
-        <CreateGame open={openCreateModal} hide={()=>{setOpenCreateModal(false)}} hideAdmin={close}/>
-        <SiteStats open={openStats} hide={()=>{setOpenStats(false)}}/>
         <UserLookUpModal open={openLookUp} hide={()=>setOpenLookUp(false)} currentUser={searchedUser}/>
         </>,
         document.getElementById('portal')

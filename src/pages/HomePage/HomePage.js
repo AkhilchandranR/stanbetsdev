@@ -7,14 +7,16 @@ import StarIcon from '@mui/icons-material/Star';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import { useSelector,useDispatch } from 'react-redux';
 import { hideUserSettings } from '../../States/slices/chatSlice';
-import { showChat } from '../../States/slices/chatSlice';
+import { showChat,showAdminModal,hideAdminModal } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import chatbubble from '../../images/chaticon.png';
 import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
+import CreateGame from '../../Modals/AdminGameModal/CreateGame/CreateGame';
 import { openWindow } from '../../States/slices/chatSlice';
 import { closeStats,closeBet } from '../../States/slices/userSlice';
 import SettingsModal from '../../Modals/SettingsModal/SettingsModal';
 import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
+import SiteStats from '../../Modals/SiteStatsModal/SiteStats';
 import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import { useAuth } from "../../AuthContext";
@@ -25,7 +27,6 @@ function HomePage() {
     const { currentUser } = useAuth();
     const[showOnline,setShowOnline] = useState(true);
     const [searchTerm,setSearchTerm] = useState('');
-    const [openAdminGame,setOpenAdminGame] = useState(false);
     const [openBets,setOpenBets] = useState(false);
     const [loggedInUser,setLoggedInUser] = useState({});
     const [noOfOnlineUsers,setNoOfOnlineUsers] = useState(0);
@@ -36,6 +37,8 @@ function HomePage() {
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
     const showStatsModal = useSelector((state)=>state.user.openStatsModal);
     const showBetModal = useSelector((state)=>state.user.openBetModal);
+    const openAdminModal = useSelector((state)=>state.chat.showAdmin);
+    const CreateGameModalValue = useSelector((state)=>state.chat.showCreateGame);
     
     //to open chatwindow,but has to be changed
     //according to the design
@@ -95,7 +98,7 @@ function HomePage() {
             }
         }
         getGamesData()
-    }, [openAdminGame])
+    }, [CreateGameModalValue])
 
     return (
         <div className="homepage">
@@ -119,7 +122,7 @@ function HomePage() {
                             {currentUser && <div className="homepage__icon" onClick={()=>setOpenBets(true)}>
                                 <ReceiptIcon/>
                             </div>}
-                            {loggedInUser?.isAdmin && <div className="homepage__icon" onClick={()=>setOpenAdminGame(true)}>
+                            {loggedInUser?.isAdmin && <div className="homepage__icon" onClick={()=>{dispatch(showAdminModal())}}>
                                 <StarIcon className="star"/>
                             </div>}
                         </div>
@@ -158,7 +161,9 @@ function HomePage() {
             </div>
             <Footer/>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser}/>
-            <AdminGame open={openAdminGame} close={()=>setOpenAdminGame(false)}/>
+            <AdminGame open={openAdminModal} close={()=>{dispatch(hideAdminModal())}}/>
+            <CreateGame/>
+            <SiteStats/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
             <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser?.totalBalance} username={loggedInUser?.username}/>
         </div>

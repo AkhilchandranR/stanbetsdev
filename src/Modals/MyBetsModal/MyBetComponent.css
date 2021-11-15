@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     padding-right: 10px;
-    width: 350px;
+    width: 450px;
     line-height: 23px;
 }
 .mybetcomponent__details > p{
@@ -22,6 +22,11 @@
 }
 .mybetcomponent__amountLoss{
     color: red !important;
+}
+@media screen and (max-width:546px) {
+    .mybetcomponent{
+        width: 360px;
+    }
 }
 @media screen and (max-width:440px) {
     .mybetcomponent{

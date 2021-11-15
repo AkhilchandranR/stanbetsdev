@@ -4,8 +4,10 @@ import './SiteStats.css';
 import { db } from '../../firebase';
 import ReactDOM from 'react-dom';
 import { VictoryPie } from 'victory';
+import { useSelector,useDispatch } from 'react-redux';
+import { hideStatsModal } from '../../States/slices/chatSlice';
 
-function SiteStats({open,hide}) {
+function SiteStats() {
     const [totalUsers,setTotalUsers] = useState(0);
     const [totalOnlineUsers,setTotalOnlineUsers] = useState(0);
     const [totalAmountDeposited,setTotalAmountDeposited] = useState(0);
@@ -22,6 +24,8 @@ function SiteStats({open,hide}) {
     const [totalLossToday,setTotalLossToday] = useState(0);
     const [latestBet,setLatestBet] = useState([]);
     const [pieChartData,setPieChartData] = useState([]);
+    const openSiteStatsModal = useSelector((state)=>state.chat.showSiteStats);
+    const dispatch = useDispatch();
 
 
     //populates data in stats..
@@ -101,7 +105,7 @@ function SiteStats({open,hide}) {
                 const uniqueCountries = [...new Set(countries)];
                 await uniqueCountries.forEach(currCountry => {
                     const numItems = countries.filter(cntry => cntry === currCountry) 
-                    pieChartData.unshift({y:(numItems.length * 100 / totalCountries).toFixed(2),label:currCountry});
+                    pieChartData.unshift({y:parseFloat((numItems.length * 100 / totalCountries)),label:currCountry});
                 })
                 //pie chart data ends
                           
@@ -114,11 +118,10 @@ function SiteStats({open,hide}) {
         getSiteStats();
     }, [])
 
-    console.log(pieChartData)
     const graphicColor = ['#FFB6C1','#FF1493','#9932CC','#8B008B','#C71585'];
       //piechart data ends........
     
-      if(!open) return null;
+      if(!openSiteStatsModal) return null;
       
      return ReactDOM.createPortal(
         <>
@@ -126,7 +129,7 @@ function SiteStats({open,hide}) {
         <div className="sitestats">
             <div className="sitestats__header">
                 <h2>Site Stats</h2>
-                <Close onClick={hide} className="close"/>
+                <Close onClick={()=>{dispatch(hideStatsModal())}} className="close"/>
             </div>
             <div className="sitestats__body">
                 <div className="sitestats__left">

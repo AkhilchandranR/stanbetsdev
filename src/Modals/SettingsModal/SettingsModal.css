@@ -42,7 +42,7 @@
 .settingsmodal__form{
     display: flex;
     flex-direction: column;
-    width: 30vw;
+    width: 400px;
 }
 .settingsmodal__form > p{
     color: white;
@@ -90,40 +90,16 @@
     padding: 4px 8px;
     border-radius: 5px;
 }
-@media screen and (max-width:872px) {
-    .settingsmodal__form{
-        width: 38vw;
+@media screen and (max-width:515px) {
+    .settingsmodal__header > .MuiSvgIcon-root{
+        position: absolute;
+        top: -2px;
+        right: -10px;
     }
-    
-}
-@media screen and (max-width:662px) {
-    .settingsmodal__form{
-        width: 45vw;
-    }
-    
-}
-@media screen and (max-width:570px) {
-    .logout,.delete{
-        font-size: 1.1em;
-    }    
-}
-@media screen and (max-width:508px) {
-    .logout,.delete{
-        font-size: 1em;
+    .settingsmodal{
+        padding: 15px 20px;
     }
     .settingsmodal__form{
-        width: 50vw;
+        width: 85vw;
     }
-}
-@media screen and (max-width:410px) {
-    .settingsmodal__form{
-        width: 60vw;
-    }
-    
-}
-@media screen and (max-width:344px) {
-    .settingsmodal__form{
-        width: 65vw;
-    }
-    
 }

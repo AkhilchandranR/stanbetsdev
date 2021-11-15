@@ -43,8 +43,9 @@
 }
 .userlookupmodal__data{
     background-color: #151923;
-    width: 30vw;
+    width: 400px;
     padding: 10px 8px;
+    overflow-x: scroll;
 }
 .userlookupmodal__data > p{
     font-size: 1.2rem;
@@ -78,19 +79,19 @@
 }
 @media screen and (max-width:750px) {
     .userlookupmodal__data{
-        width: 40vw;
+        width: 400px;
     }
     
 }
 @media screen and (max-width:500px) {
     .userlookupmodal__data{
-        width: 50vw;
+        width: 340px;
     }
     
 }
-@media screen and (max-width:390px) {
+@media screen and (max-width:380px) {
     .userlookupmodal__data{
-        width: 60vw;
+        width: 270px;
     }
     
 }
