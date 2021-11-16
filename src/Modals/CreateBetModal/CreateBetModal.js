@@ -40,7 +40,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
     useEffect(() => {
         const update = async() =>{
             try{
-                const team = await gameToBet[0];
+                const team = await gameToBet;
                 if(team){
                     setMoneyForTeam1((team.team1?.odds * betAmount).toFixed(2));
                     setMoneyForTeam2((team.team2?.odds * betAmount).toFixed(2));

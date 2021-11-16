@@ -162,6 +162,7 @@ function HomePage() {
             <Footer/>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser}/>
             <AdminGame open={openAdminModal} close={()=>{dispatch(hideAdminModal())}}/>
+            <UserStatsModal  isAnAdmin={loggedInUser?.isAdmin} isMuted={loggedInUser?.isMuted}/>
             <CreateGame/>
             <SiteStats/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 

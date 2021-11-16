@@ -111,6 +111,11 @@
         width: fit-content;
     }
 }
+@media screen and (max-width:600px) {
+    .chatwindow{
+        width: 250px;
+    }
+}
 @media screen and (max-width:500px) {
     .chatwindow{
         display: none !important;

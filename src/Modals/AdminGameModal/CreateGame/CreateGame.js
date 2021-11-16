@@ -29,13 +29,24 @@ function CreateGame() {
             window.alert("Please fill in the required fields");
             return;
         }
+        if(isNaN(teamOneOddsRef.current.value) || isNaN(teamTwoOddsRef.current.value)){
+            window.alert("Odds should be a number");
+            return;
+        }
+
+
+        const times = timeRef.split(':')
+        const addTime = parseInt(times[0])*60*60 + parseInt(times[1])*60;
+
 
         var today = new Date()
-        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+today.getDate();
-        const nextMontDate = new Date(nextMonth).getTime()
-        const gamesDate = new Date(dateRef.current.value).getTime()
+        const dateToCheck = today.getTime()+((today.getHours()-2)*60*60*1000)/2;
+        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+(today.getDate());
+        const nextMontDate = new Date(nextMonth).getTime();
+        const gamesDate = new Date(dateRef.current.value).getTime() + (addTime*1000);
 
-        if(gamesDate < today.getTime()){
+
+        if(gamesDate < dateToCheck){
             window.alert("Date and time should have to be in the future")
             return;
         }

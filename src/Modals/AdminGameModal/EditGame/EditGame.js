@@ -34,12 +34,23 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
             return;
         }
 
-        var today = new Date()
-        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+today.getDate();
-        const nextMontDate = new Date(nextMonth).getTime()
-        const gamesDate = new Date(gameDate).getTime()
+        if(isNaN(gameTeam1odd) || isNaN(gameTeam2odd)){
+            window.alert("Odds should be a number");
+            return;
+        }
 
-        if(gamesDate < today.getTime()){
+        const times = gameTime.split(':')
+        const addTime = parseInt(times[0])*60*60 + parseInt(times[1])*60;
+
+
+        var today = new Date()
+        const dateToCheck = today.getTime()+((today.getHours()-2)*60*60*1000)/2;
+        const nextMonth = today.getFullYear()+'-'+(today.getMonth()+2)+'-'+(today.getDate());
+        const nextMontDate = new Date(nextMonth).getTime();
+        const gamesDate = new Date(gameDate).getTime() + (addTime*1000);
+
+
+        if(gamesDate < dateToCheck){
             window.alert("Date and time should have to be in the future")
             return;
         }
@@ -142,7 +153,6 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
            .catch((error) => {
                console.log("Error getting documents: ", error);
            });
-           window.alert("Payout successfully completed")
 
        }
        catch{

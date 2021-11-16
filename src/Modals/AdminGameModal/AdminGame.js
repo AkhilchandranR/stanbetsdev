@@ -4,17 +4,13 @@ import './AdminGame.css';
 import GameComponent from './GameComponent';
 import ReactDOM from 'react-dom';
 import { db } from '../../firebase';
-import UserLookUpModal from '../UserLookUpModal/UserLookUpModal';
 import { showGameModal,showStatsModal } from '../../States/slices/chatSlice';
+import { openStats,setChatUser } from '../../States/slices/userSlice';
 import { useDispatch} from 'react-redux';
 
 
 function AdminGame({ open,close }) {
     const[currentGames,setCurrentGames] = useState([]);
-    const [openStats,setOpenStats] = useState(false);
-    const[openCreateModal,setOpenCreateModal] = useState(false);
-    const[searchedUser,setSearchedUser] = useState();
-    const[openLookUp,setOpenLookUp] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -50,6 +46,7 @@ function AdminGame({ open,close }) {
     //handles the click of user look up button by admin
     const handleUserLookUp = async(e) =>{
         e.preventDefault();
+        close();
         const searchName = window.prompt("Please enter the name you want to search");
         if(searchName){
             try{
@@ -61,16 +58,22 @@ function AdminGame({ open,close }) {
                     user.username.toLowerCase() === searchName.toLowerCase()
                 ))
                 if(SearchedUserData){
-                   await setSearchedUser(SearchedUserData);
-                   await setOpenLookUp(true);
-                   return;
+
+                    await dispatch(setChatUser({
+                        chatUserId: SearchedUserData?.userId
+                        }));
+
+                    await dispatch(openStats());
+
+                    return;
                 }
                 else{
                     window.alert("This user doesn't exist");
                     return;
                 }
             }
-            catch{
+            catch(error){
+                console.log(error)
                 window.alert("Search failed .Please try again");
                 return;
             }
@@ -114,7 +117,6 @@ function AdminGame({ open,close }) {
             )}
             
         </div>
-        <UserLookUpModal open={openLookUp} hide={()=>setOpenLookUp(false)} currentUser={searchedUser}/>
         </>,
         document.getElementById('portal')
     )

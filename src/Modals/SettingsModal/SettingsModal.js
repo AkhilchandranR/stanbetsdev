@@ -77,6 +77,29 @@ function SettingsModal({show,hide,user}) {
                 window.alert("username successfully updated")
             })
             .catch((e)=>window.alert(e.message))
+
+            //update bets and chats with username
+            //update chats.....
+            await db.collection('chats').where("userId","==",currentUser.uid)
+            .get()
+            .then((querySnapShot)=>{
+                querySnapShot.forEach((doc)=>{
+                    db.collection('chats').doc(doc.id).update({
+                        userName : newName
+                    })
+                })
+            }).catch((err)=>err)
+
+            //update bets.......
+            await db.collection('bets').where("user","==",currentUser.uid)
+            .get()
+            .then((querySnapShot)=>{
+                querySnapShot.forEach((doc)=>{
+                    db.collection('bets').doc(doc.id).update({
+                        userName : newName
+                    })
+                })
+            }).catch((err)=>err)
         }
 
         hide();
