@@ -36,6 +36,19 @@ function SettingsModal({show,hide,user}) {
         e.preventDefault();
         const confirm = window.confirm("This action cannot be undone.")
         if(confirm){
+
+            //change username to unknown....
+            await db.collection('chats').where("userId","==",currentUser.uid)
+            .get()
+            .then((querySnapShot)=>{
+                querySnapShot.forEach((doc)=>{
+                    db.collection('chats').doc(doc.id).update({
+                        userName : "unknown"
+                    })
+                })
+            }).catch((err)=>err)
+
+            //delete the user itself.... 
             await db.collection('users').doc(currentUser.uid).delete()
             .then(()=>{
                 firebase.auth().currentUser.delete()
