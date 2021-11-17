@@ -18,10 +18,39 @@ function ChatWindow({logUser}) {
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
 
+    //delete older messages....
+    useEffect(() => {
+        const deleteOlderMeassages = async() =>{
+            try{
+                const today = new Date();
+                const weekBefore = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()-7);
+                const weekBeforeToMilliseconds = new Date(weekBefore).getTime();
+
+                //delete messages which are 1 week older....
+                const messagesObject = await db.collection('chats').get()
+                const messagesArray = messagesObject?.docs?.map((doc)=>(
+                    doc?.data()
+                ))
+                const messagesToBeDeleted = messagesArray.filter((m)=>(
+                    (m.timestamp).toDate().getTime() < weekBeforeToMilliseconds
+                ))
+                await messagesToBeDeleted.forEach((message)=>{
+                    db.collection('chats').doc(message.id).delete()
+                })
+            }
+            catch{
+
+            }
+        }
+        deleteOlderMeassages();
+    }, [])
+
+
 
     //pulls the new messages from the database when db changes 
     useEffect(() => {
        const getMessages = async() =>{
+           
            //function pulls the messages and sorts it according to timestamp
            //in the descending order to display and sets the state 
            try{
@@ -32,9 +61,8 @@ function ChatWindow({logUser}) {
             const arrangedMessages = messagesArray.sort((a,b)=>(
                 b.timestamp - a.timestamp
             ))
-            await setMessages(arrangedMessages);
-            console.log("messages")
-            return;
+            await setMessages(arrangedMessages.slice(0,50));
+
            }
            catch{
                window.alert("failed to load messages");
