@@ -27,6 +27,7 @@
     position: relative;
     text-align: center;
     margin-bottom: 20px;
+    font-size: 1.2em;
 }
 .userstatsmodal__header > .MuiSvgIcon-root{
     position: absolute;
@@ -44,11 +45,11 @@
 .userstatsmodal__data{
     background-color: #151923;
     padding: 10px 8px;
-    width: 400px;
+    width: 500px;
 }
 .userstatsmodal__data > p{
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 400;
 }
 .userstatsmodal__buttons{
     display: flex;
@@ -60,21 +61,31 @@
     background-color: #3f33c2;
     color: white;
     border: none;
-    font-size: 1.3em;
+    font-size: 1.5em;
     font-weight: 700;
-    padding: 4px 8px;
+    padding: 8px;
     border-radius: 5px;
-    width: 120px;
+    width: 230px;
 }
 .userdelete{
     background-color: #e53838;
     color: white;
     border: none;
-    font-size: 1.3em;
+    font-size: 1.5em;
     font-weight: 700;
-    padding: 4px 8px;
+    padding: 8px;
     border-radius: 5px;
-    width: 120px;
+    width: 230px;
+}
+@media screen and (max-width:628px) {
+    .userstatsmodal__data{
+        width: 85vw;
+    }
+}
+@media screen and (max-width:550px) {
+    .usermute,.userdelete{
+        width: 210px;
+    }
 }
 @media screen and (max-width:500px) {
     .userstatsmodal{

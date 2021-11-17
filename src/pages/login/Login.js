@@ -111,7 +111,7 @@ function Login() {
                     <div className="captcha__image">
                         <LoadCanvasTemplateNoReload/>
                     </div>
-                        <div className="signup__input">
+                        <div className="login__input">
                             <p>Enter the Captcha:</p>
                             <div className="login__inputField">
                                 <input type="text" ref={captchaRef} required/>

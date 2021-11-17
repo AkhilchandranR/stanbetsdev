@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ReactDom from 'react-dom';
 import { useSelector,useDispatch } from 'react-redux';
 import { db } from '../../firebase';
-import Loader from '../../components/Laoder/Loader';
 import { closeStats } from '../../States/slices/userSlice';
 
 function UserStatsModal({isAnAdmin,isMuted}) {
@@ -142,12 +141,12 @@ function UserStatsModal({isAnAdmin,isMuted}) {
                 <div className="userstatsmodal">
                     <div className="userstatsmodal__header">
                         <h2>{currentUser[0]?.username}'s Stats</h2>
-                        <CloseIcon onClick={hide}/>
+                        <CloseIcon onClick={hide} className="close"/>
                     </div>
                     <div className="userstatsmodal__body">
                         <p>Balance:</p>
                         <div className="userstatsmodal__data">
-                            <p>$1{currentUser[0]?.totalBalance}</p>
+                            <p>${currentUser[0]?.totalBalance}</p>
                         </div>
                         <p>Total Wagered:</p>
                         <div className="userstatsmodal__data">

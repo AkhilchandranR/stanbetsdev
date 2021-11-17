@@ -43,7 +43,8 @@ function SettingsModal({show,hide,user}) {
             .then((querySnapShot)=>{
                 querySnapShot.forEach((doc)=>{
                     db.collection('chats').doc(doc.id).update({
-                        userName : "unknown"
+                        userName : "unknown",
+                        userId: null,
                     })
                 })
             }).catch((err)=>err)

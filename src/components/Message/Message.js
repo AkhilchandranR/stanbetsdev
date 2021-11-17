@@ -4,13 +4,17 @@ import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
 import { openStats,setChatUser } from '../../States/slices/userSlice';
 
-function Message({alternate,id,username,usermessage,userId,isAdmin,isAnAdmin,isMuted}) {
+function Message({alternate,username,usermessage,userId,isAdmin}) {
     const dispatch = useDispatch();
 
     //opens the userstats view and sets the id for pulling the 
     //data of user stats using setchatuser....
     const handleClick = (e)=>{
         e.preventDefault();
+        if(userId === null){
+            window.alert("This user does not exist anymore");
+            return;
+        }
         dispatch(setChatUser({
             chatUserId: userId
         }));
