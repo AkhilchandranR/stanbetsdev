@@ -179,9 +179,7 @@ function SiteStats() {
                     <div className="sitestats__graph">
                         <VictoryPie 
                         data={pieChartData}
-                        height={5}
-                        width={5}
-                        padding={0}
+                        radius={150}
                         colorScale={graphicColor}
                         />
                         <div className="sitestats__country">

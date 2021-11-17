@@ -104,62 +104,65 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
 
     //payout for won bets
     const payOut = async(team) =>{
-       try{
-           if(team == team1.name){
-                setLoadingPayoutOne(true);
-           }
-           else if(team == team2.name){
-               setLoadingPayoutTwo(true);
-           }
-           
-           //has to specify that the game is already paid out..
-           await db.collection('games').doc(id).update({
-                payOut: true,
-                team1:{name:team1.name,odds:team1.odds,locked:true,fairOdds:team1.fairOdds},
-                team2:{name:team2.name,odds:team2.odds,locked:true,fairOdds:team2.fairOdds},
-           })
-           //find out the bets with the game id and update it to payed out and iswon or not....
-           //also update the user balance
-           await db.collection("bets").where("game", "==", id)
-           .get()
-           .then((querySnapshot) => {
-               querySnapshot.forEach((doc) => {
-                   const today = new Date();
-                   const data = doc.data();
-                   if(data.team == team){
-                       const updateBetsAndUser =async()=>{
-                            await db.collection('bets').doc(doc.id).update({
-                                isOver: true,
-                                isWon: true,
-                                OverDate:  today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
-                            })
-                            const wonUser = data.user;
-                            const Amount = parseFloat(data.AmountIfWon).toFixed(2);
-                            await db.collection('users').doc(wonUser).update({
-                                totalBalance: firebase.firestore.FieldValue.increment(Amount)
-                            }).catch((err)=>{console.log(err)})
-                       }
-                       updateBetsAndUser();
-                   }
-                   else{
-                        db.collection('bets').doc(doc.id).update({
-                            isOver: true,
-                            isWon: false,
-                            OverDate: today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
-                        })
-                   }
-               });
-           })
-           .catch((error) => {
-               console.log("Error getting documents: ", error);
-           });
+        const confirm = window.confirm("Do you want to initiate payout ?");
+        if(!confirm) return;
 
-       }
-       catch{
-           window.alert("failed to payout.Please try again")
-       }
-       setLoadingPayoutOne(false);
-       setLoadingPayoutTwo(false);
+        try{
+            if(team == team1.name){
+                    setLoadingPayoutOne(true);
+            }
+            else if(team == team2.name){
+                setLoadingPayoutTwo(true);
+            }
+            
+            //has to specify that the game is already paid out..
+            await db.collection('games').doc(id).update({
+                    payOut: true,
+                    team1:{name:team1.name,odds:team1.odds,locked:true,fairOdds:team1.fairOdds},
+                    team2:{name:team2.name,odds:team2.odds,locked:true,fairOdds:team2.fairOdds},
+            })
+            //find out the bets with the game id and update it to payed out and iswon or not....
+            //also update the user balance
+            await db.collection("bets").where("game", "==", id)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const today = new Date();
+                    const data = doc.data();
+                    if(data.team == team){
+                        const updateBetsAndUser =async()=>{
+                                await db.collection('bets').doc(doc.id).update({
+                                    isOver: true,
+                                    isWon: true,
+                                    OverDate:  today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
+                                })
+                                const wonUser = data.user;
+                                const Amount = parseFloat(data.AmountIfWon).toFixed(2);
+                                await db.collection('users').doc(wonUser).update({
+                                    totalBalance: firebase.firestore.FieldValue.increment(Amount)
+                                }).catch((err)=>{console.log(err)})
+                        }
+                        updateBetsAndUser();
+                    }
+                    else{
+                            db.collection('bets').doc(doc.id).update({
+                                isOver: true,
+                                isWon: false,
+                                OverDate: today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
+                            })
+                    }
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+        }
+        catch{
+            window.alert("failed to payout.Please try again")
+        }
+        setLoadingPayoutOne(false);
+        setLoadingPayoutTwo(false);
         hide();
     }
 

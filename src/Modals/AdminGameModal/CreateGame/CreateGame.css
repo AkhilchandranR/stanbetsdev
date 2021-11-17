@@ -29,6 +29,7 @@
     padding: 3px;
     display: flex;
     width: 600px;
+    font-size: 1.4em;
 }
 .creategame__inputs > input{
     background-color: transparent;
@@ -51,6 +52,7 @@
     padding: 3px;
     width: 290px;
     border-radius: 3px;
+    font-size: 1.4em;
 }
 .creategame__inputshalf > input{
     background-color: transparent;
@@ -65,18 +67,22 @@
     background-color: #3f33c2;
     color: white;
     border: none;
-    padding: 7px;
+    padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-top: 15px;
 }
 .creategame__header{
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.6em;
     position: relative;
+    margin-bottom: 20px;
 }
 .creategame__body > p , .creategame__team > p{
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1.4em;
+    font-weight: 500;
 }
 .creategame__header > .MuiSvgIcon-root{
     position: absolute;
@@ -88,7 +94,7 @@
         width: 85vw;
     }
     .creategame__header{
-        font-size: 1em;
+        font-size: 1.2em;
     }
     .creategame__inputshalf{
         width: unset;
@@ -96,9 +102,5 @@
     .creategame__teams{
         flex-direction: column;
         align-items: unset;
-    }
-    .creategame{
-        height: 90vh;
-        overflow-y: scroll;
     }
 }

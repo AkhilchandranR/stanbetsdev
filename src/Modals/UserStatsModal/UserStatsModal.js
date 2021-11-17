@@ -37,32 +37,42 @@ function UserStatsModal({isAnAdmin,isMuted}) {
     
     //mute a user
     const muteUser = async(e) =>{
-        try{
-            await db.collection('users').doc(chatUser).update({
-                isMuted: true
-            })
-            .catch((e)=>window.alert(e.message))
-            setUserMuted(true);
+        const confirm = window.confirm("Do you want to Mute this user ?");
+        if(confirm){
+            try{
+                await db.collection('users').doc(chatUser).update({
+                    isMuted: true
+                })
+                .catch((e)=>window.alert(e.message))
+                setUserMuted(true);
+            }
+            catch{
+                window.alert("failed to mute.Please try again")
+            }
         }
-        catch{
-            window.alert("failed to mute.Please try again")
+        else{
+            return;
         }
-        
     }
 
     //unmute a user can be done in same function in mute but stays like this for now
     const unMuteUser = async(e) =>{
-        try{
-            await db.collection('users').doc(chatUser).update({
-                isMuted: false
-            })
-            .catch((e)=>window.alert(e.message))
-            setUserMuted(false);
+        const confirm = window.confirm("Do you want to unmute this user ?");
+        if(confirm){
+            try{
+                await db.collection('users').doc(chatUser).update({
+                    isMuted: false
+                })
+                .catch((e)=>window.alert(e.message))
+                setUserMuted(false);
+            }
+            catch{
+                window.alert("failed to unmute.Please try again")
+            }
         }
-        catch{
-            window.alert("failed to unmute.Please try again")
-        }
-        
+        else{
+            return;
+        }       
     }
 
     const hide =(e)=>{

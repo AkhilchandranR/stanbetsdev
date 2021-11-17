@@ -71,6 +71,9 @@
     border-radius: 0px 18px 18px 0px;
     cursor: pointer;
     margin-left: -5px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .homepage__chatIcon{
     width: 50px;

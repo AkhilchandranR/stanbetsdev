@@ -124,10 +124,6 @@
     background-color: #f27272 !important;
 }
 @media screen and (max-width:658px) {
-    .editgame{
-        height: 90vh;
-        overflow-y: scroll;
-    }
     .editgame__inputs{
         width: 85vw;
     }

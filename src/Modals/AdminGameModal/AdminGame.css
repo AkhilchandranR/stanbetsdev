@@ -18,21 +18,21 @@
     display: flex;
     flex-direction: column;
     background-color: #1d1e2a;
-    padding: 30px 40px;
+    padding: 40px;
     border-radius: 18px;
-    width: 700px;
+    width: 900px;
 }
 .admingame > p{
     color: white;
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.5em;
+    font-weight: 400;
     margin-top: 30px;
     margin-bottom: 10px;
 }
 .admingame__buttons{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     position: relative;
 }
 .admingame__buttons > .MuiSvgIcon-root{
@@ -45,74 +45,70 @@
     background-color: #3f33c2;
     color: white;
     border: none;
-    font-size: 1.7rem;
-    font-weight: 700;
-    padding: 25px 20px;
-    border-radius: 15px;
+    font-size: 1.8em;
+    font-weight:600;
+    border-radius: 13px;
     margin-right: 10px;
+    flex: 0.33;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .admingame__games{
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .admingame__gamesEmpty{
     color: white;
     text-align: center;
 }
 .admingame__games > *{
-    flex: 0.20;
-    margin-right: 15px;
+    flex: 0 1 calc(18.5%);
+    margin-right: 10px;
     margin-bottom: 15px;
 }
-@media screen and (max-width:720px) {
+@media screen and (max-width:932px) {
     .admingame{
-        width: 550px;
-    }
-    .admingame__control{
-        font-size: 1.3rem;
+        width: 85vw;
     }
     .admingame__games{
         flex-direction: column;
+        flex-wrap: unset;
+        max-height: 300px;
+        overflow-x: hidden;
     }
     .admingame__games > *{
-        margin-right: 0px;
+        flex: unset;
+        margin-right: unset;
+    }   
+}
+@media screen and (max-width:744px) {
+    .admingame__control{
+        font-size: 1.5em;
     }
 }
-@media screen and (max-width:600px) {
-    .admingame{
-        width: 450px;
-    }
+@media screen and (max-width:744px) {
     .admingame__control{
-        font-size: 1.1rem;
-    }
-    .admingame__games{
-        flex-direction: column;
-    }
-    .admingame__games > *{
-        margin-right: 0px;
+        font-size: 1.3em;
     }
 }
-@media screen and (max-width:490px) {
-    .admingame{
-        width: 350px;
-    }
+@media screen and (max-width:598px) {
     .admingame__control{
-        font-size: 1rem;
-    }
-    .admingame__games{
-        flex-direction: column;
-    }
-    .admingame__games > *{
-        margin-right: 0px;
+        font-size: 1em;
     }
 }
-@media screen and (max-width: 385px) {
-    .admingame{
-        width: 300px;
-    }  
+@media screen and (max-width:598px) {
     .admingame__control{
-        padding: 15px 10px;
-    }  
+        font-size: 0.9em;
+        font-weight: 400;
+    }
+}
+@media screen and (max-width:440px) {
+    .admingame__control{
+        height: 80px;
+    }
 }
