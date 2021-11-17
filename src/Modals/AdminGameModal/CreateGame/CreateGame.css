@@ -103,4 +103,8 @@
         flex-direction: column;
         align-items: unset;
     }
+    .creategame{
+        height: 90vh;
+        overflow-y: scroll;
+    }
 }

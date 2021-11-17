@@ -8,13 +8,16 @@
     flex: 1;
     background-color: #222838;
     position: relative;
+    height: calc(100vh-165px);
+    overflow-y: scroll;
+    padding-bottom: 120px;
 }
 .homepage__searchbar{
     background-color: #4b5264;
     display: flex;
-    padding: 8px;
+    padding: 10px;
     flex: 1;
-    border-radius: 18px;
+    border-radius: 20px;
 }
 .homepage__searchbar > input{
     flex: 1;
@@ -22,6 +25,9 @@
     background-color: transparent;
     color: white;
     font-size: 1.3em;
+}
+.homepage__searchbar > input::placeholder{
+    text-align: center;
 }
 .homepage__searchbar > input:focus{
     outline: none;
@@ -41,8 +47,8 @@
 .homepage__options{
     display: flex;
     align-items: center;
-    width: 70vw;
-    margin-top: 30px;
+    width: 90vw;
+    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -81,7 +87,7 @@
 }
 @media screen and (max-width:769px) {
     .homepage__options{
-        width: 75vw;
+        width: 90vw;
         font-size: 0.9em;
     }
 }
@@ -92,21 +98,26 @@
 }
 @media screen and (max-width:490px) {
     .homepage__options{
-        width: fit-content;
+        width: 90vw;
     }
 }
 @media screen and (max-width:442px) {
     .homepage__options{
-        font-size: 0.85em;
+        font-size: 0.80em;
     }
 }
-@media screen and (max-width:374px) {
+@media screen and (max-width:400px) {
     .homepage__options{
         font-size: 0.75em;
     }
 }
-@media screen and (max-width:350px) {
+@media screen and (max-width:360px) {
     .homepage__options{
         font-size: 0.65em;
+    }
+}
+@media screen and (max-width:328px) {
+    .homepage__options{
+        font-size: 0.58em;
     }
 }

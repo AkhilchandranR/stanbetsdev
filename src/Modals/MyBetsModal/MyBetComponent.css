@@ -11,17 +11,21 @@
     font-size: 1.1rem;
 }
 .mybetcomponent__amount{
-    color: yellow;
+    color: #fdff94;
 }
 .mybetcomponent__amount > h3{
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.3rem;
+    font-weight: 400;
 }
-.mybetcomponent__amountWon{
-    color: green !important;
+.mybetcomponent__amountWon > h3{
+    font-size: 1.3rem;
+    font-weight: 400 !important;
+    color: #9fff87 !important;
 }
-.mybetcomponent__amountLoss{
-    color: red !important;
+.mybetcomponent__amountLoss > h3{
+    font-size: 1.3rem;
+    font-weight: 400 !important;
+    color: #f27272 !important;
 }
 @media screen and (max-width:546px) {
     .mybetcomponent{

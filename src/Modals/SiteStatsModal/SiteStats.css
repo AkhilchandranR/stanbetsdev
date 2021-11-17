@@ -85,9 +85,8 @@
         flex-direction: column;
     }
     .sitestats{
-        margin-top: 60px;
         width: 80vw;
-        height: 750px;
+        height: 90vh;
         overflow-y: scroll;
     }
     .sitestats__leftValue{

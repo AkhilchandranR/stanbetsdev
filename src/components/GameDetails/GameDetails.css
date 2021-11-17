@@ -1,9 +1,9 @@
 .gamedetails{
     background-color: #4b5264;
     color: white;
-    width: 70vw;
+    width: 90vw;
     margin-bottom: 15px;
-    border-radius: 20px;
+    border-radius: 30px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid lightgray;
-    padding: 5px;
+    padding: 7px;
 }
 .gamedetails__heading > p{
     color: #8e939e;
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 5px;
+    padding: 25px 8px;
 }
 .gamedetails__bets{
     display: flex;
@@ -48,12 +48,12 @@
 }
 @media screen and (max-width:769px) {
     .gamedetails{
-        width: 75vw;
+        width: 90vw;
     }
 }
 @media screen and (max-width:520px) {
     .gamedetails{
-        width: 82vw;
+        width: 90vw;
     }
 }
 @media screen and (max-width:450px) {
