@@ -4,7 +4,6 @@ import './Login.css';
 import { Link,useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
-import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
 import { db,auth } from '../../firebase';
 import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
@@ -126,7 +125,6 @@ function Login() {
                     </p>
                 </form>
             </div>
-            {/* <Footer/> */}
         </div>
     )
 }

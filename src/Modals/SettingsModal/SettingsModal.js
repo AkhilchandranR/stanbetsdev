@@ -74,6 +74,11 @@ function SettingsModal({show,hide,user}) {
         else if(newName === '') return;
         else if(newName.toLowerCase() === (user.username).toLowerCase()) return;
 
+        if(!((newName).match("^[A-Za-z0-9]+$"))){
+            window.alert("Username should only contain alphabets and numbers");
+            return;
+        }
+
         else{
             const userData = await db.collection('users').get()
             const userCollection = userData?.docs?.map((doc)=>(

@@ -6,7 +6,7 @@ import { openBet,setBetGameId } from '../../States/slices/userSlice';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {db} from '../../firebase';
  
-function GameDetails({ id,name,date,time,team1,team2,isAdmin }) {
+function GameDetails({ id,name,date,time,team1,team2,isAdmin,bannedUser }) {
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
 
@@ -16,6 +16,12 @@ function GameDetails({ id,name,date,time,team1,team2,isAdmin }) {
         //only works if the user is logged in otherwise dont...
         if(!currentUser){
             window.alert("You are not logged in");
+            return;
+        }
+
+        //banned user cannot place bet
+        if(bannedUser){
+            window.alert("You are banned from betting");
             return;
         }
 

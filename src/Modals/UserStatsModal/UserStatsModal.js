@@ -6,25 +6,21 @@ import { useSelector,useDispatch } from 'react-redux';
 import { db } from '../../firebase';
 import { closeStats } from '../../States/slices/userSlice';
 
-function UserStatsModal({isAnAdmin,isMuted}) {
+function UserStatsModal({isAnAdmin}) {
     const[currentUser,setCurrentUser] = useState([]);
     const chatUser = useSelector((state)=>state.user.chatUserId);
     const showStatsModal = useSelector((state)=>state.user.openStatsModal);
-    const[userMuted,setUserMuted] = useState(isMuted);
     const dispatch = useDispatch();
 
 
     useEffect(() => {
         const getChatUser = async() =>{
-            console.log(chatUser)
             try{
-             const user = await db.collection('users').get()
-             const userCollection = user?.docs?.map((doc)=>(
-                 doc?.data()
-             ))
-             setCurrentUser(userCollection?.filter((u)=>(
-                 u.userId == chatUser
-             )))
+                await db.collection("users").doc(chatUser)
+                .onSnapshot((doc) => {
+                    setCurrentUser(doc.data())
+                });
+
             }
             catch{
  
@@ -44,7 +40,6 @@ function UserStatsModal({isAnAdmin,isMuted}) {
                     isMuted: true
                 })
                 .catch((e)=>window.alert(e.message))
-                setUserMuted(true);
             }
             catch{
                 window.alert("failed to mute.Please try again")
@@ -64,7 +59,6 @@ function UserStatsModal({isAnAdmin,isMuted}) {
                     isMuted: false
                 })
                 .catch((e)=>window.alert(e.message))
-                setUserMuted(false);
             }
             catch{
                 window.alert("failed to unmute.Please try again")
@@ -80,11 +74,30 @@ function UserStatsModal({isAnAdmin,isMuted}) {
         dispatch(closeStats())
     }
 
-    //delete a user details, can only be performed from server side
-    // const deleteUser = async(e) =>{
-    //     e.preventDefault();
-    //     // await db.collection('users').doc(docId).delete()
-    // }
+    // ban a user by the admin....
+    const banUser = async(e) =>{
+        e.preventDefault();
+        const confirm = window.confirm("Ban this user ?");
+        if(!confirm) return;
+
+        await db.collection('users').doc(chatUser).update({
+            isBanned: true
+        }).catch((e)=>window.alert(e.message))
+        
+    }
+
+     // Unban a user by the admin....
+     //can be changed to same fuction as mute but stays like this for now....
+     const unBanUser = async(e) =>{
+        e.preventDefault();
+        const confirm = window.confirm("Unban this user ?");
+        if(!confirm) return;
+
+        await db.collection('users').doc(chatUser).update({
+            isBanned: false
+        }).catch((e)=>window.alert(e.message))
+        
+    }
     
 
     if(!showStatsModal) return null;
@@ -96,47 +109,51 @@ function UserStatsModal({isAnAdmin,isMuted}) {
                 <div className="overlay__chats"></div>
                 <div className="userstatsmodal">
                         <div className="userstatsmodal__header">
-                        <h2>{currentUser[0]?.username}'s Stats/info</h2>
+                        <h2>{currentUser?.username}'s Stats/info</h2>
                         <CloseIcon onClick={hide} className="close"/>
                     </div>
                     <div className="userstatsmodal__body">
                         <p>Email:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.emailId}</p>
+                            <p>{currentUser?.emailId}</p>
                         </div>
                         <p>Country:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.country}</p>
+                            <p>{currentUser?.country}</p>
                         </div>
                         <p>Balance:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0]?.totalBalance}</p>
+                            <p>${currentUser?.totalBalance}</p>
                         </div>
                         <p>Total Deposited:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0]?.totalDeposited}</p>
+                            <p>${currentUser?.totalDeposited}</p>
                         </div>
                         <p>Total Withdrawn:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0]?.totalWithdrawn}</p>
+                            <p>${currentUser?.totalWithdrawn}</p>
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.lastOnline}</p>
+                            <p>{currentUser?.lastOnline}</p>
                         </div>
                         <p>Account Created:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.accountCreated}</p>
+                            <p>{currentUser?.accountCreated}</p>
                         </div>
                     </div>
                     <div className="userstatsmodal__buttons">
-                        {userMuted ? (
+                        {currentUser.isMuted ? (
                         <button className="usermute" onClick={unMuteUser}>Unmute</button>
                         ):(
                         <button className="usermute" onClick={muteUser}>Mute</button>
                         )
                         }
-                        <button className="userdelete">Delete</button>
+                        {currentUser.isBanned ? (
+                            <button className="userdelete" onClick={unBanUser}>Unban</button>
+                        ):(
+                            <button className="userdelete" onClick={banUser}>Ban</button>
+                        )}
                     </div>
                     
                 </div>
@@ -150,25 +167,25 @@ function UserStatsModal({isAnAdmin,isMuted}) {
                 <div className="overlay"></div>
                 <div className="userstatsmodal">
                     <div className="userstatsmodal__header">
-                        <h2>{currentUser[0]?.username}'s Stats</h2>
+                        <h2>{currentUser?.username}'s Stats</h2>
                         <CloseIcon onClick={hide} className="close"/>
                     </div>
                     <div className="userstatsmodal__body">
                         <p>Balance:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0]?.totalBalance}</p>
+                            <p>${currentUser?.totalBalance}</p>
                         </div>
                         <p>Total Wagered:</p>
                         <div className="userstatsmodal__data">
-                            <p>${currentUser[0]?.totalWagered}</p>
+                            <p>${currentUser?.totalWagered}</p>
                         </div>
                         <p>Last Online:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.lastOnline}</p>
+                            <p>{currentUser?.lastOnline}</p>
                         </div>
                         <p>Account Created:</p>
                         <div className="userstatsmodal__data">
-                            <p>{currentUser[0]?.accountCreated}</p>
+                            <p>{currentUser?.accountCreated}</p>
                         </div>
                     </div>
                 </div>

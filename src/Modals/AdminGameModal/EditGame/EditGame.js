@@ -71,8 +71,8 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                 time:gameTime,
                 link:gameLink,
                 payOut:false,
-                team1:{name:gameTeam1Name,odds:gameTeam1odd,locked:team1.locked,fairOdds:fairoddOne},
-                team2:{name:gameTeam2Name,odds:gameTeam2odd,locked:team2.locked,fairOdds:fairoddTwo},
+                team1:{name:gameTeam1Name,odds:Number(gameTeam1odd).toFixed(2),locked:team1.locked,fairOdds:fairoddOne},
+                team2:{name:gameTeam2Name,odds:Number(gameTeam2odd).toFixed(2),locked:team2.locked,fairOdds:fairoddTwo},
             })
             window.location.reload();
         }

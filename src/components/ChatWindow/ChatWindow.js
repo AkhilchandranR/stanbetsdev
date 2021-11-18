@@ -11,6 +11,10 @@ import { db } from '../../firebase';
 import firebase from 'firebase';
 import { v4 as uuidv4} from 'uuid';
 
+//library used for filtering messages 
+var Filter = require('bad-words');
+
+
 function ChatWindow({logUser}) {
     const alternatingColor = [true,false];
     const[input,setInput] = useState('');
@@ -74,8 +78,8 @@ function ChatWindow({logUser}) {
     //closes the chat window but has to be changed to dom manipulation methods 
     //according to the design
     const closeChat = () =>{
-        //closes the chat window and adjust the body
-        dispatch(closeWindow());
+        document.getElementById("chatwindow").style.left = "-27%";
+        document.getElementById("homepage__chat").style.display = "block";
     }
 
    //adds message to the database
@@ -83,13 +87,17 @@ function ChatWindow({logUser}) {
    const sendMessage = async(e) =>{
         e.preventDefault();
         if(input){
+            //filter input ....
+            let filter = new Filter();
+            const messageToSent = filter.clean(input);
+
             const chatDocumentId = uuidv4();
             await db.collection('chats').doc(chatDocumentId).set({
                 id: chatDocumentId,
                 userId:logUser.userId,
                 userName: logUser.username,
                 isAdmin: logUser.isAdmin,
-                message: input,
+                message: messageToSent,
                 timestamp : firebase.firestore.FieldValue.serverTimestamp(),
             }).catch((err)=>alert(err.message))
         }
@@ -97,8 +105,8 @@ function ChatWindow({logUser}) {
    }
     
     return (
-        <div className="chatwindow">
-            <div className="chatwindow__close">
+        <div className="chatwindow" id="chatwindow">
+            <div className="chatwindow__close" id="chatwindow__close">
                 <CloseIcon 
                 onClick={closeChat}
                 />
@@ -119,7 +127,7 @@ function ChatWindow({logUser}) {
                 ))}
             </div>
            {currentUser ? (
-               <div className="chatwindow__messaging">
+               <div className="chatwindow__messaging" id="chatwindow__messaging">
             {logUser?.isMuted ? (
                 <div className="chatwindow__muted">
                     <h3>You are muted!!</h3>
@@ -135,7 +143,7 @@ function ChatWindow({logUser}) {
             )}
            </div>
            ):(
-            <div className="chatwindow__login">
+            <div className="chatwindow__login" id="chatwindow__login">
                 <h2>Login to chat...</h2>
                 <div className="chatwindow__loginButtons">
                     <Link to="/login">

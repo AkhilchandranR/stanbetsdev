@@ -4,7 +4,6 @@ import './SignUp.css';
 import { Link,useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { hideChat } from '../../States/slices/chatSlice';
-import Footer from '../../components/Footer/Footer';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
 import { loadCaptchaEnginge, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
@@ -44,6 +43,12 @@ function SignUp() {
             nameRef.current.value == user.username))){
                     setNameTaken(true)
                     return
+        }
+
+        //check for username format...
+        if(!((nameRef.current.value).match("^[A-Za-z0-9]+$"))){
+            window.alert("Username should only contain alphabets and numbers");
+            return;
         }
 
         //check for password matching...
@@ -157,7 +162,6 @@ function SignUp() {
                         </p>
                 </form>
             </div>
-            {/* <Footer/> */}
         </div>
     )
 }

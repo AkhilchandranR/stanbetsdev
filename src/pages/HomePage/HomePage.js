@@ -7,13 +7,13 @@ import StarIcon from '@mui/icons-material/Star';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import { useSelector,useDispatch } from 'react-redux';
 import { hideUserSettings } from '../../States/slices/chatSlice';
-import { showChat,showAdminModal,hideAdminModal } from '../../States/slices/chatSlice';
+import { showAdminModal,hideAdminModal } from '../../States/slices/chatSlice';
 import Footer from '../../components/Footer/Footer';
 import chatbubble from '../../images/chaticon.png';
 import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
 import CreateGame from '../../Modals/AdminGameModal/CreateGame/CreateGame';
 import { openWindow } from '../../States/slices/chatSlice';
-import { closeStats,closeBet } from '../../States/slices/userSlice';
+import { closeBet } from '../../States/slices/userSlice';
 import SettingsModal from '../../Modals/SettingsModal/SettingsModal';
 import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
 import SiteStats from '../../Modals/SiteStatsModal/SiteStats';
@@ -33,9 +33,7 @@ function HomePage() {
     const [listedGames,setListedGames] = useState([]);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
-    const showChatIcon = useSelector((state)=> state.chat.showChatIcon);
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
-    const showStatsModal = useSelector((state)=>state.user.openStatsModal);
     const showBetModal = useSelector((state)=>state.user.openBetModal);
     const openAdminModal = useSelector((state)=>state.chat.showAdmin);
     const CreateGameModalValue = useSelector((state)=>state.chat.showCreateGame);
@@ -43,14 +41,9 @@ function HomePage() {
     //to open chatwindow,but has to be changed
     //according to the design
     const openChat = () =>{
-        dispatch(openWindow());  
+        document.getElementById("chatwindow").style.left = "0";
+        document.getElementById("homepage__chat").style.display = "none";
     }
-
-    //to pull the no of users online and to show chat window icon
-    useEffect(() => {
-        //shows chat window icon with a redux operation
-        dispatch(showChat());
-    },[])
 
     //to pull the data of currentuser from the database
     //when logging in
@@ -104,14 +97,12 @@ function HomePage() {
         <div className="homepage">
             <Header user={loggedInUser} online={noOfOnlineUsers} showOnline/>
             <div className="homepage__body">
-                <div className="homepage__chat" onClick={openChat}>
-                    {showChatIcon &&
+                <div className="homepage__chat" id="homepage__chat" onClick={openChat}>
                     <img src={chatbubble} 
                     className="homepage__chatIcon" 
                     />
-                    }
                 </div>
-                {openChatbox && <ChatWindow logUser={loggedInUser}/>}
+                <ChatWindow logUser={loggedInUser}/>
                 <div className="homepage__contents">
                     <div className="homepage__options">
                         <div className="homepage__searchbar">
@@ -152,6 +143,7 @@ function HomePage() {
                             team2 = {game?.team2}
                             link={game?.link}
                             isAdmin={loggedInUser?.isAdmin}
+                            bannedUser={loggedInUser?.isBanned}
                         />
                         ))
                         }
@@ -162,11 +154,12 @@ function HomePage() {
             <Footer/>
             <SettingsModal show={showSettingsModal} hide={()=>dispatch(hideUserSettings())} user={loggedInUser}/>
             <AdminGame open={openAdminModal} close={()=>{dispatch(hideAdminModal())}}/>
-            <UserStatsModal  isAnAdmin={loggedInUser?.isAdmin} isMuted={loggedInUser?.isMuted}/>
+            <UserStatsModal  isAnAdmin={loggedInUser?.isAdmin}/>
             <CreateGame/>
             <SiteStats/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
-            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())} userBalance={loggedInUser?.totalBalance} username={loggedInUser?.username}/>
+            <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())}
+             userBalance={loggedInUser?.totalBalance} username={loggedInUser?.username}/>
         </div>
     )
 }

@@ -49,9 +49,9 @@ function SiteStats() {
                     user.isOnline === true
                 ))
                 await setTotalOnlineUsers(Online.length);
-                const Deposited = await userCollection.map((user)=>(user.totalDeposited)).reduce((total,amount)=>(total+amount,0))
+                const Deposited = await userCollection.map((user)=>(user.totalDeposited)).reduce((total,amount)=>total+amount,0)
                 await setTotalAmountDeposited(Deposited)
-                const Withdrawn = await userCollection.map((user)=>(user.totalWithdrawn)).reduce((total,amount)=>(total+amount,0))
+                const Withdrawn = await userCollection.map((user)=>(user.totalWithdrawn)).reduce((total,amount)=>total+amount,0)
                 await setTotalAmountWithdrawn(Withdrawn)
 
                 //get details related to bets and user activities..
@@ -87,16 +87,16 @@ function SiteStats() {
                 await setLatestBet(arrangedBets[0]); 
 
                 if(betsLost.length > 0){
-                    await setTotalLoss(betsLost?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                    await setTotalLoss(betsLost?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0));
                 }
                 if(betsLostToday.length > 0){
-                    await setTotalLossToday(betsLostToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                    await setTotalLossToday(betsLostToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0));
                 }
                 if(betsWon.length > 0){
-                    await setTotalProfits(betsWon?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                    await setTotalProfits(betsWon?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0));
                 }
                 if(betsWonToday.length > 0){
-                    await setTotalProfitsToday(betsWonToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>(total + amount,0)));
+                    await setTotalProfitsToday(betsWonToday?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0));
                 }
 
                 //get data for pie chart

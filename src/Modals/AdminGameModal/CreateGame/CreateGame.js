@@ -72,15 +72,15 @@ function CreateGame() {
                     payOut: false,
                     team1:{
                         name:teamOneRef.current.value,
-                        odds: teamOneOddsRef.current.value,
+                        odds: Number(teamOneOddsRef.current.value).toFixed(2),
                         locked: false,
-                        fairOdds: fairoddOne.toFixed(2)
+                        fairOdds: fairoddOne
                     },
                     team2:{
                         name:teamTwoRef.current.value,
-                        odds: teamTwoOddsRef.current.value,
+                        odds: Number(teamTwoOddsRef.current.value).toFixed(2),
                         locked: false,
-                        fairOdds: fairoddTwo.toFixed(2)
+                        fairOdds: fairoddTwo
                     }
                 })
             }
