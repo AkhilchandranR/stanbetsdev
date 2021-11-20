@@ -59,12 +59,17 @@ function CreateBetModal({ show,hide,userBalance,username }) {
             window.alert("Please enter a valid amount");
             return;
         }
+        else if(betAmount < 0.25){
+            window.alert("Amount should be greater than $0.25");
+            return;
+        }
         else if((userBalance - betAmount) < 0){
             window.alert("Insufficient Balance");
             return;
         }
         try{
             const betDocumentId = uuidv4();
+            const AmountToDeduct = Number(betAmount).toFixed(2)
             await db.collection('bets').doc(betDocumentId).set({
                 id:betDocumentId,
                 user: currentUser.uid,
@@ -88,7 +93,7 @@ function CreateBetModal({ show,hide,userBalance,username }) {
                 
             })
             await db.collection('users').doc(currentUser.uid).update({
-                totalBalance: firebase.firestore.FieldValue.increment(-(betAmount)),
+                totalBalance: firebase.firestore.FieldValue.increment(-(AmountToDeduct)),
                 totalWagered: firebase.firestore.FieldValue.increment(betAmount),
             })
             window.alert("your bet is placed")
