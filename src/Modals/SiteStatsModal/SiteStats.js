@@ -34,6 +34,7 @@ function SiteStats() {
             try{
                 //pull necessary data from database..
                 const today = new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear();
+                
                 const userData = await db.collection('users').get()
                 const userCollection = userData?.docs?.map((doc)=>(
                     doc?.data()
@@ -50,9 +51,9 @@ function SiteStats() {
                 ))
                 await setTotalOnlineUsers(Online.length);
                 const Deposited = await userCollection.map((user)=>(user.totalDeposited)).reduce((total,amount)=>total+amount,0)
-                await setTotalAmountDeposited(Deposited)
+                await setTotalAmountDeposited(Number(Deposited).toFixed(2))
                 const Withdrawn = await userCollection.map((user)=>(user.totalWithdrawn)).reduce((total,amount)=>total+amount,0)
-                await setTotalAmountWithdrawn(Withdrawn)
+                await setTotalAmountWithdrawn(Number(Withdrawn).toFixed(2))
 
                 //get details related to bets and user activities..
                 await setTotalBets(betsCollection.length);
@@ -87,16 +88,20 @@ function SiteStats() {
                 await setLatestBet(arrangedBets[0]); 
 
                 if(betsLost.length > 0){
-                    await setTotalLoss(betsLost?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0));
+                    const AmountLoss = betsLost?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0);
+                    await setTotalLoss(Number(AmountLoss).toFixed(2));
                 }
                 if(betsLostToday.length > 0){
-                    await setTotalLossToday(betsLostToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0));
+                    const AmountLossToday = betsLostToday?.map((bet)=>(bet.winAmount)).reduce((total,amount)=>total + amount,0);
+                    await setTotalLossToday(Number(AmountLossToday).toFixed(2));
                 }
                 if(betsWon.length > 0){
-                    await setTotalProfits(betsWon?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0));
+                    const AmountWon = betsWon?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0);
+                    await setTotalProfits(Number(AmountWon).toFixed(2));
                 }
                 if(betsWonToday.length > 0){
-                    await setTotalProfitsToday(betsWonToday?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0));
+                    const AmountWonToday = betsWonToday?.map((bet)=>(bet.profit)).reduce((total,amount)=>total + amount,0);
+                    await setTotalProfitsToday(Number(AmountWonToday).toFixed(2));
                 }
 
                 //get data for pie chart
@@ -105,7 +110,7 @@ function SiteStats() {
                 const uniqueCountries = [...new Set(countries)];
                 await uniqueCountries.forEach(currCountry => {
                     const numItems = countries.filter(cntry => cntry === currCountry) 
-                    pieChartData.unshift({y:parseFloat((numItems.length * 100 / totalCountries)),label:currCountry});
+                    pieChartData.unshift({y:Number((numItems.length * 100 / totalCountries)).toFixed(2),label:currCountry});
                 })
                 //pie chart data ends
                           

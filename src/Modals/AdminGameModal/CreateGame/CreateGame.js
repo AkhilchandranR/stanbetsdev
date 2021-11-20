@@ -6,6 +6,7 @@ import { db } from '../../../firebase';
 import { v4 as uuidv4} from 'uuid';
 import { closeGameModal } from '../../../States/slices/chatSlice';
 import { useSelector,useDispatch } from 'react-redux';
+import firebase from 'firebase';
 
 function CreateGame() {
     const openCreateGameModal = useSelector((state)=>state.chat.showCreateGame);

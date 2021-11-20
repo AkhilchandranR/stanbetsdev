@@ -3,8 +3,6 @@ import Message from '../Message/Message';
 import './ChatWindow.css';
 import ChatBubbleRoundedIcon from '@mui/icons-material/ChatBubbleRounded';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
-import { closeWindow } from '../../States/slices/chatSlice';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
@@ -20,7 +18,6 @@ function ChatWindow({logUser}) {
     const[input,setInput] = useState('');
     const[messages,setMessages] = useState([]);
     const { currentUser } = useAuth();
-    const dispatch = useDispatch();
 
     //delete older messages....
     useEffect(() => {
@@ -58,18 +55,15 @@ function ChatWindow({logUser}) {
            //function pulls the messages and sorts it according to timestamp
            //in the descending order to display and sets the state 
            try{
-            const messagesObject = await db.collection('chats').get()
-            const messagesArray = messagesObject?.docs?.map((doc)=>(
-                doc?.data()
-            ))
-            const arrangedMessages = messagesArray.sort((a,b)=>(
-                b.timestamp - a.timestamp
-            ))
-            await setMessages(arrangedMessages.slice(0,50));
+
+                await db.collection('chats').orderBy('timestamp','desc')
+                .onSnapshot(snapshot=>(
+                    setMessages(snapshot.docs.map((doc)=>doc.data()).slice(0,50))
+                ))
 
            }
            catch{
-               window.alert("failed to load messages");
+                window.alert("failed to load messages");
            }
        }
        getMessages();
@@ -78,7 +72,7 @@ function ChatWindow({logUser}) {
     //closes the chat window but has to be changed to dom manipulation methods 
     //according to the design
     const closeChat = () =>{
-        document.getElementById("chatwindow").style.left = "-27%";
+        document.getElementById("chatwindow").style.left = "-400px";
         document.getElementById("homepage__chat").style.display = "block";
     }
 

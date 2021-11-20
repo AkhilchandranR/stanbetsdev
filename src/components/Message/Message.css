@@ -18,8 +18,13 @@
 }
 .message__message{
     font-weight: normal;
+    margin-left: 5px;
 }
 .message__admin > .MuiSvgIcon-root{
     color: #ff9ff5;
     font-size: 1.2em !important;
+}
+.message__admin > span > .MuiSvgIcon-root{
+    font-size: 1.1em !important;
+    margin-right: 3px;
 }

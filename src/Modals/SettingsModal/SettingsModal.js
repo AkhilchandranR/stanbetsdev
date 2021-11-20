@@ -11,6 +11,7 @@ import { db } from '../../firebase';
 function SettingsModal({show,hide,user}) {
     const { currentUser,logout } = useAuth();
     const history = useHistory();
+    const restrictedUsernames = ["mod","owner","admin","system","stanbets"];
 
 
     //logs out a user and routes to login page
@@ -78,6 +79,13 @@ function SettingsModal({show,hide,user}) {
             window.alert("Username should only contain alphabets and numbers");
             return;
         }
+
+        //check whether username is reserved...
+        if(restrictedUsernames.includes((newName).toLowerCase())){
+            window.alert("Please select a different username");
+            return
+        }
+
 
         else{
             const userData = await db.collection('users').get()

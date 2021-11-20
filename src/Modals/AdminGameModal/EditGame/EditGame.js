@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { db } from '../../../firebase';
 import firebase from 'firebase';
 import Loader from '../../../components/Laoder/Loader';
+import { v4 as uuidv4} from 'uuid';
 
 function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[gameName,setGameName] = useState(name);
@@ -137,10 +138,23 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
                                     OverDate:  today.getDate()+'/'+(today.getMonth()+1)+'/'+ today.getFullYear(),
                                 })
                                 const wonUser = data.user;
-                                const Amount = parseFloat(data.AmountIfWon).toFixed(2);
+                                const Amount = Number(data.AmountIfWon).toFixed(2);
                                 await db.collection('users').doc(wonUser).update({
                                     totalBalance: firebase.firestore.FieldValue.increment(Amount)
                                 }).catch((err)=>{console.log(err)})
+
+                                //sent system generated messages if user wins over 100$..
+                                if(Amount > 100){
+                                    const docId = uuidv4();
+                                    db.collection('chats').doc(docId).set({
+                                        id: docId,
+                                        userId: 1,
+                                        userName: "System",
+                                        isAdmin: false,
+                                        message: `${data.userName} has just won $${Amount} on ${data.team1} vs ${data.team2} [${data.odd}] !`,
+                                        timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+                                    })
+                                }
                         }
                         updateBetsAndUser();
                     }

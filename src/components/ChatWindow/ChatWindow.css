@@ -1,10 +1,10 @@
 .chatwindow{
     display: flex;
     flex-direction: column;
-    width: 27%;
+    width: 400px;
     position: absolute;
     top: 0;
-    left: -27%;
+    left: -400px;
     bottom: 0;
     z-index: 2;
     transition: ease-in-out 0.4s;

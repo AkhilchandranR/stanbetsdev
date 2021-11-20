@@ -23,6 +23,7 @@ function SignUp() {
     const [nameTaken,setNameTaken] = useState(false);
     const[passwordNotMatching,setPasswordNotMatching] = useState(false);
     const dispatch = useDispatch();
+    const restrictedUsernames = ["mod","owner","admin","system","stanbets"];
 
     useEffect(() => {
         //hides the chat icon when the user is not logged in
@@ -49,6 +50,12 @@ function SignUp() {
         if(!((nameRef.current.value).match("^[A-Za-z0-9]+$"))){
             window.alert("Username should only contain alphabets and numbers");
             return;
+        }
+
+        //check whether username is reserved...
+        if(restrictedUsernames.includes((nameRef.current.value).toLowerCase())){
+            window.alert("Please select a different username");
+            return
         }
 
         //check for password matching...
@@ -85,6 +92,7 @@ function SignUp() {
                         isAdmin: false,
                         isMuted: false,
                         isOnline:false,
+                        isBanned: false,
                         accountCreated: creationDate,
                         lastOnline: creationDate,
                         emailId:response.user.email,

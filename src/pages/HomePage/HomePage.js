@@ -82,9 +82,14 @@ function HomePage() {
                 const gameCollection = games?.docs?.map((doc)=>(
                     doc?.data()
                 ))
-                
-                await setListedGames(gameCollection);
-                console.log("listedgames");
+                const sortedGames = gameCollection.sort((a,b)=>{
+                    if (a.date === b.date){
+                        return a.time < b.time ? -1 : 1
+                      } else {
+                        return a.date < b.date ? -1 : 1
+                      }
+                })
+                await setListedGames(sortedGames);
             }
             catch{
 

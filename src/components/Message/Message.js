@@ -3,6 +3,7 @@ import './Message.css';
 import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
 import { openStats,setChatUser } from '../../States/slices/userSlice';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
 
 function Message({alternate,username,usermessage,userId,isAdmin}) {
     const dispatch = useDispatch();
@@ -15,6 +16,12 @@ function Message({alternate,username,usermessage,userId,isAdmin}) {
             window.alert("This user does not exist anymore");
             return;
         }
+        else if(userId == 1){
+            window.alert("This is a system generated message");
+            return;
+        }
+
+
         dispatch(setChatUser({
             chatUserId: userId
         }));
@@ -31,7 +38,10 @@ function Message({alternate,username,usermessage,userId,isAdmin}) {
                         <StarIcon/> MOD
                     </>
                     }
-                    <span>{username}: <span className="message__message">{usermessage}</span></span>
+                    <span>
+                        {(userId == 1) && <KeyboardIcon/>}
+                        {username}: 
+                        <span className="message__message">{usermessage}</span></span>
             </span>
         </div>
         </>
