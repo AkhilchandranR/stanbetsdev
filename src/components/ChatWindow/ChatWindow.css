@@ -109,6 +109,10 @@
 .chatwindow__muted{
     color: white;
 }
+.chatwindow__muted > p{
+    max-width: 300px;
+    word-break:break-all;
+}
 @media screen and (max-width:950px) {
     .chatwindow__inpuField{
         width: fit-content;

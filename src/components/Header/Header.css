@@ -14,9 +14,14 @@
     align-items: center;
     justify-content: space-between;
 }
-.header__logo > h2{
-    color: white;
-    font-size: 2em;
+.header__logoLong{
+    height: 30px;
+    object-fit: contain;
+}
+.header__logoShort{
+    height: 30px;
+    object-fit: contain;
+    display: none;
 }
 .header__users{
     display: flex;
@@ -113,21 +118,40 @@
     .header__claimBalance{
         font-size: 0.9em;
         font-weight: 500;
-        transform: translateX(-40%);
+        transform: translateX(-50%);
     }   
 }
-@media screen and (max-width:460px) {
-    .header__logo > h2{
-        font-size: 1.4em;
+@media screen and (max-width: 526px) {
+    .header__claimBalance{
+        font-size: 0.9em;
+        font-weight: 500;
+        transform: translateX(-70%);
+    }   
+}
+@media screen and (max-width: 526px) {
+    .header__claimBalance{
+        font-size: 0.7em;
+        font-weight: 500;
+        transform: translateX(-70%);
+    }   
+}
+@media screen and (max-width:600px) {
+    .header__logoLong{
+        display: none;
     }
+    .header__logoShort{
+        display: block;
+    }
+}
+@media screen and (max-width:460px) {
     .header__username{
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
     .header__username > .MuiSvgIcon-root{
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     .header__amount{
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
     .header__users{
         font-size: 0.8em;
@@ -144,17 +168,30 @@
         font-weight: 600;
     }
 }
-@media screen and (max-width:370px) {
-    .header__users{
-        margin-left: 8px;
-    }
-}
-@media screen and (max-width:348px) {
-    .header__logo > h2{
-        font-size: 1.2em;
+@media screen and (max-width:376px) {
+    .header__amount > img{
+        width: 15px;
+        object-fit: contain;
     }
     .header__amount{
-        padding: 8px 10px;
+        padding: 8px 6px;
+    }
+}
+@media screen and (max-width:370px) {
+    .header__users{
+        margin-left: 5px;
+    }
+}
+@media screen and (max-width:356px) {
+    .header__claimBalance{
+        font-size: 0.6em;
+        font-weight: 400;
+        transform: translateX(-60%);
+    }  
+}
+@media screen and (max-width:348px) {
+    .header__amount{
+        padding: 8px 6px;
     }
     .header{
         padding: 8px;

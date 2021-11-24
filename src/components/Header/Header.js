@@ -10,6 +10,8 @@ import wallet from "../../images/wallet.png";
 import { db } from '../../firebase';
 import firebase from 'firebase';
 import UserLoader from '../UserLoader/UserLoader';
+import sblong from '../../images/SB-Long.png';
+import sbshort from '../../images/SB-Short.png';
 
 function Header({ user,online,showOnline,openModal,loading }) {
     const dispatch = useDispatch();
@@ -32,7 +34,8 @@ function Header({ user,online,showOnline,openModal,loading }) {
     return (
         <div className="header">
             <div className="header__logo">
-                <h2>StanBets</h2>
+                <img src={sblong} alt="stanbets_long" className="header__logoLong"/>
+                <img src={sbshort} alt="stanbets_short" className="header__logoShort"/>
                { showOnline &&
                <div className="header__users">
                     <GroupsRoundedIcon/>

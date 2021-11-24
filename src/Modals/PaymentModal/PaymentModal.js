@@ -22,7 +22,9 @@ function PaymentModal({open,close}) {
 
         // try{
         //     setLoading(true)
-        //     const AmountToPay = {amount : Number(inputAmount).toFixed(2)};
+        //     const AmountToPay = {amount : Number(inputAmount).toFixed(2)};     
+
+//*************this will create a charge and take you to the payment page in coinbase ************************** 
         //     const res = await fetch('http://localhost:5000/stanbets-payment/us-central1/createCharge',{
         //         method: 'POST',
         //         body:  JSON.stringify(AmountToPay)
@@ -31,6 +33,9 @@ function PaymentModal({open,close}) {
         //     console.log(charge);
         //     await window.open(charge.hosted_url,'_blank');
 
+
+//****************This will listen for success of payment and will update the user balance ,
+// can be changed according to the logic of backend developer*/
         //     // const hooksHandler = await fetch('http://localhost:5000/stanbets-payment/us-central1/webhookHandler')
         //     // const message = await hooksHandler.json();
         //     // console.log(message);

@@ -125,6 +125,7 @@ function ChatWindow({logUser}) {
             {logUser?.isMuted ? (
                 <div className="chatwindow__muted">
                     <h3>You are muted!!</h3>
+                    <p>Reason: {logUser?.MutedReason}</p>
                 </div>
             ):(
                 <form className="chatwindow__inpuField">

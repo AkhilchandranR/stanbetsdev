@@ -5,6 +5,8 @@ import ReactDom from 'react-dom';
 import { useSelector,useDispatch } from 'react-redux';
 import { db } from '../../firebase';
 import { closeStats } from '../../States/slices/userSlice';
+import firebase from 'firebase';
+import { v4 as uuidv4} from 'uuid';
 
 function UserStatsModal({isAnAdmin}) {
     const[currentUser,setCurrentUser] = useState([]);
@@ -33,21 +35,30 @@ function UserStatsModal({isAnAdmin}) {
     
     //mute a user
     const muteUser = async(e) =>{
-        const confirm = window.confirm("Do you want to Mute this user ?");
-        if(confirm){
+        const ReasonToMute = window.prompt("Why do you want to Mute this user ?");
+        if(ReasonToMute === null) return;
+        else if(ReasonToMute === ''){
+            window.alert("Please provide a reason to mute this user");
+            return;
+        }
             try{
+                const docId = uuidv4();
                 await db.collection('users').doc(chatUser).update({
-                    isMuted: true
+                    isMuted: true,
+                    MutedReason: ReasonToMute
                 })
-                .catch((e)=>window.alert(e.message))
+                await db.collection('chats').doc(docId).set({
+                    id: docId,
+                    userId: 1,
+                    userName: "System",
+                    isAdmin: false,
+                    message: `${currentUser.username} is muted for reason ${ReasonToMute}`,
+                    timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+                })
             }
             catch{
                 window.alert("failed to mute.Please try again")
             }
-        }
-        else{
-            return;
-        }
     }
 
     //unmute a user can be done in same function in mute but stays like this for now
@@ -56,7 +67,8 @@ function UserStatsModal({isAnAdmin}) {
         if(confirm){
             try{
                 await db.collection('users').doc(chatUser).update({
-                    isMuted: false
+                    isMuted: false,
+                    MutedReason: ''
                 })
                 .catch((e)=>window.alert(e.message))
             }
@@ -77,12 +89,31 @@ function UserStatsModal({isAnAdmin}) {
     // ban a user by the admin....
     const banUser = async(e) =>{
         e.preventDefault();
-        const confirm = window.confirm("Ban this user ?");
-        if(!confirm) return;
+        const ReasonToBan = window.prompt("Why do you want to ban this user ?");
+        if(ReasonToBan === null) return;
+        else if(ReasonToBan === ''){
+            window.alert("Please give a reason to ban the user");
+            return;
+        }
 
-        await db.collection('users').doc(chatUser).update({
-            isBanned: true
-        }).catch((e)=>window.alert(e.message))
+        try{
+            const docId = uuidv4();
+            await db.collection('users').doc(chatUser).update({
+                isBanned: true,
+                BanReason: ReasonToBan
+            })
+            await db.collection('chats').doc(docId).set({
+                id: docId,
+                userId: 1,
+                userName: "System",
+                isAdmin: false,
+                message: `${currentUser.username} is banned for reason ${ReasonToBan}`,
+                timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+            })
+        }
+        catch{
+            window.alert("failed to ban")
+        }
         
     }
 
@@ -94,7 +125,8 @@ function UserStatsModal({isAnAdmin}) {
         if(!confirm) return;
 
         await db.collection('users').doc(chatUser).update({
-            isBanned: false
+            isBanned: false,
+            BanReason: ''
         }).catch((e)=>window.alert(e.message))
         
     }

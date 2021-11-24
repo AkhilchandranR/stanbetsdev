@@ -167,6 +167,7 @@ function HomePage() {
                                 link={game?.link}
                                 isAdmin={loggedInUser?.isAdmin}
                                 bannedUser={loggedInUser?.isBanned}
+                                bannedReason={loggedInUser?.BanReason}
                             />
                             ))
                             }
