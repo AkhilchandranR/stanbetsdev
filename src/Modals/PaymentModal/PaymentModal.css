@@ -1,0 +1,188 @@
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.7);
+}
+.payment{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+    background-color: #1d1e2a;
+    padding-bottom: 40px;
+    border-radius: 20px;
+    height: 350px;
+}
+.payment__header{
+    display: flex;
+    background-color: #1d1e2a;
+    border-radius: 20px 20px 0px 0px;
+    border-bottom: 5px solid white;
+}
+.payment__header > div{
+    padding: 8px 16px;
+    font-size: 1.5em;
+    color: white;
+    width: 50%;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+.payment__headerActive{
+    background-color: #3f33c2 !important;
+}
+.payment__header > div:first-of-type{
+    border-right: 5px solid white;
+    border-radius: 20px 0px 0px 0px;
+}
+.payment__header > div:nth-child(2){
+    border-radius: 0px 20px 0px 0px;
+}
+.payment__pay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.payment__payHeader{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    font-weight: 600;
+    width: 450px;
+    margin-top: 30px;
+}
+.payment__payHeader > p:first-of-type{
+    color: white;
+}
+.payment__payHeader > p:nth-child(2){
+    color: #8e8f95;
+}
+.payment__input{
+    display: flex;
+    background-color: #2d3446;
+    padding: 15px;
+    width: 450px;
+}
+.payment__input > input{
+    background-color: transparent;
+    border: none;
+    color: white;
+    flex: 1;
+    font-size: 1.3em;
+}
+.payment__input > input:focus{
+    outline: none;
+}
+.payment__amount > button{
+    background-color: #3f33c2;
+    border: none;
+    color: white;
+    font-size: 2em;
+    font-weight: 600;
+    width: 450px;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+.payment__withdraw{
+    padding: 10px;
+    text-align: center;
+}
+.payment__withdraw > p{
+    font-size: 1.4em;
+    color: white;
+    font-weight: 600;
+    margin-top: 15px;
+}
+.payment__withdraw > h2{
+    color: #8e8f95;
+    font-size: 2.2em;
+    font-weight: 600;
+    margin-top: 15px;
+}
+.payment__withdraw > div{
+    background-color: #3f33c2;
+    color: white;
+    padding: 10px 20px;
+    font-size: 2em;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+@media screen and (max-width:630px) {
+    .payment{
+        width: 85%;
+    }
+    .payment__payHeader{
+        width: 80vw;
+    }
+    .payment__input{
+        width: 80vw;
+    }
+    .payment__amount > button{
+        width: 80vw;
+    }
+    .payment__withdraw > p{
+        font-size: 1.4em;
+        font-weight: 500;
+    }
+    .payment__withdraw > h2{
+        font-size: 2em;
+        font-weight: 600;
+    }
+    .payment__withdraw > div{
+        font-size: 1.5em;
+    }
+}
+@media screen and (max-width:455px) {
+    .payment{
+        height: fit-content;
+    }
+    .payment__header > div{
+        padding: 6px 13px;
+        font-size: 1.2em;
+    }
+    .payment__payHeader{
+        font-size: 1em;
+        font-weight: 400;
+    }
+    .payment__amount > button{
+        font-size: 1.5em;
+    }
+    .payment__withdraw > h2{
+        font-size: 1.6em;
+    }
+    .payment__withdraw > div{
+        font-size: 1.3em;
+    }
+}
+@media screen and (max-width:373px) {
+    .payment__header > div{
+        padding: 6px 13px;
+        font-size: 1.1em;
+    }
+    .payment__payHeader{
+        font-size: 0.8em;
+        font-weight: 400;
+    }
+    .payment__amount > button{
+        font-size: 1.3em;
+    }
+    .payment__withdraw > p{
+        font-size: 1.1em;
+    }
+    .payment__withdraw > h2{
+        font-size: 1.3em;
+    }
+    .payment__withdraw > div{
+        font-size: 1em;
+    }
+}

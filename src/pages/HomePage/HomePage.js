@@ -21,6 +21,8 @@ import AdminGame from '../../Modals/AdminGameModal/AdminGame';
 import MyBetsModal from '../../Modals/MyBetsModal/MyBetsModal';
 import { useAuth } from "../../AuthContext";
 import { db } from '../../firebase';
+import PaymentModal from '../../Modals/PaymentModal/PaymentModal';
+import Loader from '../../components/GamesLaoder /Loader';
 
 
 function HomePage() {
@@ -31,6 +33,9 @@ function HomePage() {
     const [loggedInUser,setLoggedInUser] = useState({});
     const [noOfOnlineUsers,setNoOfOnlineUsers] = useState(0);
     const [listedGames,setListedGames] = useState([]);
+    const [openPaymentModal,setOpenPaymentModal] = useState(false);
+    const [loadingUser,setLoadingUser] = useState(false);
+    const [loadingGames,setLaodingGames] = useState(false);
     const dispatch = useDispatch();
     const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
@@ -51,6 +56,7 @@ function HomePage() {
         const getUserData = async() =>{
             try{
                 if(currentUser){
+                    setLoadingUser(true);
                     const userData = await db.collection('users').get()
                     const userCollection = userData?.docs?.map((doc)=>(
                         doc?.data()
@@ -64,12 +70,12 @@ function HomePage() {
                     .onSnapshot((doc) => {
                         setLoggedInUser(doc.data())
                     });
-
                     } 
             }
             catch(error){
                 console.log(error)
             }
+            setLoadingUser(false);
         }
         getUserData();
     },[currentUser])
@@ -78,6 +84,7 @@ function HomePage() {
     useEffect(() => {
         const getGamesData = async()=>{
             try{
+                setLaodingGames(true);
                 const games = await db.collection('games').get()
                 const gameCollection = games?.docs?.map((doc)=>(
                     doc?.data()
@@ -94,13 +101,19 @@ function HomePage() {
             catch{
 
             }
+            setLaodingGames(false);
         }
         getGamesData()
     }, [CreateGameModalValue])
 
     return (
         <div className="homepage">
-            <Header user={loggedInUser} online={noOfOnlineUsers} showOnline/>
+            <Header 
+            user={loggedInUser} 
+            online={noOfOnlineUsers} 
+            showOnline
+            openModal={()=>{setOpenPaymentModal(true)}}
+            loading={loadingUser}/>
             <div className="homepage__body">
                 <div className="homepage__chat" id="homepage__chat" onClick={openChat}>
                     <img src={chatbubble} 
@@ -123,36 +136,43 @@ function HomePage() {
                             </div>}
                         </div>
                     </div>
-                    {(listedGames.length <= 0) ? (
-                        <div className="homepage__gamedetailsEmpty">
-                            <h2>No games are available currently.Please come back later.</h2>
+                    {loadingGames ?
+                     (
+                     <Loader/>
+                     ):(
+                         <>
+                        {(listedGames.length <= 0) ? (
+                            <div className="homepage__gamedetailsEmpty">
+                                <h2>No games are available currently.Please come back later.</h2>
+                            </div>
+                        ):(
+                            <div className="homepage__gamedetails">
+                            {listedGames?.filter((games)=>{
+                                if(searchTerm == ''){
+                                    return games
+                                }
+                                else if((games.gameName.toLowerCase().includes(searchTerm.toLowerCase())) 
+                                || (games.team1.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                                || (games.team2.name.toLowerCase().includes(searchTerm.toLowerCase()))){
+                                    return games
+                                }
+                            })?.map((game)=>(
+                                <GameDetails key={game?.id}
+                                id={game?.id}
+                                name={game?.gameName}
+                                date={game?.date}
+                                time={game?.time}
+                                team1 ={game?.team1}
+                                team2 = {game?.team2}
+                                link={game?.link}
+                                isAdmin={loggedInUser?.isAdmin}
+                                bannedUser={loggedInUser?.isBanned}
+                            />
+                            ))
+                            }
                         </div>
-                    ):(
-                        <div className="homepage__gamedetails">
-                        {listedGames?.filter((games)=>{
-                            if(searchTerm == ''){
-                                return games
-                            }
-                            else if((games.gameName.toLowerCase().includes(searchTerm.toLowerCase())) 
-                            || (games.team1.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                            || (games.team2.name.toLowerCase().includes(searchTerm.toLowerCase()))){
-                                return games
-                            }
-                        })?.map((game)=>(
-                            <GameDetails key={game?.id}
-                            id={game?.id}
-                            name={game?.gameName}
-                            date={game?.date}
-                            time={game?.time}
-                            team1 ={game?.team1}
-                            team2 = {game?.team2}
-                            link={game?.link}
-                            isAdmin={loggedInUser?.isAdmin}
-                            bannedUser={loggedInUser?.isBanned}
-                        />
-                        ))
-                        }
-                    </div>
+                        )}  
+                        </>
                     )}
                 </div>
             </div>
@@ -162,6 +182,7 @@ function HomePage() {
             <UserStatsModal  isAnAdmin={loggedInUser?.isAdmin}/>
             <CreateGame/>
             <SiteStats/>
+            <PaymentModal open={openPaymentModal} close={()=>setOpenPaymentModal(false)}/>
             <MyBetsModal show={openBets} hide={()=>setOpenBets(false)}/> 
             <CreateBetModal show={showBetModal} hide={()=>dispatch(closeBet())}
              userBalance={loggedInUser?.totalBalance} username={loggedInUser?.username}/>

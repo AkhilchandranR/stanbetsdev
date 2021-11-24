@@ -7,6 +7,7 @@
     overflow: hidden;
     padding: 10px;
     min-height: 55px;
+    position: relative;
 }
 .header__logo{
     display: flex;
@@ -58,7 +59,7 @@
 .header__user{
     display: flex;
     align-items: center;
-    cursor: pointer;
+    font-size: 1.1em;
 }
 .header__username{
     display: flex;
@@ -67,6 +68,7 @@
     padding: 5px;
     border-radius: 10px 0px 0px 10px;
     height: 34px;
+    cursor: pointer;
 }
 .header__username > .MuiSvgIcon-root{
     color: #ff9ff5;
@@ -83,6 +85,36 @@
     border-radius: 8px 10px 10px 8px;
     margin-left: -3px;
     height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header__amount > img{
+    width: 20px;
+    object-fit: contain;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.header__claimBalance{
+    background-color: #3f33c2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 5px 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+@media screen and (max-width:638px) {
+    .header__claimBalance{
+        font-size: 0.9em;
+        font-weight: 500;
+        transform: translateX(-40%);
+    }   
 }
 @media screen and (max-width:460px) {
     .header__logo > h2{

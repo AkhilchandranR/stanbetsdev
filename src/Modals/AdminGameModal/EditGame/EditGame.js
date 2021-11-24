@@ -21,7 +21,6 @@ function EditGame({open,hide,name,date,time,link,team1,team2,id,isPayOut}) {
     const[TeamTwoLocked,setTeamTwoLocked] = useState(team2.locked);
     const[loadingPayoutOne,setLoadingPayoutOne] = useState(false);
     const[loadingPayoutTwo,setLoadingPayoutTwo] = useState(false);
-    const[userIds,setUserIds] = useState([]);
 
 
     //edit the listed game if changes

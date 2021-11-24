@@ -93,6 +93,7 @@ function SignUp() {
                         isMuted: false,
                         isOnline:false,
                         isBanned: false,
+                        hasClaimedFree: false,
                         accountCreated: creationDate,
                         lastOnline: creationDate,
                         emailId:response.user.email,
