@@ -17,7 +17,7 @@ function App() {
 
     const checkCountry = async()=>{
       const blacklist = ["Brazil"];
-      const API_KEY = "noy8k819phh5xunl ";
+      const API_KEY = process.env.REACT_APP_LOCATION_ACCESS_KEY;
         const userCountry = await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
         .then((response)=>response.data.location)
         .then((data)=>data.country.name)

@@ -12,7 +12,6 @@ import Footer from '../../components/Footer/Footer';
 import chatbubble from '../../images/chaticon.png';
 import CreateBetModal from '../../Modals/CreateBetModal/CreateBetModal';
 import CreateGame from '../../Modals/AdminGameModal/CreateGame/CreateGame';
-import { openWindow } from '../../States/slices/chatSlice';
 import { closeBet } from '../../States/slices/userSlice';
 import SettingsModal from '../../Modals/SettingsModal/SettingsModal';
 import UserStatsModal from '../../Modals/UserStatsModal/UserStatsModal';
@@ -37,11 +36,11 @@ function HomePage() {
     const [loadingUser,setLoadingUser] = useState(false);
     const [loadingGames,setLaodingGames] = useState(false);
     const dispatch = useDispatch();
-    const openChatbox = useSelector((state)=> state.chat.openChatWindow);
     const showSettingsModal = useSelector((state)=> state.chat.showSettings);
     const showBetModal = useSelector((state)=>state.user.openBetModal);
     const openAdminModal = useSelector((state)=>state.chat.showAdmin);
     const CreateGameModalValue = useSelector((state)=>state.chat.showCreateGame);
+
     
     //to open chatwindow,but has to be changed
     //according to the design
@@ -114,6 +113,7 @@ function HomePage() {
             showOnline
             openModal={()=>{setOpenPaymentModal(true)}}
             loading={loadingUser}/>
+            
             <div className="homepage__body">
                 <div className="homepage__chat" id="homepage__chat" onClick={openChat}>
                     <img src={chatbubble} 

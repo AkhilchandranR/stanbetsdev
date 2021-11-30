@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect,useState } from 'react';
 import './Header.css';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import StarIcon from '@mui/icons-material/Star';
@@ -16,6 +16,13 @@ import sbshort from '../../images/SB-Short.png';
 function Header({ user,online,showOnline,openModal,loading }) {
     const dispatch = useDispatch();
     const { currentUser } = useAuth();
+    const [loadDots,setLoadDots] = useState(true);
+
+    useEffect(() => {
+        setTimeout(function(){
+            setLoadDots(false);
+        },5000);
+    }, [])
 
     const claimBalance = async(e) =>{
         e.preventDefault();
@@ -43,13 +50,13 @@ function Header({ user,online,showOnline,openModal,loading }) {
                 </div>
                 }
             </div>
-            {loading ? (
+            {(loadDots || loading) ? (
                 <UserLoader/>
             ):(
                 <>
                     {(currentUser&& user) ? (
                         <div className="header__user">
-                        {!(user.hasClaimedFree) && <button className="header__claimBalance" onClick={claimBalance}>Claim Free $0.25</button>}  
+                        {!(user?.hasClaimedFree) && <button className="header__claimBalance" onClick={claimBalance}>Claim Free $0.25</button>}  
                         <div className="header__username" onClick={()=>{dispatch(showUserSettings())}}>
                             {user?.isAdmin && <StarIcon/>}
                             <p>{user?.username}</p>

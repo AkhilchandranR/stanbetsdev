@@ -71,7 +71,7 @@ function SignUp() {
         }
 
         //location is added while registering for the account
-        const API_KEY = "noy8k819phh5xunl ";
+        const API_KEY = process.env.REACT_APP_LOCATION_ACCESS_KEY;
         const userCountry = await axios.get(`https://api.ipregistry.co/?key=${API_KEY}`)
         .then((response)=>response.data.location)
         .then((data)=>data.country.name)
@@ -98,8 +98,8 @@ function SignUp() {
                         lastOnline: creationDate,
                         emailId:response.user.email,
                         country: userCountry,
-                        totalBalance: 10,
-                        totalDeposited: 10,
+                        totalBalance: 0,
+                        totalDeposited: 0,
                         totalWithdrawn: 0,
                         totalWagered: 0,
                     })
